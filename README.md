@@ -48,7 +48,7 @@ CV-Maker/
 
 ## Documentation
 
-- [Usage Guide](docs/usage.md) — how to fill in cv.yml, configure colors/fonts/margins
+- [Usage Guide](docs/usage.md) — how to prepare environment, fill in cv.yml, configure colors/fonts/margins
 - [Development Guide](docs/development.md) — architecture, customization, how to extend
 
 ## License

@@ -1,5 +1,55 @@
 # Usage Guide
 
+## Environment Setup
+
+### Prerequisites
+
+- **Node.js** >= 18
+- **npm** >= 9
+
+Check your versions:
+
+```bash
+node --version   # should be v18.x or higher
+npm --version    # should be 9.x or higher
+```
+
+If you need to install or upgrade Node.js:
+
+- **macOS**: `brew install node` or download from [nodejs.org](https://nodejs.org)
+- **Windows**: download installer from [nodejs.org](https://nodejs.org)
+- **Linux**: use [nvm](https://github.com/nvm-sh/nvm) — `nvm install 18 && nvm use 18`
+
+### Install Project
+
+```bash
+git clone https://github.com/lEEExp3rt/CV-Maker cv-maker
+cd cv-maker
+npm install
+```
+
+### Docker (alternative)
+
+If you prefer Docker, no Node.js installation is needed:
+
+```bash
+docker build -t cv-maker -f .devcontainer/Dockerfile .
+docker run -p 5173:5173 cv-maker dev
+docker run -v $(pwd)/dist:/workspace/dist cv-maker export
+```
+
+Or with VSCode Dev Container: open the project and click "Reopen in Container".
+
+### Fonts for PDF Export
+
+For Chinese PDF export, ensure Chinese fonts are installed:
+
+- **macOS**: PingFang SC (built-in)
+- **Windows**: Microsoft YaHei (built-in)
+- **Linux**: `sudo apt install fonts-noto-cjk`
+
+The Docker image includes Noto CJK fonts automatically.
+
 ## Basic Usage
 
 ### 1. Fill in Your Resume
