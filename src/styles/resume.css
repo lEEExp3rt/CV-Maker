@@ -189,6 +189,14 @@
   margin-bottom: 1mm;
 }
 
+/* --- Brief summary --- */
+.resume-entry-brief {
+  font-size: var(--fs-body);
+  font-weight: 500;
+  color: var(--color-body);
+  margin-bottom: 1.2mm;
+}
+
 /* --- Bullet Points --- */
 .resume-details {
   list-style: none;

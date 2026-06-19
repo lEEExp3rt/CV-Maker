@@ -44,6 +44,7 @@ export interface InternshipEntry {
   company: string
   company_en?: string
   department?: string
+  brief?: string
   role: string
   start: string
   end: string
@@ -55,6 +56,7 @@ export interface InternshipEntry {
 export interface ProjectEntry {
   name: string
   name_en?: string
+  brief?: string
   role: string
   start: string
   end: string

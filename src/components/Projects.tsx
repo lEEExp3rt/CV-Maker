@@ -1,5 +1,6 @@
 import type { ProjectEntry } from '../types/resume'
 import { CodeIcon } from './Icons'
+import MarkdownText from './MarkdownText'
 
 interface Props {
   data: ProjectEntry[]
@@ -29,10 +30,13 @@ export default function Projects({ data }: Props) {
             </span>
           </div>
           <div className="resume-entry-meta">{entry.role}</div>
+          {entry.brief && (
+            <div className="resume-entry-brief"><MarkdownText text={entry.brief} /></div>
+          )}
           {entry.details && entry.details.length > 0 && (
             <ul className="resume-details">
               {entry.details.map((d, j) => (
-                <li key={`proj-detail-${j}`}>{d}</li>
+                <li key={`proj-detail-${j}`}><MarkdownText text={d} /></li>
               ))}
             </ul>
           )}

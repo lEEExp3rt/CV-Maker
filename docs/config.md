@@ -108,10 +108,11 @@ Each entry:
 | `company` | string | Yes | Company name (Chinese) |
 | `company_en` | string | No | Company name (English) |
 | `department` | string | No | Department/team, displayed before role |
+| `brief` | string | No | Brief summary. Supports inline Markdown: `**bold**`, `*italic*`, `__underline__`, `` `code` `` |
 | `role` | string | Yes | Job title |
 | `start` | string | Yes | Start date |
 | `end` | string | Yes | End date |
-| `details` | array | Yes | Bullet-point descriptions of your work |
+| `details` | array | Yes | Bullet-point descriptions. Supports the same Markdown as `brief` |
 
 ### `projects` (array)
 
@@ -121,10 +122,11 @@ Each entry:
 |-------|------|----------|-------------|
 | `name` | string | Yes | Project name (Chinese) |
 | `name_en` | string | No | Project name (English) |
+| `brief` | string | No | Brief summary. Supports same Markdown as internship |
 | `role` | string | Yes | Your role in the project |
 | `start` | string | Yes | Start date |
 | `end` | string | Yes | End date |
-| `details` | array | Yes | Bullet-point descriptions |
+| `details` | array | Yes | Bullet-point descriptions. Supports the same Markdown |
 
 ### `skills` (array, optional)
 

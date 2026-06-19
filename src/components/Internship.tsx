@@ -1,5 +1,6 @@
 import type { InternshipEntry } from '../types/resume'
 import { BriefcaseIcon } from './Icons'
+import MarkdownText from './MarkdownText'
 
 interface Props {
   data: InternshipEntry[]
@@ -31,10 +32,13 @@ export default function Internship({ data }: Props) {
           <div className="resume-entry-meta">
             {[entry.department, entry.role].filter(Boolean).join(' · ')}
           </div>
+          {entry.brief && (
+            <div className="resume-entry-brief"><MarkdownText text={entry.brief} /></div>
+          )}
           {entry.details && entry.details.length > 0 && (
             <ul className="resume-details">
               {entry.details.map((d, j) => (
-                <li key={`intern-detail-${j}`}>{d}</li>
+                <li key={`intern-detail-${j}`}><MarkdownText text={d} /></li>
               ))}
             </ul>
           )}
