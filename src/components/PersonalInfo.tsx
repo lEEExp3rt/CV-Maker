@@ -8,7 +8,6 @@ export default function PersonalInfo({ data }: Props) {
   const { name, email, phone, birth, homepage, github, linkedin, image, custom_links } = data
 
   const contactItems: string[] = []
-  if (email) contactItems.push(email)
   if (phone) contactItems.push(phone)
   if (birth) contactItems.push(birth)
 
@@ -30,6 +29,12 @@ export default function PersonalInfo({ data }: Props) {
         </h1>
 
         <div className={`resume-contact ${hasPhoto ? 'resume-contact--photo' : ''}`}>
+          {email && (
+            <span key="contact-email">
+              <a href={`mailto:${email}`}>{email}</a>
+            </span>
+          )}
+
           {contactItems.map((item, i) => (
             <span key={`contact-${i}`}>{item}</span>
           ))}
