@@ -1,0 +1,22 @@
+# IDEs
+.vscode/
+
+# Build artifacts
+node_modules/
+dist/
+.vite/
+
+# Logs
+logs/
+*.log
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp

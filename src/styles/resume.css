@@ -1,0 +1,282 @@
+/* ============================================================
+   CV-Maker — Resume Layout & Print Styles
+   ============================================================ */
+
+/* --- A4 Page Container --- */
+.resume-page {
+  width: 210mm;
+  min-height: 297mm;
+  background: var(--color-bg);
+  padding: 18mm 20mm 16mm 20mm;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  margin: 0 auto;
+}
+
+/* --- Toolbar (hidden in print/export) --- */
+.resume-toolbar {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  z-index: 100;
+  display: flex;
+  gap: 8px;
+}
+
+.resume-toolbar button {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-family: var(--font-body);
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.resume-toolbar button:hover {
+  background: #f7fafc;
+  border-color: #a0aec0;
+}
+
+.resume-toolbar button.primary {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.resume-toolbar button.primary:hover {
+  opacity: 0.9;
+}
+
+/* --- Name (H1) --- */
+.resume-name {
+  font-size: var(--fs-name);
+  font-weight: var(--fw-name);
+  line-height: var(--lh-name);
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: 4mm;
+  letter-spacing: 0.02em;
+}
+
+/* --- Personal Info Row --- */
+.resume-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3mm 6mm;
+  font-size: var(--fs-body);
+  color: var(--color-body);
+  margin-bottom: 6mm;
+  padding-bottom: 5mm;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.resume-contact a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.resume-contact a:hover {
+  text-decoration: underline;
+}
+
+.resume-contact .separator {
+  color: var(--color-muted);
+}
+
+/* --- Section --- */
+.resume-section {
+  margin-bottom: 4.5mm;
+}
+
+.resume-section:last-child {
+  margin-bottom: 0;
+}
+
+.resume-section-title {
+  font-size: var(--fs-section);
+  font-weight: var(--fw-section);
+  line-height: var(--lh-section);
+  color: var(--color-primary);
+  border-bottom: 1px solid var(--color-divider);
+  padding-bottom: 1.2mm;
+  margin-bottom: 2.5mm;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* --- Entry (one per education/internship/project) --- */
+.resume-entry {
+  margin-bottom: 3mm;
+}
+
+.resume-entry:last-child {
+  margin-bottom: 0;
+}
+
+.resume-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.8mm;
+}
+
+.resume-entry-title {
+  font-size: var(--fs-item);
+  font-weight: var(--fw-item);
+  line-height: var(--lh-item);
+  color: var(--color-body);
+}
+
+.resume-entry-subtitle {
+  font-size: var(--fs-body);
+  font-weight: 400;
+  color: var(--color-muted);
+  margin-left: 2mm;
+}
+
+.resume-entry-date {
+  font-size: var(--fs-small);
+  color: var(--color-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.resume-entry-meta {
+  font-size: var(--fs-small);
+  color: var(--color-muted);
+  margin-bottom: 1mm;
+}
+
+/* --- Bullet Points --- */
+.resume-details {
+  list-style: none;
+  padding-left: 0;
+}
+
+.resume-details li {
+  position: relative;
+  padding-left: 3.5mm;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  margin-bottom: 0.4mm;
+}
+
+.resume-details li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* --- Skills --- */
+.resume-skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5mm;
+}
+
+.resume-skill-category {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.resume-skill-category .category-label {
+  font-weight: 600;
+  margin-right: 1.5mm;
+}
+
+/* --- Awards --- */
+.resume-awards-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.resume-awards-list li {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  margin-bottom: 0.8mm;
+}
+
+.resume-awards-list .award-date {
+  color: var(--color-muted);
+  font-size: var(--fs-small);
+  flex-shrink: 0;
+  margin-left: 4mm;
+}
+
+/* --- Courses --- */
+.resume-courses {
+  font-size: var(--fs-small);
+  color: var(--color-muted);
+  margin-top: 0.5mm;
+}
+
+/* --- Photo --- */
+.resume-photo {
+  float: right;
+  width: 25mm;
+  height: 32mm;
+  object-fit: cover;
+  border-radius: 2px;
+  margin-left: 5mm;
+  margin-bottom: 2mm;
+}
+
+/* --- Optional section control --- */
+.resume-section-hidden {
+  display: none;
+}
+
+/* ============================================================
+   Print / PDF Export Styles
+   ============================================================ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .resume-page {
+    box-shadow: none;
+    margin: 0;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 18mm 20mm 16mm 20mm;
+    page-break-after: avoid;
+  }
+
+  .resume-toolbar {
+    display: none !important;
+  }
+}
+
+/* Print-only mode (used by Puppeteer export) */
+.print-mode .resume-toolbar {
+  display: none !important;
+}
+
+.print-mode body {
+  background: #fff;
+  padding: 0;
+}
+
+.print-mode .resume-page {
+  box-shadow: none;
+  margin: 0;
+}

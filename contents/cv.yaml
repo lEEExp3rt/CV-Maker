@@ -1,0 +1,67 @@
+personal_info:
+  name: "张三"
+  email: "zhangsan@zju.edu.cn"
+  phone: "+86-138-0000-0000"
+  # birth: "2000-01"
+  homepage: "https://zhangsan.dev"
+  github: "https://github.com/zhangsan"
+  linkedin: "https://linkedin.com/in/zhangsan"
+  # image: "images/me.jpg"
+  # custom_links:
+  #   - label: "Blog"
+  #     url: "https://zhangsan.dev/blog"
+
+education:
+  - school: "浙江大学"
+    school_en: "Zhejiang University"
+    degree: "本科"
+    major: "计算机科学与技术"
+    start: "2022-09"
+    end: "2026-06"
+    gpa: "3.9/4.0"
+    ranking: "3/120"
+    courses:
+      - "数据结构"
+      - "操作系统"
+      - "计算机网络"
+      - "数据库系统"
+      - "算法设计与分析"
+      - "软件工程"
+
+internship:
+  - company: "阿里巴巴"
+    company_en: "Alibaba Group"
+    role: "后端开发实习生"
+    start: "2023-06"
+    end: "2023-09"
+    details:
+      - "参与淘宝推荐系统后端微服务的设计与开发，使用Go语言实现高并发接口，QPS达到10K+"
+      - "优化商品召回链路，通过缓存预热和索引优化将平均响应时间降低35%"
+      - "编写单元测试与集成测试用例100+，保障核心链路代码覆盖率达到90%以上"
+
+projects:
+  - name: "分布式KV存储引擎"
+    name_en: "Distributed KV Store"
+    role: "核心开发者"
+    start: "2022-10"
+    end: "2023-01"
+    details:
+      - "基于Raft一致性协议实现分布式KV存储，支持多副本强一致性读写"
+      - "设计LSM-Tree存储结构，实现写入吞吐达50K ops/s，读取延迟P99 < 10ms"
+      - "集成Prometheus监控，支持集群状态、延迟分布、QPS等关键指标可视化"
+
+skills:
+  - category: "编程语言"
+    items: ["Go", "Python", "TypeScript", "Java", "C++"]
+  - category: "框架与工具"
+    items: ["React", "Vite", "Docker", "Kubernetes", "Git", "Linux"]
+  - category: "数据库与中间件"
+    items: ["MySQL", "Redis", "Kafka", "Elasticsearch"]
+
+awards:
+  - name: "ACM-ICPC 亚洲区域赛 银牌"
+    date: "2022"
+  - name: "国家奖学金"
+    date: "2021"
+  - name: "浙江大学优秀学生一等奖学金"
+    date: "2022"

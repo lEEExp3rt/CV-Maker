@@ -1,0 +1,27 @@
+{
+  "name": "cv-maker",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A clean, professional CV/Resume maker for tech job applicants",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "export": "npm run build && node scripts/export-pdf.mjs"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "puppeteer": "^22.10.0",
+    "typescript": "~5.4.5",
+    "vite": "^5.4.0"
+  }
+}
