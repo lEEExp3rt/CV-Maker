@@ -89,7 +89,7 @@ export interface ResumeData {
 
 // --- Settings ---
 
-export type ColorScheme = 'navy' | 'slate'
+export type ColorScheme = 'navy' | 'slate' | 'forest' | 'burgundy' | 'teal' | 'charcoal'
 
 export interface FontConfig {
   chinese: string

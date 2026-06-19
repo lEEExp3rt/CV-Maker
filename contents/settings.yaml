@@ -1,6 +1,8 @@
 # CV-Maker Settings
 
-# Color scheme: "navy" (深蓝色) or "slate" (石板灰)
+# Color scheme:
+#   "navy" (深蓝) | "slate" (石板灰) | "forest" (森林绿)
+#   "burgundy" (勃艮第红) | "teal" (青墨) | "charcoal" (炭黑)
 color_scheme: "navy"
 
 # Font configuration — modify to change fonts

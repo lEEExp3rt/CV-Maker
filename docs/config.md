@@ -153,8 +153,12 @@ Each entry:
 
 Choose one of:
 
-- `"navy"` — Classic dark navy blue theme (default)
-- `"slate"` — Modern slate gray theme
+- `"navy"` — 深蓝，经典稳重
+- `"slate"` — 石板灰，现代简约
+- `"forest"` — 森林绿，清新自然
+- `"burgundy"` — 勃艮第红，优雅大气
+- `"teal"` — 青墨，低调内敛
+- `"charcoal"` — 炭黑，极致简洁
 
 ### `font` (optional)
 

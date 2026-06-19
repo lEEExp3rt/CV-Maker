@@ -30,6 +30,38 @@ export const colorSchemes: Record<ColorScheme, ColorSchemeDefinition> = {
     bg: '#ffffff',
     muted: '#718096',
   },
+  forest: {
+    primary: '#1a4731',
+    accent: '#2d8a56',
+    body: '#333333',
+    divider: '#1a4731',
+    bg: '#ffffff',
+    muted: '#718096',
+  },
+  burgundy: {
+    primary: '#742a2a',
+    accent: '#9b2c2c',
+    body: '#333333',
+    divider: '#742a2a',
+    bg: '#ffffff',
+    muted: '#718096',
+  },
+  teal: {
+    primary: '#234e52',
+    accent: '#2c7a7b',
+    body: '#333333',
+    divider: '#234e52',
+    bg: '#ffffff',
+    muted: '#718096',
+  },
+  charcoal: {
+    primary: '#1a1a2e',
+    accent: '#444466',
+    body: '#222222',
+    divider: '#1a1a2e',
+    bg: '#ffffff',
+    muted: '#718096',
+  },
 }
 
 // ============================================================
