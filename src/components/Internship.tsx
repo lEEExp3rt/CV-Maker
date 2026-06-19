@@ -9,7 +9,7 @@ export default function Internship({ data }: Props) {
 
   return (
     <section className="resume-section">
-      <h2 className="resume-section-title">Internship Experience</h2>
+      <h2 className="resume-section-title">实习经历 INTERNSHIP EXPERIENCE</h2>
       {data.map((entry, i) => (
         <div className="resume-entry" key={`intern-${i}`}>
           <div className="resume-entry-header">

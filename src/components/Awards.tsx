@@ -9,7 +9,7 @@ export default function Awards({ data }: Props) {
 
   return (
     <section className="resume-section">
-      <h2 className="resume-section-title">Awards & Honors</h2>
+      <h2 className="resume-section-title">获奖与荣誉 AWARDS & HONORS</h2>
       <ul className="resume-awards-list">
         {data.map((award, i) => (
           <li key={`award-${i}`}>

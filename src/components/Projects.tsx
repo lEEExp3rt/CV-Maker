@@ -9,7 +9,7 @@ export default function Projects({ data }: Props) {
 
   return (
     <section className="resume-section">
-      <h2 className="resume-section-title">Projects</h2>
+      <h2 className="resume-section-title">项目经历 PROJECTS</h2>
       {data.map((entry, i) => (
         <div className="resume-entry" key={`proj-${i}`}>
           <div className="resume-entry-header">

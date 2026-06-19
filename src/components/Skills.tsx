@@ -9,7 +9,7 @@ export default function Skills({ data }: Props) {
 
   return (
     <section className="resume-section">
-      <h2 className="resume-section-title">Skills</h2>
+      <h2 className="resume-section-title">专业技能 SKILLS</h2>
       <div className="resume-skills-list">
         {data.map((cat, i) => (
           <div className="resume-skill-category" key={`skill-${i}`}>
