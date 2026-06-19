@@ -9,7 +9,7 @@ CV-Maker follows a **Content-Style separation** architecture:
 ```
 ┌──────────────────────────────┐
 │  Content Layer (contents/)   │  ← User-edited YAML files
-│  cv.yaml + settings.yaml     │
+│  cv.yml + settings.yml     │
 └──────────────┬───────────────┘
                │  Vite virtual module plugin
                │  (parses YAML → JS objects with HMR)
@@ -101,7 +101,7 @@ src/
 
 3. **Register in Resume.tsx** — import and add to the render tree inside `.resume-page`.
 
-4. **Add to YAML schema** — update `contents/cv.yaml` with sample data.
+4. **Add to YAML schema** — update `contents/cv.yml` with sample data.
 
 ### Add a Color Scheme
 
@@ -124,7 +124,7 @@ export const colorSchemes = {
 export type ColorScheme = 'navy' | 'slate' | 'forest'
 ```
 
-Then set `color_scheme: "forest"` in `contents/settings.yaml`.
+Then set `color_scheme: "forest"` in `contents/settings.yml`.
 
 ### Customize Typography
 
@@ -153,7 +153,7 @@ Add `?print=true` to the URL to hide UI chrome during export.
 
 Located in `vite.config.ts`, the `yamlVirtualPlugin()` function:
 
-1. Watches `contents/cv.yaml` and `contents/settings.yaml`
+1. Watches `contents/cv.yml` and `contents/settings.yml`
 2. On load: reads, parses (via `js-yaml`), and exports parsed objects
 3. On change: invalidates the virtual module and sends HMR update
 

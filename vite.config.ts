@@ -11,10 +11,10 @@ function yamlVirtualPlugin(): Plugin {
   const virtualModuleId = 'virtual:cv-data'
   const resolvedVirtualModuleId = '\0' + virtualModuleId
 
-  const cvPath = path.resolve(__dirname, 'contents/cv.yaml')
-  const cvPathYml = path.resolve(__dirname, 'contents/cv.yml')
-  const settingsPath = path.resolve(__dirname, 'contents/settings.yaml')
-  const settingsPathYml = path.resolve(__dirname, 'contents/settings.yml')
+  const cvPath = path.resolve(__dirname, 'contents/cv.yml')
+  const cvPathYaml = path.resolve(__dirname, 'contents/cv.yaml')
+  const settingsPath = path.resolve(__dirname, 'contents/settings.yml')
+  const settingsPathYaml = path.resolve(__dirname, 'contents/settings.yaml')
 
   function readYamlFile(preferPath: string, fallbackPath: string): string {
     if (fs.existsSync(preferPath)) {
@@ -27,8 +27,8 @@ function yamlVirtualPlugin(): Plugin {
   }
 
   function buildModule(): string {
-    const cvRaw = readYamlFile(cvPath, cvPathYml) || 'personal_info:\n  name: "Your Name"\n  email: ""\n  phone: ""\neducation: []\ninternship: []\nprojects: []'
-    const settingsRaw = readYamlFile(settingsPath, settingsPathYml) || 'color_scheme: navy'
+    const cvRaw = readYamlFile(cvPath, cvPathYaml) || 'personal_info:\n  name: "Your Name"\n  email: ""\n  phone: ""\neducation: []\ninternship: []\nprojects: []'
+    const settingsRaw = readYamlFile(settingsPath, settingsPathYaml) || 'color_scheme: navy'
 
     let cvData: unknown
     let settingsData: unknown

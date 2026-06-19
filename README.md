@@ -34,8 +34,8 @@ Open http://localhost:5173 in your browser.
 
 ### Edit Your Resume
 
-1. Edit `contents/cv.yaml` — fill in your personal info, education, experience, etc.
-2. Edit `contents/settings.yaml` — choose color scheme and fonts
+1. Edit `contents/cv.yml` — fill in your personal info, education, experience, etc.
+2. Edit `contents/settings.yml` — choose color scheme and fonts
 3. The browser preview updates instantly on save
 
 ### Export PDF
@@ -52,8 +52,8 @@ The PDF will be saved to `dist/resume.pdf`.
 ```
 CV-Maker/
 ├── contents/                  # 👤 Your content — edit these files
-│   ├── cv.yaml                #    Resume data (name, education, work, etc.)
-│   ├── settings.yaml          #    Theme & display settings
+│   ├── cv.yml                #    Resume data (name, education, work, etc.)
+│   ├── settings.yml          #    Theme & display settings
 │   └── images/                #    Your photo and other images
 ├── src/                       # 🎨 Style layer — resume components & theme
 │   ├── components/            #    React components per resume section

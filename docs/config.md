@@ -2,7 +2,7 @@
 
 This document describes all configuration options available in CV-Maker.
 
-## Content Configuration (`contents/cv.yaml`)
+## Content Configuration (`contents/cv.yml`)
 
 This is the main file where you fill in your resume content. All fields marked with `?` are optional.
 
@@ -148,7 +148,7 @@ Each entry:
 
 ---
 
-## Display Settings (`contents/settings.yaml`)
+## Display Settings (`contents/settings.yml`)
 
 ### `color_scheme`
 
@@ -184,7 +184,7 @@ There are three ways to use a custom font:
 
 #### 1. System font (no setup required)
 
-If the font is already installed on your OS, just reference it by name in `contents/settings.yaml`:
+If the font is already installed on your OS, just reference it by name in `contents/settings.yml`:
 
 ```yaml
 font:
@@ -205,7 +205,7 @@ Place the font file in `public/fonts/`, then declare it in `src/styles/global.cs
 }
 ```
 
-Then reference it in `contents/settings.yaml`:
+Then reference it in `contents/settings.yml`:
 
 ```yaml
 font:
@@ -222,7 +222,7 @@ Add a `<link>` to `index.html` inside `<head>`:
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
 ```
 
-Then reference it in `contents/settings.yaml`:
+Then reference it in `contents/settings.yml`:
 
 ```yaml
 font:
