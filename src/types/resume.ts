@@ -10,15 +10,18 @@ export interface CustomLink {
   icon?: string
 }
 
-export interface PersonalInfo {
-  name: string
+export interface Contact {
   email: string
   phone: string
   homepage?: string
   github?: string
-  linkedin?: string
-  photo?: string
   customs?: CustomLink[]
+}
+
+export interface PersonalInfo {
+  name: string
+  photo?: string
+  contact: Contact
 }
 
 // --- Education ---

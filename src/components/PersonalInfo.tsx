@@ -6,7 +6,8 @@ interface Props {
 }
 
 export default function PersonalInfo({ data }: Props) {
-  const { name, email, phone, homepage, github, photo, customs } = data
+  const { name, photo, contact } = data
+  const { email, phone, homepage, github, customs } = contact
 
   // Strip protocol to show clean URL as link text
   const displayUrl = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/$/, '')

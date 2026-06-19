@@ -11,16 +11,20 @@ This is the main file where you fill in your resume content. All fields marked w
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `name` | string | Yes | Your full name (displayed as the resume title) |
+| `photo` | string | No | Path to photo, e.g. `"images/me.jpg"` (place image in `public/`) |
+| `contact` | object | Yes | Contact information, see below |
+
+#### `contact`
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
 | `email` | string | Yes | Email address |
 | `phone` | string | Yes | Phone number |
 | `homepage` | string | No | Personal website URL |
 | `github` | string | No | GitHub profile URL |
-| `photo` | string | No | Path to photo, e.g. `"/images/me.jpg"` (place image in `public/images/`) |
 | `customs` | array | No | Additional entries — links or plain text, see below |
 
-#### `customs` entries
-
-Each entry supports:
+#### `contact.customs` entries
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -28,7 +32,7 @@ Each entry supports:
 | `url` | string | Yes | Display text. If starts with `http://` or `https://`, rendered as a clickable link |
 | `icon` | string | No | Icon image. Supports local path, `http(s)://` URL, or `data:` URI |
 
-#### Supported icon formats
+##### Supported icon formats
 
 | Form | Example |
 |------|---------|
@@ -41,13 +45,20 @@ If `icon` is not specified, a default link icon will be used.
 **Example:**
 
 ```yaml
-customs:
-  - label: "Blog"
-    url: "https://zhangsan.dev/blog"
-    icon: "icons/blog.svg"
-
-  - label: "微信"
-    url: "zhangsan_123"
+personal_info:
+  name: "张三"
+  photo: "images/me.jpg"
+  contact:
+    email: "zhangsan@zju.edu.cn"
+    phone: "+86-138-0000-0000"
+    homepage: "https://zhangsan.dev"
+    github: "https://github.com/zhangsan"
+    customs:
+      - label: "Blog"
+        url: "https://zhangsan.dev/blog"
+        icon: "icons/blog.svg"
+      - label: "微信"
+        url: "zhangsan_123"
 ```
 
 **Built-in icons:** email, phone, homepage, and GitHub entries are automatically rendered with icons. No configuration needed.
