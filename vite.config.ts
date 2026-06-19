@@ -59,7 +59,7 @@ export const settings = ${JSON.stringify(settingsData)};
     },
     configureServer(server) {
       // Watch YAML files and trigger HMR on change
-      const watchFiles = [cvPath, cvPathYml, settingsPath, settingsPathYml]
+      const watchFiles = [cvPath, cvPathYaml, settingsPath, settingsPathYaml]
       for (const f of watchFiles) {
         server.watcher.add(f)
       }
