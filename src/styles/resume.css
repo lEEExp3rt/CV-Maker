@@ -245,9 +245,16 @@
 .resume-awards-list li {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   margin-bottom: 0.8mm;
+}
+
+.resume-awards-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1mm;
 }
 
 .resume-awards-list .award-date {

@@ -1,5 +1,5 @@
 import type { AwardEntry } from '../types/resume'
-import { AwardIcon } from './Icons'
+import { AwardIcon, TrophyIcon } from './Icons'
 
 interface Props {
   data: AwardEntry[]
@@ -11,12 +11,15 @@ export default function Awards({ data }: Props) {
   return (
     <section className="resume-section">
       <h2 className="resume-section-title">
-        <AwardIcon /> 获奖与荣誉 AWARDS & HONORS
+        <AwardIcon /> 获奖情况 AWARDS
       </h2>
       <ul className="resume-awards-list">
         {data.map((award, i) => (
           <li key={`award-${i}`}>
-            <span>{award.name}</span>
+            <span className="resume-awards-item">
+              <TrophyIcon />
+              <span>{award.name}</span>
+            </span>
             <span className="award-date">{award.date}</span>
           </li>
         ))}

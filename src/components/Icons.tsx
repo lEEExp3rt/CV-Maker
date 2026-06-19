@@ -58,6 +58,10 @@ export function AwardIcon({ size = 16 }: IconProps) {
   return <LocalIcon src="award.svg" size={size} />
 }
 
+export function TrophyIcon({ size = 10 }: IconProps) {
+  return <LocalIcon src="trophy.svg" size={size} />
+}
+
 /** Custom icon: supports local paths (relative to public/), remote URLs, and data URIs */
 export function CustomIcon({ src, size = 12 }: { src: string; size?: number }) {
   const isAbsolute = src.startsWith('http://') || src.startsWith('https://') || src.startsWith('data:')
