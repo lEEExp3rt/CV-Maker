@@ -136,6 +136,13 @@
   margin-bottom: 2.5mm;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 1.5mm;
+}
+
+.resume-section-title img {
+  flex-shrink: 0;
 }
 
 /* --- Entry (one per education/internship/project) --- */

@@ -37,6 +37,27 @@ export function LinkIcon({ size = 12 }: IconProps) {
   return <LocalIcon src="link.svg" size={size} />
 }
 
+// Section title icons
+export function GraduationCapIcon({ size = 16 }: IconProps) {
+  return <LocalIcon src="graduation-cap.svg" size={size} />
+}
+
+export function BriefcaseIcon({ size = 16 }: IconProps) {
+  return <LocalIcon src="briefcase.svg" size={size} />
+}
+
+export function CodeIcon({ size = 16 }: IconProps) {
+  return <LocalIcon src="code.svg" size={size} />
+}
+
+export function CpuIcon({ size = 16 }: IconProps) {
+  return <LocalIcon src="cpu.svg" size={size} />
+}
+
+export function AwardIcon({ size = 16 }: IconProps) {
+  return <LocalIcon src="award.svg" size={size} />
+}
+
 /** Custom icon: supports local paths (relative to public/), remote URLs, and data URIs */
 export function CustomIcon({ src, size = 12 }: { src: string; size?: number }) {
   const isAbsolute = src.startsWith('http://') || src.startsWith('https://') || src.startsWith('data:')

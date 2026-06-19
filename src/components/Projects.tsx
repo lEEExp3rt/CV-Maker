@@ -1,4 +1,5 @@
 import type { ProjectEntry } from '../types/resume'
+import { CodeIcon } from './Icons'
 
 interface Props {
   data: ProjectEntry[]
@@ -9,7 +10,9 @@ export default function Projects({ data }: Props) {
 
   return (
     <section className="resume-section">
-      <h2 className="resume-section-title">项目经历 PROJECTS</h2>
+      <h2 className="resume-section-title">
+        <CodeIcon /> 项目经历 PROJECTS
+      </h2>
       {data.map((entry, i) => (
         <div className="resume-entry" key={`proj-${i}`}>
           <div className="resume-entry-header">
