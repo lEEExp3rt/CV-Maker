@@ -57,7 +57,6 @@ export interface ProjectEntry {
   name: string
   name_en?: string
   brief?: string
-  role: string
   start: string
   end: string
   details: string[]

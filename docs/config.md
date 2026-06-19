@@ -123,7 +123,6 @@ Each entry:
 | `name` | string | Yes | Project name (Chinese) |
 | `name_en` | string | No | Project name (English) |
 | `brief` | string | No | Brief summary. Supports same Markdown as internship |
-| `role` | string | Yes | Your role in the project |
 | `start` | string | Yes | Start date |
 | `end` | string | Yes | End date |
 | `details` | array | Yes | Bullet-point descriptions. Supports the same Markdown |

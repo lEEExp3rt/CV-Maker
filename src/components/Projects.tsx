@@ -29,7 +29,6 @@ export default function Projects({ data }: Props) {
               {entry.start} ~ {entry.end || "至今"}
             </span>
           </div>
-          <div className="resume-entry-meta">{entry.role}</div>
           {entry.brief && (
             <div className="resume-entry-brief"><MarkdownText text={entry.brief} /></div>
           )}
