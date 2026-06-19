@@ -171,20 +171,21 @@
 .resume-entry-subtitle {
   font-size: var(--fs-body);
   font-weight: 400;
+  font-style: italic;
   color: var(--color-muted);
   margin-left: 2mm;
 }
 
 .resume-entry-date {
   font-size: var(--fs-small);
-  color: var(--color-muted);
+  color: #94a3b8;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .resume-entry-meta {
   font-size: var(--fs-small);
-  color: var(--color-muted);
+  color: #64748b;
   margin-bottom: 1mm;
 }
 
@@ -251,7 +252,7 @@
 /* --- Courses --- */
 .resume-courses {
   font-size: var(--fs-small);
-  color: var(--color-muted);
+  color: var(--color-body);
   margin-top: 0.5mm;
 }
 

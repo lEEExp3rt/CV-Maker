@@ -35,7 +35,7 @@ export default function Education({ data }: Props) {
           </div>
           {entry.courses && entry.courses.length > 0 && (
             <div className="resume-courses">
-              Core Courses: {entry.courses.join(', ')}
+              核心课程: {entry.courses.join(', ')}
             </div>
           )}
         </div>

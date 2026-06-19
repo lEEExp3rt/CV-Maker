@@ -19,7 +19,7 @@ education:
     degree: "本科"
     major: "计算机科学与技术"
     start: "2022-09"
-    # end: ""
+    end: "2026-06"
     gpa: "3.9/4.0"
     ranking: "3/120"
     courses:
