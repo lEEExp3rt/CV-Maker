@@ -27,7 +27,7 @@ function yamlVirtualPlugin(): Plugin {
   }
 
   function buildModule(): string {
-    const cvRaw = readYamlFile(cvPath, cvPathYaml) || 'personal_info:\n  name: "Your Name"\n  email: ""\n  phone: ""\neducation: []\ninternship: []\nprojects: []'
+    const cvRaw = readYamlFile(cvPath, cvPathYaml) || 'personal_info:\n  name: "Your Name"\n  email: ""\n  phone: ""\neducations: []\ninternships: []\nprojects: []'
     const settingsRaw = readYamlFile(settingsPath, settingsPathYaml) || 'color_scheme: navy'
 
     let cvData: unknown

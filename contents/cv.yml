@@ -13,7 +13,7 @@ personal_info:
     #   - label: "Weixin"
     #     url: "zhangsan_123"
 
-education:
+educations:
   - school: "浙江大学"
     school_en: "Zhejiang University"
     degree: "本科"
@@ -40,7 +40,7 @@ education:
       - "机器学习"
       - "分布式系统"
 
-internship:
+internships:
   - company: "阿里巴巴"
     company_en: "Alibaba Group"
     department: "淘宝技术部"

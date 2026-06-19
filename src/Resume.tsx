@@ -35,8 +35,8 @@ export default function Resume({ data, settings, isPrintMode }: Props) {
       {/* A4 Resume Page */}
       <div className="resume-page" style={cssVars as React.CSSProperties}>
         <PersonalInfo data={data.personal_info} />
-        <Education data={data.education} />
-        <Internship data={data.internship} />
+        <Education data={data.educations} />
+        <Internship data={data.internships} />
         <Projects data={data.projects} />
         <Skills data={data.skills || []} />
         <Awards data={data.awards || []} />

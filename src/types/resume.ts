@@ -81,8 +81,8 @@ export interface AwardEntry {
 
 export interface ResumeData {
   personal_info: PersonalInfo
-  education: EducationEntry[]
-  internship: InternshipEntry[]
+  educations: EducationEntry[]
+  internships: InternshipEntry[]
   projects: ProjectEntry[]
   skills?: SkillCategory[]
   awards?: AwardEntry[]

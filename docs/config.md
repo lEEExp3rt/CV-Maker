@@ -83,7 +83,7 @@ Each `customs` entry supports an optional `icon` field:
 
 You can download additional icons from [Lucide](https://lucide.dev/icons) and save them to `public/icons/`.
 
-### `education` (array)
+### `educations` (array)
 
 Each entry:
 
@@ -99,7 +99,7 @@ Each entry:
 | `ranking` | string | No | Class ranking, e.g. `"3/120"` |
 | `courses` | array | No | List of core course names |
 
-### `internship` (array)
+### `internships` (array)
 
 Each entry:
 
