@@ -17,6 +17,9 @@ logs/
 .DS_Store
 Thumbs.db
 
+# User assets
+public/fonts/
+
 # Temporary files
 *.tmp
 *.swp
