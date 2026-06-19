@@ -77,12 +77,6 @@ async function main() {
     await page.pdf({
       path: outputPath,
       format: 'A4',
-      margin: {
-        top: '0mm',
-        right: '0mm',
-        bottom: '0mm',
-        left: '0mm',
-      },
       printBackground: true,
       displayHeaderFooter: false,
     })
