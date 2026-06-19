@@ -1,130 +1,96 @@
 # Development Guide
 
-This document is for developers who want to understand, customize, or extend CV-Maker.
+## Project Overview
 
-## Architecture Overview
+CV-Maker is a single-page React application built with Vite. It separates resume **content** (YAML files in `contents/`) from **presentation** (React components + CSS in `src/`).
 
-CV-Maker follows a **Content-Style separation** architecture:
-
-```
-┌──────────────────────────────┐
-│  Content Layer (contents/)   │  ← User-edited YAML files
-│  cv.yml + settings.yml     │
-└──────────────┬───────────────┘
-               │  Vite virtual module plugin
-               │  (parses YAML → JS objects with HMR)
-               ▼
-┌──────────────────────────────┐
-│  Data Layer (src/utils/)     │
-│  loadContent.ts              │
-└──────────────┬───────────────┘
-               │
-               ▼
-┌──────────────────────────────┐
-│  Theme Layer (src/styles/)   │
-│  theme.ts → CSS variables    │
-└──────────────┬───────────────┘
-               │
-               ▼
-┌──────────────────────────────┐
-│  View Layer (src/components/)│
-│  PersonalInfo, Education,    │
-│  Internship, Projects,       │
-│  Skills, Awards              │
-└──────────────────────────────┘
-```
-
-### Key Design Decisions
-
-1. **Virtual Module for YAML**: Instead of importing YAML files directly (which Vite doesn't natively support with HMR), a custom Vite plugin (`vite.config.ts`) creates a virtual module `virtual:cv-data`. The plugin reads YAML files on the server side, parses them with `js-yaml`, and provides the parsed data as JS exports. File changes trigger HMR updates automatically.
-
-2. **CSS Custom Properties for Theming**: Color schemes and font configs are injected as CSS custom properties (variables) via the `style` attribute on the resume container. This keeps theming dynamic without requiring CSS-in-JS or runtime style injection.
-
-3. **Print-First CSS**: The stylesheet (`resume.css`) is designed with `@media print` and `@page` rules. The resume page is an exact A4 container (210mm × 297mm), ensuring WYSIWYG between screen and PDF.
-
-## Project Structure
+## Architecture
 
 ```
-src/
-├── components/          # React components — one per resume section
-│   ├── PersonalInfo.tsx # Name, contact, photo, social links
-│   ├── Education.tsx    # Education history entries
-│   ├── Internship.tsx   # Internship experience entries
-│   ├── Projects.tsx     # Project entries
-│   ├── Skills.tsx       # Skill categories (optional)
-│   └── Awards.tsx       # Awards & honors (optional)
-├── styles/
-│   ├── theme.ts         # Color scheme definitions, typography scale, CSS var builder
-│   ├── resume.css       # Resume layout, section styles, print rules
-│   └── global.css       # Reset & base page styles
-├── types/
-│   ├── resume.ts        # TypeScript interfaces for all resume data
-│   └── virtual.d.ts     # Type declarations for virtual modules
-├── utils/
-│   └── loadContent.ts   # Re-exports from virtual module with fallbacks
-├── App.tsx              # Root component — loads data, passes to Resume
-├── Resume.tsx           # Layout container — applies theme, renders sections
-└── main.tsx             # Vite entry point
+contents/cv.yml  ──┐
+                    ├──► Vite plugin (vite.config.ts)
+contents/settings.yml ─┘    parses YAML → virtual:cv-data module
+                                       │
+                              ┌────────┘
+                              ▼
+                    src/utils/loadContent.ts
+                              │
+                              ▼
+                    src/App.tsx → src/Resume.tsx
+                              │
+              ┌───────────────┼───────────────┐
+              ▼               ▼               ▼
+        PersonalInfo      Education       Internship ...
 ```
 
-## How To...
+### Key Files
 
-### Add a New Resume Section
+| Path | Purpose |
+|------|---------|
+| `contents/cv.yml` | Resume content (user-editable) |
+| `contents/settings.yml` | Visual settings (color scheme, fonts) |
+| `src/types/resume.ts` | TypeScript interfaces for all data |
+| `src/styles/theme.ts` | Color scheme definitions, typography scale |
+| `src/styles/resume.css` | All layout and print styles |
+| `src/styles/global.css` | Reset and base page styles |
+| `src/components/*.tsx` | One component per resume section |
+| `vite.config.ts` | Vite config + YAML virtual module plugin |
+| `scripts/export-pdf.mjs` | Puppeteer PDF generation |
 
-1. **Define types** in `src/types/resume.ts`:
-   ```ts
-   export interface NewSectionEntry {
-     title: string
-     description: string
-   }
-   ```
-   Add it to `ResumeData`:
-   ```ts
-   export interface ResumeData {
-     // ... existing fields
-     new_section?: NewSectionEntry[]
-   }
-   ```
+### Data Flow
 
-2. **Create component** in `src/components/NewSection.tsx`:
-   ```tsx
-   export default function NewSection({ data }: { data: NewSectionEntry[] }) {
-     if (!data?.length) return null
-     return (
-       <section className="resume-section">
-         <h2 className="resume-section-title">New Section</h2>
-         {/* render entries */}
-       </section>
-     )
-   }
-   ```
+1. `vite.config.ts` contains a custom plugin that reads `contents/cv.yml` and `contents/settings.yml`, parses them with `js-yaml`, and exposes the parsed objects as a virtual module `virtual:cv-data`
+2. `src/utils/loadContent.ts` provides typed accessors (`loadResumeData()`, `loadSettings()`) with fallback defaults
+3. `App.tsx` loads data and passes it to `Resume.tsx`
+4. `Resume.tsx` builds CSS variables from the settings and renders all section components
+5. Each section component receives its typed data slice and renders conditionally (returns `null` if empty)
 
-3. **Register in Resume.tsx** — import and add to the render tree inside `.resume-page`.
+### HMR
 
-4. **Add to YAML schema** — update `contents/cv.yml` with sample data.
+When YAML files change, the Vite plugin invalidates the virtual module and sends an HMR update. `App.tsx` listens via `import.meta.hot.accept('virtual:cv-data', ...)` and re-renders.
 
-### Add a Color Scheme
+## Getting Started
+
+```bash
+npm install
+npm run dev        # dev server at localhost:5173
+npm run build      # production build to dist/
+npm run export     # build + PDF export
+npm run clean      # remove dist/, node_modules/, .vite/
+```
+
+## How To
+
+### Add a New Color Scheme
 
 Edit `src/styles/theme.ts`:
 
 ```ts
+// 1. Add the scheme definition
 export const colorSchemes = {
-  // ... existing
-  forest: {
-    primary: '#276749',
-    accent: '#48bb78',
-    body: '#1a202c',
-    divider: '#276749',
+  // ...existing...
+  mytheme: {
+    primary: '#123456',
+    accent: '#789abc',
+    body: '#333333',
+    divider: '#123456',
     bg: '#ffffff',
     muted: '#718096',
   },
 }
 
-// Update the type:
-export type ColorScheme = 'navy' | 'slate' | 'forest'
+// 2. Update the type in src/types/resume.ts
+export type ColorScheme = 'navy' | 'slate' | ... | 'mytheme'
 ```
 
-Then set `color_scheme: "forest"` in `contents/settings.yml`.
+Then set `color_scheme: "mytheme"` in `contents/settings.yml`.
+
+### Add a New Resume Section
+
+1. Define the type in `src/types/resume.ts`
+2. Create a component in `src/components/NewSection.tsx`
+3. Import and render it in `src/Resume.tsx`
+4. Add sample data to `contents/cv.yml`
 
 ### Customize Typography
 
@@ -132,59 +98,51 @@ Edit the `typography` object in `src/styles/theme.ts`:
 
 ```ts
 export const typography = {
-  name: { fontSize: '26pt', fontWeight: 700, lineHeight: 1.3 },
-  sectionTitle: { fontSize: '14pt', fontWeight: 600, lineHeight: 1.4 },
-  // ...
+  name: { fontSize: '24pt', fontWeight: 700, lineHeight: 1.3 },
+  sectionTitle: { fontSize: '13pt', fontWeight: 600, lineHeight: 1.4 },
+  itemTitle: { fontSize: '11pt', fontWeight: 600, lineHeight: 1.4 },
+  body: { fontSize: '9.5pt', fontWeight: 400, lineHeight: 1.5 },
+  small: { fontSize: '8pt', fontWeight: 400, lineHeight: 1.4 },
 }
 ```
 
-### Modify PDF Export Behavior
+### Add or Replace Icons
 
-Edit `scripts/export-pdf.mjs`. The script:
-1. Starts a Vite preview server on port 4173
+1. Download an SVG from [Lucide](https://lucide.dev/icons) (or any source)
+2. Save to `public/icons/`
+3. Add an export in `src/components/Icons.tsx`:
+   ```tsx
+   export function MyIcon({ size = 16 }: IconProps) {
+     return <LocalIcon src="my-icon.svg" size={size} />
+   }
+   ```
+4. Use it in any component
+
+### Understand the Vite Plugin
+
+The `yamlVirtualPlugin()` in `vite.config.ts`:
+- Watches `contents/cv.yml` and `contents/settings.yml`
+- On load: reads, parses, and exports parsed objects
+- On change: invalidates the virtual module and sends HMR update
+- Fallback: provides empty defaults if files are missing
+
+### Modify PDF Export
+
+Edit `scripts/export-pdf.mjs`:
+1. Starts Vite preview server on port 4173
 2. Launches headless Chromium via Puppeteer
-3. Navigates to `http://127.0.0.1:4173?print=true`
-4. Calls `page.pdf()` with A4 settings
+3. Navigates to `http://127.0.0.1:4173?print=true` (hides toolbar)
+4. Calls `page.pdf()` with A4 format
 5. Saves to `dist/resume.pdf`
 
-Add `?print=true` to the URL to hide UI chrome during export.
+CSS `@media print` rules in `resume.css` control the printed layout.
 
-## Vite Plugin: YAML Virtual Module
+## Docker
 
-Located in `vite.config.ts`, the `yamlVirtualPlugin()` function:
-
-1. Watches `contents/cv.yml` and `contents/settings.yml`
-2. On load: reads, parses (via `js-yaml`), and exports parsed objects
-3. On change: invalidates the virtual module and sends HMR update
-
-The virtual module ID is `virtual:cv-data` (resolved to `\0virtual:cv-data`).
-
-## HMR Flow
-
-```
-YAML file changed on disk
-  → Vite file watcher detects change
-  → Plugin invalidates virtual:cv-data module
-  → Vite HMR WebSocket sends update to browser
-  → App.tsx import.meta.hot.accept('virtual:cv-data') fires
-  → refresh() re-reads data → React re-renders
+```bash
+docker build -t cv-maker -f .devcontainer/Dockerfile .
+docker run -p 5173:5173 cv-maker dev
+docker run -v $(pwd)/dist:/workspace/dist cv-maker export
 ```
 
-## Scripts
-
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start Vite dev server with HMR |
-| `npm run build` | TypeScript check + production build to `dist/` |
-| `npm run preview` | Preview production build locally |
-| `npm run export` | Build + generate PDF via Puppeteer |
-
-## Dependencies
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `react` | ^18 | UI framework |
-| `vite` | ^5 | Build tool & dev server |
-| `js-yaml` | ^4 | YAML parsing (in Vite plugin) |
-| `puppeteer` | ^22 | Headless PDF generation |
-| `typescript` | ~5.4 | Type checking |
+The Dockerfile installs Chromium for Puppeteer and Noto CJK fonts for Chinese rendering.
