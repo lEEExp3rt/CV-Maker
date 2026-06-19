@@ -13,12 +13,64 @@ This is the main file where you fill in your resume content. All fields marked w
 | `name` | string | Yes | Your full name (displayed as the resume title) |
 | `email` | string | Yes | Email address |
 | `phone` | string | Yes | Phone number |
-| `birth` | string | No | Date of birth, e.g. `"2000-01"` |
 | `homepage` | string | No | Personal website URL |
 | `github` | string | No | GitHub profile URL |
-| `linkedin` | string | No | LinkedIn profile URL |
-| `image` | string | No | Path to photo, e.g. `"/images/me.png"` (place image in `public/images/`) |
-| `custom_links` | array | No | Additional links, each with `label` and `url` |
+| `photo` | string | No | Path to photo, e.g. `"/images/me.jpg"` (place image in `public/images/`) |
+| `customs` | array | No | Additional entries — links or plain text, see below |
+
+#### `customs` entries
+
+Each entry supports:
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `label` | string | Yes | Internal identifier (not displayed) |
+| `url` | string | Yes | Display text. If starts with `http://` or `https://`, rendered as a clickable link |
+| `icon` | string | No | Icon image. Supports local path, `http(s)://` URL, or `data:` URI |
+
+#### Supported icon formats
+
+| Form | Example |
+|------|---------|
+| Local file | `icon: "icons/blog.svg"` (relative to `public/`) |
+| Remote URL | `icon: "https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/rss.svg"` |
+| Data URI | `icon: "data:image/svg+xml;base64,..."` |
+
+If `icon` is not specified, a default link icon will be used.
+
+**Example:**
+
+```yaml
+customs:
+  - label: "Blog"
+    url: "https://zhangsan.dev/blog"
+    icon: "icons/blog.svg"
+
+  - label: "微信"
+    url: "zhangsan_123"
+```
+
+**Built-in icons:** email, phone, homepage, and GitHub entries are automatically rendered with icons. No configuration needed.
+
+#### Icon Reference
+
+Built-in icons are from [Lucide](https://lucide.dev) (MIT licensed). SVG files are stored locally at `public/icons/`:
+
+| Entry | Icon file |
+|-------|-----------|
+| Email | `mail.svg` |
+| Phone | `phone.svg` |
+| Homepage | `globe.svg` |
+| GitHub | `github.svg` |
+
+#### Custom icons (`customs`)
+
+Each `customs` entry supports an optional `icon` field:
+
+- **Local icon:** place the SVG/PNG file under `public/` and reference it by path, e.g. `icon: "icons/blog.svg"`
+- **Remote icon:** use a full URL, e.g. `icon: "https://example.com/icon.svg"`
+
+You can download additional icons from [Lucide](https://lucide.dev/icons) and save them to `public/icons/`.
 
 ### `education` (array)
 

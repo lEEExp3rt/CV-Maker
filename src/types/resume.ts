@@ -7,18 +7,18 @@
 export interface CustomLink {
   label: string
   url: string
+  icon?: string
 }
 
 export interface PersonalInfo {
   name: string
   email: string
   phone: string
-  birth?: string
   homepage?: string
   github?: string
   linkedin?: string
-  image?: string
-  custom_links?: CustomLink[]
+  photo?: string
+  customs?: CustomLink[]
 }
 
 // --- Education ---

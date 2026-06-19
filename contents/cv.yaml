@@ -1,15 +1,16 @@
 personal_info:
   name: "张三"
+  # photo: "images/me.jpg"
   email: "zhangsan@zju.edu.cn"
   phone: "+86-138-0000-0000"
-  # birth: "2000-01"
   homepage: "https://zhangsan.dev"
   github: "https://github.com/zhangsan"
-  linkedin: "https://linkedin.com/in/zhangsan"
-  # image: "images/me.jpg"
-  # custom_links:
-  #   - label: "Blog"
-  #     url: "https://zhangsan.dev/blog"
+  customs:
+    - label: "Blog"
+      url: "https://zhangsan.dev/blog"
+      icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXJzcy1pY29uIGx1Y2lkZS1yc3MiPjxwYXRoIGQ9Ik00IDExYTkgOSAwIDAgMSA5IDkiLz48cGF0aCBkPSJNNCA0YTE2IDE2IDAgMCAxIDE2IDE2Ii8+PGNpcmNsZSBjeD0iNSIgY3k9IjE5IiByPSIxIi8+PC9zdmc+"
+    - label: "Weixin"
+      url: "zhangsan_123"
 
 education:
   - school: "浙江大学"

@@ -102,6 +102,12 @@
   align-items: baseline;
 }
 
+.resume-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5mm;
+}
+
 .resume-contact a {
   color: var(--color-accent);
   text-decoration: none;
