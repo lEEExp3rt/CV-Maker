@@ -60,7 +60,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 6mm;
 }
 
@@ -92,10 +92,6 @@
   gap: 2mm 5mm;
   font-size: var(--fs-body);
   color: var(--color-body);
-}
-
-.resume-contact--left {
-  justify-content: flex-start;
 }
 
 /* When photo present: use 2-column grid, items fill row by row */
@@ -250,9 +246,9 @@
 /* --- Photo --- */
 .resume-photo {
   flex-shrink: 0;
-  width: 25mm;
-  height: 32mm;
-  object-fit: cover;
+  width: 26mm;
+  height: auto;
+  max-height: 42mm;
   border-radius: 2px;
 }
 
