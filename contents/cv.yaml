@@ -29,31 +29,57 @@ education:
       - "数据库系统"
       - "算法设计与分析"
       - "软件工程"
+  - school: "新加坡国立大学"
+    school_en: "National University of Singapore"
+    degree: "交换生"
+    major: "计算机科学"
+    start: "2024-08"
+    end: "2025-01"
+    gpa: "4.5/5.0"
+    courses:
+      - "机器学习"
+      - "分布式系统"
 
 internship:
   - company: "阿里巴巴"
     company_en: "Alibaba Group"
     department: "淘宝技术部"
-    role: "后端开发实习生"
     brief: "参与**淘宝核心推荐系统**后端研发，负责`Go`微服务开发与性能优化"
-    start: "2023-06"
-    end: "2023-09"
+    start: "2025-06"
+    end: "2025-09"
     details:
       - "参与淘宝推荐系统后端微服务的设计与开发，使用`Go`实现高并发接口，QPS达到**10K+**"
       - "优化商品召回链路，通过缓存预热和索引优化将平均响应时间降低*35%*"
       - "编写单元测试与集成测试用例100+，保障核心链路代码覆盖率达到__90%__以上"
+  - company: "腾讯"
+    company_en: "Tencent"
+    department: "微信事业群"
+    brief: "参与**微信支付**核心系统研发，负责`C++`高性能组件开发"
+    start: "2024-06"
+    end: "2024-09"
+    details:
+      - "参与微信支付交易系统开发，使用`C++`实现支付网关高性能转发，支撑日均**10亿+**交易量"
+      - "设计并实现分布式限流组件，支持动态阈值调整，保障系统在突发流量下稳定运行"
 
 projects:
   - name: "分布式KV存储引擎"
     name_en: "Distributed KV Store"
-    role: "核心开发者"
     brief: "基于**Raft**协议实现高可用分布式键值存储系统"
-    start: "2022-10"
-    end: "2023-01"
+    start: "2023-10"
+    end: "2024-01"
     details:
       - "基于Raft一致性协议实现分布式KV存储，支持多副本强一致性读写"
       - "设计LSM-Tree存储结构，实现写入吞吐达50K ops/s，读取延迟P99 < 10ms"
       - "集成Prometheus监控，支持集群状态、延迟分布、QPS等关键指标可视化"
+  - name: "MiniSQL 数据库"
+    name_en: "MiniSQL Database"
+    brief: "从零实现支持基本SQL查询的轻量级关系型数据库"
+    start: "2023-03"
+    end: "2023-06"
+    details:
+      - "实现SQL解析器、查询优化器和执行引擎，支持`SELECT`、`INSERT`、`DELETE`、`UPDATE`操作"
+      - "基于B+树实现索引模块，支持主键索引和二级索引，查询性能提升*300%*"
+      - "实现基于WAL的崩溃恢复机制，保证数据一致性"
 
 skills:
   - category: "编程语言"
