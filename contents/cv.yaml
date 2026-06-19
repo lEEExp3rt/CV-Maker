@@ -33,6 +33,7 @@ education:
 internship:
   - company: "阿里巴巴"
     company_en: "Alibaba Group"
+    department: "淘宝技术部"
     role: "后端开发实习生"
     start: "2023-06"
     end: "2023-09"

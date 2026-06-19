@@ -43,6 +43,7 @@ export interface EducationEntry {
 export interface InternshipEntry {
   company: string
   company_en?: string
+  department?: string
   role: string
   start: string
   end: string

@@ -11,7 +11,7 @@ export default function Internship({ data }: Props) {
   return (
     <section className="resume-section">
       <h2 className="resume-section-title">
-        <BriefcaseIcon /> 实习经历 INTERNSHIP EXPERIENCE
+        <BriefcaseIcon /> 实习经历 INTERNSHIPS
       </h2>
       {data.map((entry, i) => (
         <div className="resume-entry" key={`intern-${i}`}>
@@ -28,7 +28,9 @@ export default function Internship({ data }: Props) {
               {entry.start} ~ {entry.end || "至今"}
             </span>
           </div>
-          <div className="resume-entry-meta">{entry.role}</div>
+          <div className="resume-entry-meta">
+            {[entry.department, entry.role].filter(Boolean).join(' · ')}
+          </div>
           {entry.details && entry.details.length > 0 && (
             <ul className="resume-details">
               {entry.details.map((d, j) => (

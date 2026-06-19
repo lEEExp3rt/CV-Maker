@@ -107,6 +107,7 @@ Each entry:
 |-------|------|----------|-------------|
 | `company` | string | Yes | Company name (Chinese) |
 | `company_en` | string | No | Company name (English) |
+| `department` | string | No | Department/team, displayed before role |
 | `role` | string | Yes | Job title |
 | `start` | string | Yes | Start date |
 | `end` | string | Yes | End date |
