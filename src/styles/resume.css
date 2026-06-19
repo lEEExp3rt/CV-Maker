@@ -51,9 +51,8 @@
 
 /* --- Header: name + photo + contact --- */
 .resume-header {
-  margin-bottom: 6mm;
-  padding-bottom: 5mm;
-  border-bottom: 1px solid var(--color-divider);
+  margin-bottom: 3mm;
+  padding-bottom: 0;
 }
 
 .resume-header--with-photo {
