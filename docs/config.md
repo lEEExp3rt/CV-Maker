@@ -173,14 +173,62 @@ font:
 | Chinese | `"PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Hiragino Sans GB", sans-serif` |
 | English | `"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif` |
 
-### Chinese Font Notes
+### Font Configuration
 
-For optimal PDF rendering (especially in Docker/Puppeteer), ensure the font is installed on the system:
+There are three ways to use a custom font:
 
-- **macOS**: PingFang SC is built-in
-- **Windows**: Microsoft YaHei is built-in
-- **Linux/Docker**: Noto Sans CJK is installed in the Docker image (`fonts-noto-cjk`)
-- **Web-safe fallback**: `sans-serif` ensures text always renders
+#### 1. System font (no setup required)
+
+If the font is already installed on your OS, just reference it by name in `contents/settings.yaml`:
+
+```yaml
+font:
+  chinese: '"苹方", "PingFang SC", sans-serif'
+  english: '"Inter", sans-serif'
+```
+
+Common built-in fonts: PingFang SC (macOS), Microsoft YaHei (Windows), Noto Sans CJK (Linux).
+
+#### 2. Local font file
+
+Place the font file in `public/fonts/`, then declare it in `src/styles/global.css`:
+
+```css
+@font-face {
+  font-family: 'LXGW WenKai';
+  src: url('/fonts/LXGWWenKai-Regular.ttf') format('truetype');
+}
+```
+
+Then reference it in `contents/settings.yaml`:
+
+```yaml
+font:
+  chinese: '"LXGW WenKai", sans-serif'
+```
+
+This works offline and is recommended for PDF export. The Docker image copies all files under `public/`, so local fonts are included automatically.
+
+#### 3. CDN / Google Fonts (online)
+
+Add a `<link>` to `index.html` inside `<head>`:
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+```
+
+Then reference it in `contents/settings.yaml`:
+
+```yaml
+font:
+  chinese: '"Noto Sans SC", sans-serif'
+```
+
+Requires network access. PDF export in Docker may fail if the CDN is unreachable — for offline use, prefer method 1 or 2.
+
+#### Fallback mechanism
+
+The browser tries fonts from left to right. The last entry should always be a generic family (`sans-serif`, `serif`, `monospace`) to guarantee text renders even if all named fonts are unavailable.
 
 ---
 

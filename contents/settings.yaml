@@ -1,8 +1,9 @@
 # CV-Maker Settings
-# Choose color scheme: "navy" (深蓝色) or "slate" (石板灰)
+
+# Color scheme: "navy" (深蓝色) or "slate" (石板灰)
 color_scheme: "navy"
 
-# Custom font configuration (optional)
-# font:
-#   chinese: '"PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif'
-#   english: '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif'
+# Font configuration — modify to change fonts
+font:
+  chinese: '"PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Hiragino Sans GB", sans-serif'
+  english: '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif'

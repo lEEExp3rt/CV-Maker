@@ -69,8 +69,8 @@ export const typography = {
 // ============================================================
 
 export const defaultFonts: FontConfig = {
-  chinese: '"PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Hiragino Sans GB", sans-serif',
-  english: '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+  chinese: 'sans-serif',
+  english: 'sans-serif',
 }
 
 // ============================================================
