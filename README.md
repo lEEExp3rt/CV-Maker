@@ -20,6 +20,7 @@ npm install
 npm run dev           # http://localhost:5173
 # edit contents/cv.yml → instant preview
 npm run export        # → dist/resume.pdf
+npm run clean         # clean built artifacts
 ```
 
 ## Project Structure
