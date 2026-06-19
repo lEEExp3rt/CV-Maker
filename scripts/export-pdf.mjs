@@ -25,25 +25,32 @@ async function main() {
   // Ensure dist exists
   fs.mkdirSync(distDir, { recursive: true })
 
-  // Start Vite preview server
-  const previewServer = await createServer({
-    root: distDir,
-    mode: 'production',
-    server: { port: 4173, host: '127.0.0.1' },
-    preview: {
-      port: 4173,
-      host: '127.0.0.1',
-    },
-  })
+  // Start Vite preview server (auto-find available port)
+  let previewPort = 4173
+  let previewServer
 
-  await new Promise((resolve) => {
-    previewServer.listen().then(() => {
-      console.log('  Preview server started.')
-      resolve()
-    })
-  })
+  while (!previewServer) {
+    try {
+      const server = await createServer({
+        root: distDir,
+        mode: 'production',
+        server: { port: previewPort, host: '127.0.0.1', strictPort: true },
+        preview: {
+          port: previewPort,
+          host: '127.0.0.1',
+        },
+      })
+      await server.listen()
+      previewServer = server
+    } catch {
+      previewPort++
+      if (previewPort > 4183) throw new Error('No available port found (tried 4173–4183)')
+    }
+  }
 
-  const url = 'http://127.0.0.1:4173?print=true'
+  console.log(`  Preview server started on port ${previewPort}`)
+
+  const url = `http://127.0.0.1:${previewPort}?print=true`
 
   let browser
   try {
