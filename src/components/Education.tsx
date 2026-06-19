@@ -25,7 +25,7 @@ export default function Education({ data }: Props) {
               </span>
             </span>
             <span className="resume-entry-date">
-              {entry.start} – {entry.end}
+              {entry.start} ~ {entry.end || "至今"}
             </span>
           </div>
           <div className="resume-entry-meta">
