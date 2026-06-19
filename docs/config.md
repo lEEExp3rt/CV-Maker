@@ -237,16 +237,60 @@ The browser tries fonts from left to right. The last entry should always be a ge
 
 ---
 
-## Page Layout
+## Typography
 
-The resume is designed for A4 paper (210mm × 297mm). Typography scales are tuned to fit one page comfortably:
+The resume uses a 4-level typographic hierarchy. Edit `src/styles/theme.ts` to customize:
 
-| Element | Size | Weight |
-|---------|------|--------|
-| Name (title) | 24pt | 700 (bold) |
-| Section titles | 13pt | 600 (semi-bold) |
-| Item titles | 11pt | 600 (semi-bold) |
-| Body text | 9.5pt | 400 (normal) |
-| Captions/dates | 8pt | 400 (normal) |
+| Element | CSS Variable | Default | Weight |
+|---------|-------------|---------|--------|
+| Name (title) | `--fs-name` | 24pt | 700 (bold) |
+| Section titles | `--fs-section` | 13pt | 600 (semi-bold) |
+| Item titles | `--fs-item` | 11pt | 600 (semi-bold) |
+| Body text | `--fs-body` | 9.5pt | 400 (normal) |
+| Captions/dates | `--fs-small` | 8pt | 400 (normal) |
 
-These are not directly configurable via YAML, but can be changed in `src/styles/theme.ts` for advanced customization.
+## Spacing Reference
+
+All spacing values are in `src/styles/resume.css`. To adjust any value, search for the CSS variable or class name listed below.
+
+### Page Margins
+
+| What | Where | Default |
+|------|-------|---------|
+| Top padding (screen + print) | `.resume-page { --page-padding-top }` | `15mm` |
+| Bottom padding | `.resume-page { --page-padding-bottom }` | `10mm` |
+| Left/right padding | `.resume-page { padding }` third/fourth value | `20mm` |
+
+### Section Spacing
+
+| What | CSS class | Default |
+|------|-----------|---------|
+| Gap between sections | `.resume-section { margin-bottom }` | `3mm` |
+| Section title bottom margin | `.resume-section-title { margin-bottom }` | `2mm` |
+| Section title underline padding | `.resume-section-title { padding-bottom }` | `1mm` |
+
+### Entry Spacing (within sections)
+
+| What | CSS class | Default |
+|------|-----------|---------|
+| Gap between entries | `.resume-entry { margin-bottom }` | `1.8mm` |
+| Entry header bottom margin | `.resume-entry-header { margin-bottom }` | `0.8mm` |
+| Brief bottom margin | `.resume-entry-brief { margin-bottom }` | `1.2mm` |
+| Bullet line gap | `.resume-details li { margin-bottom }` | `0.4mm` |
+| Courses top margin | `.resume-courses { margin-top }` | `0.5mm` |
+
+### Header Spacing
+
+| What | CSS class | Default |
+|------|-----------|---------|
+| Header bottom margin | `.resume-header { margin-bottom }` | `3mm` |
+| Name bottom margin | `.resume-name { margin-bottom }` | `3mm` |
+
+### Other
+
+| What | CSS class | Default |
+|------|-----------|---------|
+| Skills category gap | `.resume-skills-list { gap }` | `1.5mm` |
+| Award item gap | `.resume-awards-list li { margin-bottom }` | `0.8mm` |
+
+All values use `mm` units for print accuracy. Reducing these values makes the layout more compact; increasing them adds breathing room.

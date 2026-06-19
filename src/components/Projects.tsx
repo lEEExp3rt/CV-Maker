@@ -1,5 +1,6 @@
 import type { ProjectEntry } from '../types/resume'
 import { CodeIcon, LinkIcon } from './Icons'
+import HeaderLeft from './HeaderLeft'
 import MarkdownText from './MarkdownText'
 
 interface Props {
@@ -19,26 +20,31 @@ export default function Projects({ data }: Props) {
       {data.map((entry, i) => (
         <div className="resume-entry" key={`proj-${i}`}>
           <div className="resume-entry-header">
-            <span>
-              <span className="resume-entry-title">
-                {entry.name}
-                {entry.name_en && (
-                  <span className="resume-entry-subtitle">{entry.name_en}</span>
-                )}
-              </span>
-            </span>
+            <HeaderLeft
+              title={
+                <span className="resume-entry-title">
+                  {entry.name}
+                  {entry.name_en && (
+                    <span className="resume-entry-subtitle">{entry.name_en}</span>
+                  )}
+                </span>
+              }
+              meta={
+                entry.url ? (
+                  <>
+                    <LinkIcon size={10} />
+                    <a href={entry.url} target="_blank" rel="noopener noreferrer">
+                      {displayUrl(entry.url)}
+                    </a>
+                  </>
+                ) : null
+              }
+              showMeta={!!entry.url}
+            />
             <span className="resume-entry-date">
               {entry.start} ~ {entry.end || "至今"}
             </span>
           </div>
-          {entry.url && (
-            <div className="resume-entry-meta">
-              <LinkIcon />
-              <a href={entry.url} target="_blank" rel="noopener noreferrer" style={{ marginLeft: '0.5mm' }}>
-                {displayUrl(entry.url)}
-              </a>
-            </div>
-          )}
           {entry.brief && (
             <div className="resume-entry-brief"><MarkdownText text={entry.brief} /></div>
           )}

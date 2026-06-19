@@ -94,6 +94,9 @@ export default defineConfig({
       '@contents': path.resolve(__dirname, './contents'),
     },
   },
+  optimizeDeps: {
+    entries: ['index.html'],
+  },
   server: {
     port: 5173,
     host: true,

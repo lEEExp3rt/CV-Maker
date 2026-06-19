@@ -4,13 +4,14 @@
 
 /* --- A4 Page Container --- */
 .resume-page {
+  --page-padding-top: 15mm;
+  --page-padding-bottom: 10mm;
   width: 210mm;
   min-height: 297mm;
   background: var(--color-bg);
-  padding: 0 20mm;
+  padding: var(--page-padding-top) 20mm var(--page-padding-bottom) 20mm;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
   margin: 0 auto;
-  /* top/bottom margins handled by @page for multi-page consistency */
 }
 
 /* --- Toolbar (hidden in print/export) --- */
@@ -156,10 +157,39 @@
 }
 
 .resume-entry-header {
+  --header-align: baseline;
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: var(--header-align);
   margin-bottom: 0.8mm;
+}
+
+.resume-entry-header-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 2mm;
+  min-width: 0;
+  flex: 1;
+}
+
+.resume-entry-meta-inline {
+  font-size: var(--fs-small);
+  color: #64748b;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5mm;
+}
+
+.resume-entry-meta-sep {
+  color: #cbd5e0;
+  margin: 0 0.5mm;
+}
+
+.resume-entry-meta-inline a {
+  color: var(--color-accent);
+  text-decoration: none;
 }
 
 .resume-entry-title {
@@ -182,6 +212,7 @@
   color: #94a3b8;
   white-space: nowrap;
   flex-shrink: 0;
+  align-self: var(--header-align);
 }
 
 .resume-entry-meta {
@@ -302,7 +333,7 @@
 @media print {
   @page {
     size: A4;
-    margin: 12mm 0 10mm 0;
+    margin: 0;
   }
 
   html,
