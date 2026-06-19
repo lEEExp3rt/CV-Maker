@@ -122,6 +122,7 @@ Each entry:
 |-------|------|----------|-------------|
 | `name` | string | Yes | Project name (Chinese) |
 | `name_en` | string | No | Project name (English) |
+| `url` | string | No | Project URL, displayed with a link icon |
 | `brief` | string | No | Brief summary. Supports same Markdown as internship |
 | `start` | string | Yes | Start date |
 | `end` | string | Yes | End date |

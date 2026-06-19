@@ -119,7 +119,7 @@
 
 /* --- Section --- */
 .resume-section {
-  margin-bottom: 4.5mm;
+  margin-bottom: 3.0mm;
 }
 
 .resume-section:last-child {
@@ -147,7 +147,7 @@
 
 /* --- Entry (one per education/internship/project) --- */
 .resume-entry {
-  margin-bottom: 3mm;
+  margin-bottom: 1.8mm;
 }
 
 .resume-entry:last-child {
@@ -187,6 +187,15 @@
   font-size: var(--fs-small);
   color: #64748b;
   margin-bottom: 1mm;
+}
+
+.resume-entry-meta a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.resume-entry-meta a:hover {
+  text-decoration: underline;
 }
 
 /* --- Brief summary --- */

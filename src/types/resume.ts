@@ -56,6 +56,7 @@ export interface InternshipEntry {
 export interface ProjectEntry {
   name: string
   name_en?: string
+  url?: string
   brief?: string
   start: string
   end: string

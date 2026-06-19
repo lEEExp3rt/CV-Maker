@@ -1,5 +1,5 @@
 import type { ProjectEntry } from '../types/resume'
-import { CodeIcon } from './Icons'
+import { CodeIcon, LinkIcon } from './Icons'
 import MarkdownText from './MarkdownText'
 
 interface Props {
@@ -8,6 +8,8 @@ interface Props {
 
 export default function Projects({ data }: Props) {
   if (!data || data.length === 0) return null
+
+  const displayUrl = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/$/, '')
 
   return (
     <section className="resume-section">
@@ -29,6 +31,14 @@ export default function Projects({ data }: Props) {
               {entry.start} ~ {entry.end || "至今"}
             </span>
           </div>
+          {entry.url && (
+            <div className="resume-entry-meta">
+              <LinkIcon />
+              <a href={entry.url} target="_blank" rel="noopener noreferrer" style={{ marginLeft: '0.5mm' }}>
+                {displayUrl(entry.url)}
+              </a>
+            </div>
+          )}
           {entry.brief && (
             <div className="resume-entry-brief"><MarkdownText text={entry.brief} /></div>
           )}
