@@ -28,27 +28,83 @@ cd cv-maker
 npm install
 ```
 
-### Docker (alternative)
+### Docker
 
-If you prefer Docker, no Node.js installation is needed:
+If you prefer Docker, no Node.js installation is needed.
+
+**Build the image:**
 
 ```bash
 docker build -t cv-maker -f .devcontainer/Dockerfile .
-docker run -p 5173:5173 cv-maker dev
+```
+
+**Development (live preview):**
+
+```bash
+docker run -p 5173:5173 -v $(pwd)/contents:/workspace/contents cv-maker dev
+```
+
+Open http://localhost:5173. The `-v` flag mounts your local `contents/` so editing YAML files triggers hot reload. The `-p` flag forwards the dev server port.
+
+**Export PDF:**
+
+```bash
 docker run -v $(pwd)/dist:/workspace/dist cv-maker export
 ```
 
-Or with VSCode Dev Container: open the project and click "Reopen in Container".
+PDF saved to `dist/resume.pdf` on your host machine via the volume mount.
+
+**Other commands:**
+
+```bash
+docker run cv-maker build       # production build only (no PDF)
+docker run cv-maker clean       # clean build artifacts
+docker run cv-maker bash        # drop into a shell for debugging
+```
+
+**VSCode Dev Container (easiest):**
+
+Open the project in VSCode → click "Reopen in Container". The dev server starts automatically on port 5173 with `contents/` mounted directly. No manual Docker commands needed.
+
+**Clean up:**
+
+```bash
+docker rmi cv-maker              # remove the built image
+docker container prune           # remove stopped containers
+docker system prune -a           # full cleanup
+```
+
+> The Docker image includes Chromium (for Puppeteer) and Noto CJK fonts (for Chinese PDF rendering) automatically. No extra font setup needed.
+
+**Speed up in mainland China:**
+
+The image build pulls from Docker Hub, Debian mirrors, and npm — all slow by default in mainland China. To accelerate, create a `docker-compose.yml` or pass build args. The simplest approach: add a `.npmrc` for npm mirror, then rebuild:
+
+```bash
+# Create .npmrc for npm mirror (Tencent / Aliyun)
+echo "registry=https://registry.npmmirror.com" > .npmrc
+
+# Rebuild, apt sources mirror via sed in Dockerfile
+docker build -t cv-maker -f .devcontainer/Dockerfile .
+```
+
+For apt and Docker Hub mirrors, configure your Docker daemon (`/etc/docker/daemon.json`):
+
+```json
+{
+  "registry-mirrors": ["https://docker.1ms.run"]
+}
+```
+
+Then restart Docker: `sudo systemctl restart docker`.
 
 ### Fonts for PDF Export
 
-For Chinese PDF export, ensure Chinese fonts are installed:
+For Chinese PDF export without Docker, ensure Chinese fonts are installed:
 
 - **macOS**: PingFang SC (built-in)
 - **Windows**: Microsoft YaHei (built-in)
 - **Linux**: `sudo apt install fonts-noto-cjk`
-
-The Docker image includes Noto CJK fonts automatically.
 
 ## Basic Usage
 

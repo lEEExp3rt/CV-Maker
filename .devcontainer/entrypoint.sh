@@ -17,16 +17,24 @@ case "${1}" in
         echo "Starting dev server..."
         exec npm run dev
         ;;
-    export)
-        echo "Building and exporting PDF..."
-        exec npm run export
-        ;;
     build)
         echo "Building production bundle..."
         exec npm run build
         ;;
+    export)
+        echo "Building and exporting PDF..."
+        exec npm run export
+        ;;
+    clean)
+        echo "Cleaning build artifacts..."
+        exec npm run clean
+        ;;
+    bash)
+        exec /bin/bash
+        ;;
     *)
-        echo "Starting dev server (default)..."
+        echo "Usage: docker run cv-maker [dev|build|export|clean|bash]"
+        echo "Defaulting to dev server..."
         exec npm run dev
         ;;
 esac

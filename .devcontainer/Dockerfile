@@ -1,6 +1,9 @@
 FROM node:20-slim
 
-# Install Chromium and fonts for Puppeteer PDF export
+# In mainland China? Uncomment the next line for apt mirror:
+# RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources
+
+# Install Chromium for Puppeteer + CJK fonts for Chinese PDF export
 RUN apt-get update && apt-get install -y --no-install-recommends \
     chromium \
     libnss3 \
@@ -20,23 +23,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcairo2 \
     libasound2 \
     fonts-noto-cjk \
+    fonts-noto-cjk-extra \
     fonts-inter \
     && rm -rf /var/lib/apt/lists/*
 
-# Tell Puppeteer to use installed Chromium
+# Use system Chromium instead of downloading
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 WORKDIR /workspace
 
-# Copy package files and install deps
+# Install dependencies (leveraging layer cache)
 COPY package.json package-lock.json* ./
 RUN npm install
 
 # Copy project files
 COPY . .
 
-# Expose Vite dev server port
 EXPOSE 5173
 
 ENTRYPOINT ["/workspace/.devcontainer/entrypoint.sh"]
