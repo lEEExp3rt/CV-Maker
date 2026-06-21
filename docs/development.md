@@ -87,10 +87,46 @@ Then set `color_scheme: "mytheme"` in `contents/settings.yml`.
 
 ### Add a New Resume Section
 
-1. Define the type in `src/types/resume.ts`
-2. Create a component in `src/components/NewSection.tsx`
-3. Import and render it in `src/Resume.tsx`
-4. Add sample data to `contents/cv.yml`
+The resume is built as **Section → Entry** two-tier components. All sections share the same CSS classes — you never need to write new CSS for a new section.
+
+**1. Define the type** in `src/types/resume.ts`:
+
+```ts
+export interface NewSectionEntry {
+  title: string
+  subtitle?: string
+  date: string
+  details: string[]
+}
+// Add to ResumeData:
+new_section?: NewSectionEntry[]
+```
+
+**2. Create the component** in `src/components/NewSection.tsx` using the shared templates:
+
+- `.resume-section` — outermost wrapper
+- `.resume-section-title` — section heading (with icon)
+- `.resume-entry` — one per data item
+- `.resume-entry-header` — flex row: title left, date right
+- `.resume-entry-header-left` — title + inline meta (wraps cleanly)
+- `.resume-entry-title` / `.resume-entry-subtitle` — item name + English
+- `.resume-entry-meta-inline` — `|` separated metadata
+- `.resume-entry-meta-sep` — the `|` separator (auto-hidden on wrap)
+- `.resume-entry-date` — right-aligned date
+- `.resume-entry-brief` — brief summary (optional)
+- `.resume-details` / `.resume-details li` — bullet points
+
+Copy the pattern from any existing section (e.g. `Education.tsx`). The component receives `{ data, lang }` and returns `null` when data is empty.
+
+**3. Register** in `src/Resume.tsx`:
+
+```tsx
+<NewSection data={data.new_section || []} lang={lang} />
+```
+
+**4. Add sample data** to `contents/cv.yml`.
+
+No CSS changes needed — all spacing, alignment, colors, and print styles are inherited from the shared classes.
 
 ### Customize Typography
 
