@@ -5,9 +5,10 @@ import MarkdownText from './MarkdownText'
 
 interface Props {
   data: ProjectEntry[]
+  lang?: string
 }
 
-export default function Projects({ data }: Props) {
+export default function Projects({ data, lang = 'zh' }: Props) {
   if (!data || data.length === 0) return null
 
   const displayUrl = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/$/, '')
@@ -15,7 +16,7 @@ export default function Projects({ data }: Props) {
   return (
     <section className="resume-section">
       <h2 className="resume-section-title">
-        <CodeIcon /> 项目经历 PROJECTS
+        <CodeIcon /> {lang === 'zh' ? '项目经历 PROJECTS' : 'PROJECTS'}
       </h2>
       {data.map((entry, i) => (
         <div className="resume-entry" key={`proj-${i}`}>

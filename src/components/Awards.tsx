@@ -3,15 +3,16 @@ import { AwardIcon, TrophyIcon } from './Icons'
 
 interface Props {
   data: AwardEntry[]
+  lang?: string
 }
 
-export default function Awards({ data }: Props) {
+export default function Awards({ data, lang = 'zh' }: Props) {
   if (!data || data.length === 0) return null
 
   return (
     <section className="resume-section">
       <h2 className="resume-section-title">
-        <TrophyIcon /> 获奖情况 AWARDS
+        <TrophyIcon /> {lang === 'zh' ? '获奖情况 AWARDS' : 'AWARDS'}
       </h2>
       <ul className="resume-awards-list">
         {data.map((award, i) => (

@@ -16,6 +16,7 @@ interface Props {
 
 export default function Resume({ data, settings, isPrintMode }: Props) {
   const cssVars = useMemo(() => buildCSSVariables(settings), [settings])
+  const lang = settings.language || 'zh'
 
   const handlePrint = () => {
     window.print()
@@ -23,7 +24,6 @@ export default function Resume({ data, settings, isPrintMode }: Props) {
 
   return (
     <>
-      {/* Toolbar — hidden in print mode */}
       {!isPrintMode && (
         <div className="resume-toolbar">
           <button className="primary" onClick={handlePrint}>
@@ -32,14 +32,13 @@ export default function Resume({ data, settings, isPrintMode }: Props) {
         </div>
       )}
 
-      {/* A4 Resume Page */}
       <div className="resume-page" style={cssVars as React.CSSProperties}>
         <PersonalInfo data={data.personal_info} />
-        <Education data={data.educations} />
-        <Internship data={data.internships} />
-        <Projects data={data.projects} />
-        <Skills data={data.skills || []} />
-        <Awards data={data.awards || []} />
+        <Education data={data.educations} lang={lang} />
+        <Internship data={data.internships} lang={lang} />
+        <Projects data={data.projects} lang={lang} />
+        <Skills data={data.skills || []} lang={lang} />
+        <Awards data={data.awards || []} lang={lang} />
       </div>
     </>
   )

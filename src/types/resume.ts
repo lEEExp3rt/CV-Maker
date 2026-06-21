@@ -92,6 +92,8 @@ export interface ResumeData {
 
 export type ColorScheme = 'navy' | 'slate' | 'forest' | 'burgundy' | 'teal' | 'charcoal'
 
+export type Language = 'zh' | 'en'
+
 export interface FontConfig {
   chinese: string
   english: string
@@ -99,5 +101,6 @@ export interface FontConfig {
 
 export interface Settings {
   color_scheme?: ColorScheme
+  language?: Language
   font?: FontConfig
 }

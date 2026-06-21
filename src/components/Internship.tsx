@@ -5,15 +5,16 @@ import MarkdownText from './MarkdownText'
 
 interface Props {
   data: InternshipEntry[]
+  lang?: string
 }
 
-export default function Internship({ data }: Props) {
+export default function Internship({ data, lang = 'zh' }: Props) {
   if (!data || data.length === 0) return null
 
   return (
     <section className="resume-section">
       <h2 className="resume-section-title">
-        <BriefcaseIcon /> 实习经历 INTERNSHIPS
+        <BriefcaseIcon /> {lang === 'zh' ? '实习经历 INTERNSHIPS' : 'INTERNSHIPS'}
       </h2>
       {data.map((entry, i) => {
         const meta = [entry.department, entry.role].filter(Boolean).join(' · ')

@@ -4,15 +4,16 @@ import HeaderLeft from './HeaderLeft'
 
 interface Props {
   data: EducationEntry[]
+  lang?: string
 }
 
-export default function Education({ data }: Props) {
+export default function Education({ data, lang = 'zh' }: Props) {
   if (!data || data.length === 0) return null
 
   return (
     <section className="resume-section">
       <h2 className="resume-section-title">
-        <GraduationCapIcon /> 教育背景 EDUCATION
+        <GraduationCapIcon /> {lang === 'zh' ? '教育背景 EDUCATION' : 'EDUCATION'}
       </h2>
       {data.map((entry, i) => {
         const meta = [entry.degree, entry.major, entry.gpa && `GPA ${entry.gpa}`, entry.ranking && `Rank ${entry.ranking}`]
@@ -40,7 +41,7 @@ export default function Education({ data }: Props) {
             </div>
             {entry.courses && entry.courses.length > 0 && (
               <div className="resume-courses">
-                核心课程: {entry.courses.join(', ')}
+                {lang === 'zh' ? '核心课程' : 'Core Courses'}: {entry.courses.join(', ')}
               </div>
             )}
           </div>

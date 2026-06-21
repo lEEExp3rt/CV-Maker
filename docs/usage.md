@@ -283,6 +283,14 @@ Omit `icon` and a default link icon is used.
 
 All visual configuration is in `contents/settings.yml`.
 
+### Language
+
+```yaml
+language: "zh"    # "zh" (中文) or "en" (English)
+```
+
+Controls section titles and labels. When set to `"en"`, all Chinese text in section headings is removed (e.g., "教育背景 EDUCATION" → "EDUCATION", "核心课程" → "Core Courses").
+
 ### Color Scheme
 
 ```yaml

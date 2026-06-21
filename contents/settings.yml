@@ -1,5 +1,8 @@
 # CV-Maker Settings
 
+# Language: "zh" (中文) or "en" (English)
+language: "zh"
+
 # Color scheme:
 #   "navy" (深蓝) | "slate" (石板灰) | "forest" (森林绿)
 #   "burgundy" (勃艮第红) | "teal" (青墨) | "charcoal" (炭黑)

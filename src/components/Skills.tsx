@@ -3,15 +3,16 @@ import { CpuIcon } from './Icons'
 
 interface Props {
   data: SkillCategory[]
+  lang?: string
 }
 
-export default function Skills({ data }: Props) {
+export default function Skills({ data, lang = 'zh' }: Props) {
   if (!data || data.length === 0) return null
 
   return (
     <section className="resume-section">
       <h2 className="resume-section-title">
-        <CpuIcon /> 专业技能 SKILLS
+        <CpuIcon /> {lang === 'zh' ? '专业技能 SKILLS' : 'SKILLS'}
       </h2>
       <div className="resume-skills-list">
         {data.map((cat, i) => (
