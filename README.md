@@ -1,6 +1,6 @@
 # CV-Maker
 
-A clean, professional CV/Resume maker for tech job applicants. Built with React + Vite, designed with content-style separation — fill in YAML files, run one command, get a polished PDF.
+A clean, professional CV/Resume maker for Chinese university students applying for tech internships and campus recruitment. Built with React + Vite, designed with content-style separation — fill in YAML files, run one command, get a polished PDF.
 
 ## Features
 

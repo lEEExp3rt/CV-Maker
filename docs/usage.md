@@ -49,17 +49,18 @@ Open http://localhost:5173. The `-v` flag mounts your local `contents/` so editi
 **Export PDF:**
 
 ```bash
-docker run -v $(pwd)/dist:/workspace/dist cv-maker export
+docker run --rm \
+  -v "$(pwd)/contents:/workspace/contents" \
+  -v "$(pwd)/dist:/workspace/dist" \
+  cv-maker export
 ```
-
-PDF saved to `dist/resume.pdf` on your host machine via the volume mount.
 
 **Other commands:**
 
 ```bash
-docker run cv-maker build       # production build only (no PDF)
-docker run cv-maker clean       # clean build artifacts
-docker run cv-maker bash        # drop into a shell for debugging
+docker run cv-maker build          # production build only (no PDF)
+docker run cv-maker clean          # clean build artifacts
+docker run -it cv-maker bash       # interactive shell for debugging
 ```
 
 **VSCode Dev Container (easiest):**
@@ -105,6 +106,68 @@ For Chinese PDF export without Docker, ensure Chinese fonts are installed:
 - **macOS**: PingFang SC (built-in)
 - **Windows**: Microsoft YaHei (built-in)
 - **Linux**: `sudo apt install fonts-noto-cjk`
+
+## Recommended Workflow
+
+You'll likely need multiple resumes — one for each company or position. Here are two clean ways to manage them:
+
+### Git branches (recommended for developers)
+
+Clone once, one branch per resume:
+
+```bash
+git clone https://github.com/lEEExp3rt/CV-Maker cv-maker
+cd cv-maker
+npm install
+
+# Create a branch for each target
+git checkout -b resume/alibaba
+# edit contents/cv.yml → commit
+
+git checkout -b resume/bytedance
+# edit contents/cv.yml → commit
+```
+
+Switch branches to switch resumes. Each branch has its own `cv.yml`, photo, and settings — fully isolated.
+
+### Docker containers (no Git needed)
+
+One named container per resume, **without volume mounts** to keep data isolated:
+
+```bash
+docker build -t cv-maker -f .devcontainer/Dockerfile .
+
+# Resume for Alibaba
+docker run -d --name cv-alibaba -p 5173:5173 cv-maker dev
+
+# Resume for ByteDance (different port)
+docker run -d --name cv-bytedance -p 5174:5173 cv-maker dev
+```
+
+> **Important:** do NOT use `-v` volume mounts with this approach. Each container keeps its own copy of `contents/` inside — edit files via `docker exec -it cv-alibaba bash` or `docker cp`.
+
+To switch resumes, just start the container you need:
+
+```bash
+docker start cv-alibaba     # → http://localhost:5173
+docker start cv-bytedance   # → http://localhost:5174
+```
+
+Export PDF from any container:
+
+```bash
+docker exec cv-alibaba npm run export
+docker cp cv-alibaba:/workspace/dist/resume.pdf ./resume-alibaba.pdf
+```
+
+### Clean up old containers
+
+```bash
+docker stop cv-alibaba cv-bytedance
+docker rm cv-alibaba cv-bytedance
+```
+
+---
 
 ## Basic Usage
 
