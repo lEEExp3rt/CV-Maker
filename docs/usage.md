@@ -4,7 +4,7 @@
 
 ### Prerequisites
 
-- **Node.js** >= 18
+- **Node.js** >= 20
 - **npm** >= 9
 
 Check your versions:
@@ -18,7 +18,7 @@ If you need to install or upgrade Node.js:
 
 - **macOS**: `brew install node` or download from [nodejs.org](https://nodejs.org)
 - **Windows**: download installer from [nodejs.org](https://nodejs.org)
-- **Linux**: use [nvm](https://github.com/nvm-sh/nvm) — `nvm install 18 && nvm use 18`
+- **Linux**: use [nvm](https://github.com/nvm-sh/nvm) — `nvm install 22 && nvm use 22`
 
 ### Install Project
 
