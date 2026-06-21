@@ -11,13 +11,13 @@ export default function Awards({ data }: Props) {
   return (
     <section className="resume-section">
       <h2 className="resume-section-title">
-        <AwardIcon /> 获奖情况 AWARDS
+        <TrophyIcon /> 获奖情况 AWARDS
       </h2>
       <ul className="resume-awards-list">
         {data.map((award, i) => (
           <li key={`award-${i}`}>
             <span className="resume-awards-item">
-              <TrophyIcon />
+              <AwardIcon size={10} />
               <span>{award.name}</span>
             </span>
             <span className="award-date">{award.date}</span>
