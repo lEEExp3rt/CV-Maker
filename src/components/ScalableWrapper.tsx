@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, type ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
-  nativeWidth?: number // natural width in px, default A4 210mm ≈ 794px
+  nativeWidth?: number
 }
 
 export default function ScalableWrapper({ children, nativeWidth = 794 }: Props) {
@@ -12,12 +12,7 @@ export default function ScalableWrapper({ children, nativeWidth = 794 }: Props) 
   useEffect(() => {
     const el = ref.current
     if (!el) return
-
-    const calc = () => {
-      const w = el.offsetWidth
-      setScale(Math.min(1, w / nativeWidth))
-    }
-
+    const calc = () => setScale(Math.min(1, el.offsetWidth / nativeWidth))
     calc()
     const obs = new ResizeObserver(calc)
     obs.observe(el)
@@ -30,7 +25,7 @@ export default function ScalableWrapper({ children, nativeWidth = 794 }: Props) 
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
         width: nativeWidth,
-        marginBottom: -(nativeWidth * (1 - scale)),
+        marginBottom: scale < 1 ? -(nativeWidth * (1 - scale)) : 0,
       }}>
         {children}
       </div>

@@ -154,8 +154,9 @@
 
 /* --- Left Panel --- */
 .editor-panel {
-  flex: 0 0 380px;
-  max-width: 440px;
+  flex: 0 0 32%;
+  max-width: 480px;
+  min-width: 300px;
   background: #fff;
   border-right: 1px solid #e2e8f0;
   display: flex;
@@ -432,6 +433,51 @@
   background: #f0f4ff;
   border-color: #93c5fd;
   color: #2563eb;
+}
+
+/* --- Editor panel collapse --- */
+.editor-panel-collapsed {
+  flex: 0 0 36px !important;
+  min-width: 36px !important;
+  max-width: 36px !important;
+  border-right: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+.editor-panel-collapsed .editor-panel-header,
+.editor-panel-collapsed .editor-tabs,
+.editor-panel-collapsed .editor-form,
+.editor-panel-collapsed .editor-actions,
+.editor-panel-collapsed .editor-panel-collapse-btn,
+.editor-panel-collapsed > :not(.editor-panel-toggle) {
+  display: none !important;
+}
+
+.editor-panel-toggle {
+  width: 100%; height: 36px;
+  border: none; background: none;
+  cursor: pointer; font-size: 14px;
+  color: #64748b; display: flex;
+  align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.editor-panel-toggle:hover { color: #1a365d; background: #f1f5f9; }
+
+.editor-panel-collapse-btn {
+  width: 22px; height: 22px; border: none; background: none;
+  cursor: pointer; font-size: 10px; color: #94a3b8;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 4px; flex-shrink: 0; margin-right: 6px;
+  transition: all 0.1s;
+}
+.editor-panel-collapse-btn:hover { background: #e2e8f0; color: #475569; }
+
+.editor-panel-resize-h {
+  width: 4px; cursor: col-resize; background: transparent;
+  flex-shrink: 0; transition: background 0.15s;
+}
+.editor-panel-resize-h:hover { background: #cbd5e0; }
+.editor-panel-collapsed + .editor-panel-resize-h {
+  display: none;
 }
 
 /* --- Right Preview Area --- */

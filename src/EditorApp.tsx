@@ -104,8 +104,31 @@ export default function EditorApp() {
 
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>('cv-editor-color', 'navy')
   const [language, setLanguage] = useLocalStorage<Language>('cv-editor-lang', 'zh')
-
+  const [panelCollapsed, setPanelCollapsed] = useState(false)
   const settings = { color_scheme: colorScheme, language }
+
+  const handlePanelResize = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    const panel = document.querySelector('.editor-panel') as HTMLElement
+    if (!panel) return
+    const startX = e.clientX
+    const startW = panel.offsetWidth
+    const onMove = (ev: MouseEvent) => {
+      const w = Math.max(280, Math.min(560, startW + (ev.clientX - startX)))
+      panel.style.flex = `0 0 ${w}px`
+      panel.style.maxWidth = 'none'
+    }
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseup', onUp)
+      document.body.style.cursor = ''
+      document.body.style.userSelect = ''
+    }
+    document.body.style.cursor = 'col-resize'
+    document.body.style.userSelect = 'none'
+    document.addEventListener('mousemove', onMove)
+    document.addEventListener('mouseup', onUp)
+  }, [])
 
   return (
     <Layout>
@@ -122,8 +145,24 @@ export default function EditorApp() {
       />
 
       {/* Left Editor Panel */}
-      <div className="editor-panel">
+      <div className={`editor-panel ${panelCollapsed ? 'editor-panel-collapsed' : ''}`}>
+        {/* Collapsed toggle */}
+        {panelCollapsed && (
+          <button
+            className="editor-panel-toggle"
+            onClick={() => setPanelCollapsed(false)}
+            title="展开编辑面板"
+          >
+            ☰
+          </button>
+        )}
+
         <div className="editor-panel-header">
+          <button
+            onClick={() => setPanelCollapsed(true)}
+            className="editor-panel-collapse-btn"
+            title="收起编辑面板"
+          >◀</button>
           <h2>{activeProject?.title || 'CV-Maker'}</h2>
           <div className="editor-actions">
             <button onClick={handleExport}>导出 JSON</button>
@@ -209,6 +248,13 @@ export default function EditorApp() {
           )}
         </div>
       </div>
+
+      {/* Panel resize handle */}
+      <div
+        onMouseDown={handlePanelResize}
+        className="editor-panel-resize-h"
+        title="拖拽调整宽度"
+      />
 
       {/* Vertical resize handle (small screens) */}
       <div className="editor-panel-resize"
