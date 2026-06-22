@@ -69,28 +69,29 @@ export default function ProjectSidebar({
 
   return (
     <>
-      {/* Toggle button when collapsed */}
+      <div
+        ref={sidebarRef}
+        className={`project-sidebar ${collapsed ? 'collapsed' : ''}`}
+        style={{ width: collapsed ? undefined : width }}
+      >
+      {/* Collapsed toggle */}
       {collapsed && (
         <button
-          className="sidebar-toggle sidebar-toggle-collapsed"
+          className="sidebar-toggle sidebar-collapsed-toggle"
           onClick={() => setCollapsed(false)}
           title="展开项目列表"
+          style={{ width: '100%', height: 36, border: 'none', background: 'none',
+            cursor: 'pointer', fontSize: 14, color: '#64748b',
+            alignItems: 'center', justifyContent: 'center' }}
         >
           ☰
         </button>
       )}
 
-      <div
-        ref={sidebarRef}
-        className={`project-sidebar ${collapsed ? 'collapsed' : ''}`}
-        style={{ width: collapsed ? 0 : width }}
-      >
-        {!collapsed && (
-          <>
-            <div className="sidebar-header">
-              <span className="sidebar-title">简历项目</span>
-              <button className="sidebar-toggle" onClick={() => setCollapsed(true)} title="收起">◀</button>
-            </div>
+      <div className="sidebar-header">
+        <span className="sidebar-title">简历项目</span>
+        <button className="sidebar-toggle" onClick={() => setCollapsed(true)} title="收起">◀</button>
+      </div>
 
             <div className="sidebar-body">
               {/* Project list */}
@@ -166,14 +167,10 @@ export default function ProjectSidebar({
                 </button>
               )}
             </div>
-          </>
-        )}
 
         {/* Resize handle */}
-        {!collapsed && (
-          <div className="sidebar-resize-handle" onMouseDown={startResize} />
-        )}
-      </div>
+        <div className="sidebar-resize-handle" onMouseDown={startResize} />
+        </div>
 
       {/* Delete confirmation modal */}
       <Modal
