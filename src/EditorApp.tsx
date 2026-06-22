@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from 'react'
 import { useProjectManager } from './hooks/useProjectManager'
 import { DEFAULT_RESUME_DATA } from './data/defaults'
 import Resume from './Resume'
+import Layout from './components/Layout'
 import ProjectSidebar from './components/editor/ProjectSidebar'
 import Modal from './components/editor/Modal'
 import PersonalInfoEditor from './components/editor/PersonalInfoEditor'
@@ -102,6 +103,7 @@ export default function EditorApp() {
   const settings = { color_scheme: 'navy' as const, language: 'zh' as const }
 
   return (
+    <Layout>
     <div className="editor-layout">
       {/* Project Sidebar */}
       <ProjectSidebar
@@ -245,6 +247,7 @@ export default function EditorApp() {
       >
         确定要清空「{activeProject?.title}」的所有数据吗？此操作不可撤销。
       </Modal>
-    </div>
+      </div>
+    </Layout>
   )
 }

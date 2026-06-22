@@ -2,13 +2,12 @@
    CV-Maker — Visual Editor Styles
    ============================================================ */
 
-/* Override global centering — editor is full-width */
-body { justify-content: flex-start !important; padding: 0 !important; }
-#root { justify-content: flex-start !important; }
+body { padding: 0 !important; }
+#root { display: block !important; }
 
 .editor-layout {
   display: flex;
-  height: 100vh;
+  height: 100%;
   background: #e9eef3;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
