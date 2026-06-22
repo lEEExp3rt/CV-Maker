@@ -29,19 +29,21 @@ export default function Layout({ children }: Props) {
           CV-Maker
         </a>
 
-        {/* Nav links */}
+        {/* Nav links — use buttons for reliable SPA navigation on GitHub Pages */}
         {[
           { path: BASE === '/' ? '/' : BASE.slice(0, -1), label: '首页' },
           { path: BASE + 'editor', label: '编辑器' },
           { path: BASE + 'docs/usage', label: '文档' },
         ].map(({ path: p, label }) => (
-          <a key={p} href={p} onClick={(e) => { if (path === p || path === p + '/') e.preventDefault() }}
+          <button
+            key={p}
+            onClick={() => { if (!isActive(p)) window.location.assign(p) }}
             style={{
               padding: '7px 14px', fontSize: 12, fontWeight: 500,
               color: isActive(p) ? '#fff' : '#94a3b8',
               background: isActive(p) ? 'rgba(255,255,255,0.1)' : 'transparent',
-              borderRadius: 6, textDecoration: 'none',
-              transition: 'all 0.12s',
+              borderRadius: 6, border: 'none', cursor: isActive(p) ? 'default' : 'pointer',
+              fontFamily: 'inherit', transition: 'all 0.12s',
             }}
             onMouseEnter={(e) => {
               if (!isActive(p)) (e.target as HTMLElement).style.color = '#e2e8f0'
@@ -51,7 +53,7 @@ export default function Layout({ children }: Props) {
             }}
           >
             {label}
-          </a>
+          </button>
         ))}
 
         {/* GitHub link — pushed to right */}
