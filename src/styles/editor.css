@@ -157,8 +157,8 @@ body { padding: 0 !important; }
 
 /* --- Left Panel --- */
 .editor-panel {
-  width: 420px;
-  min-width: 420px;
+  flex: 0 0 380px;
+  max-width: 440px;
   background: #fff;
   border-right: 1px solid #e2e8f0;
   display: flex;
@@ -185,6 +185,13 @@ body { padding: 0 !important; }
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-right: 8px;
+  flex-shrink: 1;
+}
+
+@media (max-width: 540px) {
+  .editor-panel-header h2 {
+    font-size: 11px;
+  }
 }
 
 .editor-actions {
@@ -221,6 +228,18 @@ body { padding: 0 !important; }
 .editor-actions button.accent:hover {
   background: #152b4d;
   opacity: 1;
+}
+
+@media (max-width: 540px) {
+  .editor-actions {
+    gap: 3px;
+  }
+
+  .editor-actions button {
+    padding: 4px 6px;
+    font-size: 9px;
+    border-radius: 4px;
+  }
 }
 
 /* --- Tabs --- */
@@ -433,20 +452,59 @@ body { padding: 0 !important; }
 }
 
 /* --- Responsive --- */
-@media (max-width: 900px) {
+@media (max-width: 860px) {
   .editor-layout {
     flex-direction: column;
   }
 
+  .project-sidebar {
+    width: 100% !important;
+    max-height: 120px;
+  }
+
+  .project-sidebar.collapsed {
+    width: 36px !important;
+    max-height: 36px;
+  }
+
   .editor-panel {
-    width: 100%;
-    min-width: 0;
-    max-height: 50vh;
+    flex: none;
+    max-width: none;
+    min-height: 0;
+  }
+
+  .editor-panel-resize {
+    display: block;
+    height: 6px;
+    background: #e2e8f0;
+    cursor: row-resize;
+    flex-shrink: 0;
+  }
+
+  .editor-panel-resize:hover {
+    background: #cbd5e0;
   }
 
   .editor-preview {
     padding: 10px;
-    overflow: auto;
+    flex: 1;
+    min-height: 30vh;
+  }
+}
+
+@media (max-width: 400px) {
+  .editor-panel-header h2 {
+    display: none;
+  }
+
+  .editor-actions button {
+    padding: 3px 5px;
+    font-size: 8px;
+  }
+
+  .editor-tab {
+    padding: 6px 8px;
+    font-size: 10px;
   }
 }
 

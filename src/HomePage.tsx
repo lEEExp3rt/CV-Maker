@@ -1,5 +1,6 @@
 import Layout from './components/Layout'
 import Resume from './Resume'
+import ScalableWrapper from './components/ScalableWrapper'
 import { DEMO_NO_PHOTO, DEMO_WITH_PHOTO } from './DemoPage'
 
 export default function HomePage() {
@@ -69,20 +70,24 @@ export default function HomePage() {
             效果展示
           </h2>
           <div style={{ display: 'flex', gap: 24, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flex: '1 1 400px', maxWidth: 800, minWidth: 300 }}>
               <span style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center' }}>无照片</span>
-              <div style={{ background: '#fff', borderRadius: 8, boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
-                <Resume data={DEMO_NO_PHOTO} settings={{ color_scheme: 'navy', language: 'zh' }} />
-              </div>
+              <ScalableWrapper>
+                <div style={{ background: '#fff', borderRadius: 8, boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
+                  <Resume data={DEMO_NO_PHOTO} settings={{ color_scheme: 'navy', language: 'zh' }} />
+                </div>
+              </ScalableWrapper>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flex: '1 1 400px', maxWidth: 800, minWidth: 300 }}>
               <span style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center' }}>有照片</span>
-              <div style={{ background: '#fff', borderRadius: 8, boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
-                <Resume data={DEMO_WITH_PHOTO} settings={{ color_scheme: 'navy', language: 'zh' }} />
+              <ScalableWrapper>
+                <div style={{ background: '#fff', borderRadius: 8, boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
+                  <Resume data={DEMO_WITH_PHOTO} settings={{ color_scheme: 'navy', language: 'zh' }} />
+                </div>
+              </ScalableWrapper>
               </div>
             </div>
           </div>
-        </div>
 
         {/* Footer */}
         <hr style={{ marginTop: 48, border: 'none', borderTop: '1px solid #cbd5e0' }} />

@@ -210,6 +210,29 @@ export default function EditorApp() {
         </div>
       </div>
 
+      {/* Vertical resize handle (small screens) */}
+      <div className="editor-panel-resize"
+        onMouseDown={(e) => {
+          e.preventDefault()
+          const panel = (e.target as HTMLElement).previousElementSibling as HTMLElement
+          const startY = e.clientY
+          const startH = panel.offsetHeight
+          const onMove = (ev: MouseEvent) => {
+            panel.style.height = Math.max(100, startH + (ev.clientY - startY)) + 'px'
+          }
+          const onUp = () => {
+            document.removeEventListener('mousemove', onMove)
+            document.removeEventListener('mouseup', onUp)
+            document.body.style.cursor = ''
+            document.body.style.userSelect = ''
+          }
+          document.body.style.cursor = 'row-resize'
+          document.body.style.userSelect = 'none'
+          document.addEventListener('mousemove', onMove)
+          document.addEventListener('mouseup', onUp)
+        }}
+      />
+
       {/* Right Preview */}
       <div className="editor-preview">
         <Resume data={data} settings={settings} />
