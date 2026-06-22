@@ -30,6 +30,10 @@ export default function EditorApp() {
 
   const [activeTab, setActiveTab] = useState('personal')
   const [showReset, setShowReset] = useState(false)
+  const [showExport, setShowExport] = useState(false)
+  const [showImport, setShowImport] = useState(false)
+  const [importText, setImportText] = useState('')
+  const [copied, setCopied] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const data = activeProject?.data ?? DEFAULT_RESUME_DATA
 
@@ -38,19 +42,34 @@ export default function EditorApp() {
     [updateActiveData]
   )
 
-  const handleExport = useCallback(() => {
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const jsonString = JSON.stringify(data, null, 2)
+
+  const handleExport = useCallback(() => setShowExport(true), [])
+  const handleImport = useCallback(() => { setShowImport(true); setImportText('') }, [])
+
+  const handleCopyJSON = useCallback(() => {
+    navigator.clipboard.writeText(jsonString)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }, [jsonString])
+
+  const handleDownloadJSON = useCallback(() => {
+    const blob = new Blob([jsonString], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
     a.download = `${activeProject?.title || 'resume'}.json`
     a.click()
     URL.revokeObjectURL(url)
-  }, [data, activeProject])
+  }, [jsonString, activeProject])
 
-  const handleImport = useCallback(() => {
-    fileInputRef.current?.click()
-  }, [])
+  const handleImportText = useCallback(() => {
+    try {
+      const parsed = JSON.parse(importText)
+      updateActiveData(parsed)
+      setShowImport(false)
+    } catch { alert('JSON 格式无效') }
+  }, [importText, updateActiveData])
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -60,6 +79,7 @@ export default function EditorApp() {
       try {
         const parsed = JSON.parse(reader.result as string)
         updateActiveData(parsed)
+        setShowImport(false)
       } catch { alert('Invalid JSON file') }
     }
     reader.readAsText(file)
@@ -101,7 +121,6 @@ export default function EditorApp() {
           <div className="editor-actions">
             <button onClick={handleExport}>导出 JSON</button>
             <button onClick={handleImport}>导入 JSON</button>
-            <input ref={fileInputRef} type="file" accept=".json" style={{ display: 'none' }} onChange={handleFileChange} />
             <button onClick={handleReset}>清空</button>
             <button className="accent" onClick={handlePrint}>打印 PDF</button>
           </div>
@@ -147,6 +166,73 @@ export default function EditorApp() {
       <div className="editor-preview">
         <Resume data={data} settings={settings} />
       </div>
+
+      {/* Export modal */}
+      <Modal
+        open={showExport}
+        title="导出 JSON"
+        confirmLabel="下载文件"
+        cancelLabel="关闭"
+        onConfirm={() => { handleDownloadJSON(); setShowExport(false) }}
+        onCancel={() => { setShowExport(false); setCopied(false) }}
+      >
+        <div style={{ marginBottom: 8, display: 'flex', justifyContent: 'flex-end' }}>
+          <button
+            onClick={handleCopyJSON}
+            style={{
+              padding: '4px 12px', fontSize: 10, border: '1px solid #cbd5e0',
+              borderRadius: 4, background: copied ? '#f0fdf4' : '#fff', cursor: 'pointer',
+              color: copied ? '#16a34a' : '#64748b', fontFamily: 'inherit',
+            }}
+          >
+            {copied ? '✓ 已复制' : '📋 复制'}
+          </button>
+        </div>
+        <textarea
+          readOnly
+          value={jsonString}
+          style={{
+            width: '100%', height: 260, padding: 8, fontSize: 10, fontFamily: '"JetBrains Mono", "Fira Code", monospace',
+            border: '1px solid #e2e8f0', borderRadius: 6, resize: 'vertical', background: '#f8fafc',
+            color: '#334155', lineHeight: 1.5, whiteSpace: 'pre', overflowWrap: 'normal', overflowX: 'auto',
+          }}
+          onFocus={(e) => e.target.select()}
+        />
+      </Modal>
+
+      {/* Import modal */}
+      <Modal
+        open={showImport}
+        title="导入 JSON"
+        confirmLabel="导入"
+        cancelLabel="取消"
+        onConfirm={handleImportText}
+        onCancel={() => setShowImport(false)}
+      >
+        <textarea
+          value={importText}
+          onChange={(e) => setImportText(e.target.value)}
+          placeholder="在此粘贴 JSON 代码..."
+          style={{
+            width: '100%', height: 260, padding: 8, fontSize: 10, fontFamily: '"JetBrains Mono", "Fira Code", monospace',
+            border: '1px solid #e2e8f0', borderRadius: 6, resize: 'vertical',
+            color: '#334155', lineHeight: 1.5,
+          }}
+        />
+        <div style={{ marginTop: 8, textAlign: 'center' }}>
+          <span style={{ fontSize: 10, color: '#94a3b8' }}>或 </span>
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            style={{
+              fontSize: 10, color: '#3b82f6', background: 'none', border: 'none',
+              cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit',
+            }}
+          >
+            从文件导入
+          </button>
+          <input ref={fileInputRef} type="file" accept=".json" style={{ display: 'none' }} onChange={handleFileChange} />
+        </div>
+      </Modal>
 
       {/* Reset confirmation modal */}
       <Modal
