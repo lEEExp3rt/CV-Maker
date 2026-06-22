@@ -47,7 +47,7 @@ export default function Layout({ children }: Props) {
       </nav>
 
       {/* Page content */}
-      <div style={{ flex: 1, overflow: 'hidden' }}>
+      <div style={{ flex: 1, overflow: 'auto' }}>
         {children}
       </div>
     </div>
