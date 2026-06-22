@@ -35,7 +35,6 @@ export default function Layout({ children }: Props) {
           if (path === '/') e.preventDefault()
         }}>首页</a>
         <a href="/editor" style={linkStyle('/editor')}>编辑器</a>
-        <a href="/examples" style={linkStyle('/examples')}>示例</a>
         <a
           href="https://github.com/1EEExp3rt/CV-Maker"
           target="_blank"

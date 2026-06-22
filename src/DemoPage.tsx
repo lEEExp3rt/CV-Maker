@@ -2,7 +2,7 @@ import Layout from './components/Layout'
 import Resume from './Resume'
 import type { ResumeData } from './types/resume'
 
-const DEMO_NO_PHOTO: ResumeData = {
+export const DEMO_NO_PHOTO: ResumeData = {
   personal_info: {
     name: '张三',
     photo: '',
@@ -102,7 +102,7 @@ const DEMO_NO_PHOTO: ResumeData = {
 }
 
 // Second demo — same data but with photo
-const DEMO_WITH_PHOTO: ResumeData = {
+export const DEMO_WITH_PHOTO: ResumeData = {
   ...DEMO_NO_PHOTO,
   personal_info: {
     ...DEMO_NO_PHOTO.personal_info,

@@ -1,4 +1,6 @@
 import Layout from './components/Layout'
+import Resume from './Resume'
+import { DEMO_NO_PHOTO, DEMO_WITH_PHOTO } from './DemoPage'
 
 export default function HomePage() {
   return (
@@ -26,7 +28,10 @@ export default function HomePage() {
           }}>
             开始制作
           </a>
-          <a href="/examples" style={{
+          <a href="#demos" onClick={(e) => {
+            e.preventDefault()
+            document.getElementById('demos')?.scrollIntoView({ behavior: 'smooth' })
+          }} style={{
             padding: '10px 28px', fontSize: 14, fontWeight: 500,
             background: '#fff', color: '#1a365d', borderRadius: 8,
             textDecoration: 'none', border: '1px solid #cbd5e0',
@@ -58,11 +63,32 @@ export default function HomePage() {
           ))}
         </div>
 
+        {/* Demo samples */}
+        <div id="demos" style={{ marginTop: 48, textAlign: 'left' }}>
+          <h2 style={{ fontSize: 18, fontWeight: 600, color: '#0f172a', textAlign: 'center', marginBottom: 20, width: '100%' }}>
+            效果展示
+          </h2>
+          <div style={{ display: 'flex', gap: 24, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center' }}>无照片</span>
+              <div style={{ background: '#fff', borderRadius: 8, boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
+                <Resume data={DEMO_NO_PHOTO} settings={{ color_scheme: 'navy', language: 'zh' }} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center' }}>有照片</span>
+              <div style={{ background: '#fff', borderRadius: 8, boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
+                <Resume data={DEMO_WITH_PHOTO} settings={{ color_scheme: 'navy', language: 'zh' }} />
+              </div>
+            </div>
+          </div>
+        </div>
+
         <hr style={{
-          marginTop: 56, border: 'none', borderTop: '1px solid #cbd5e0', width: '100%',
+          marginTop: 48, border: 'none', borderTop: '1px solid #cbd5e0', width: '100%',
         }} />
         <div style={{
-          paddingTop: 16,
+          paddingTop: 12, paddingBottom: 32,
           display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap',
         }}>
           {[
