@@ -1,184 +1,94 @@
-# Development Guide
+# 开发指南
 
-## Project Overview
+## 架构总览
 
-CV-Maker is a single-page React application built with Vite. It separates resume **content** (YAML files in `contents/`) from **presentation** (React components + CSS in `src/`).
+CV-Maker 是一个单页 React 应用，包含两个路由：
 
-## Architecture
+| 路由 | 组件 | 说明 |
+|------|------|------|
+| `/` | `HomePage` | 首页：项目介绍、功能卡片、示例简历 |
+| `/editor` | `EditorApp` | 可视化编辑器：侧边栏 + 表单 + 实时预览 |
+
+### 数据流（编辑器）
 
 ```
-contents/cv.yml  ──┐
-                    ├──► Vite plugin (vite.config.ts)
-contents/settings.yml ─┘    parses YAML → virtual:cv-data module
-                                       │
-                              ┌────────┘
-                              ▼
-                    src/utils/loadContent.ts
-                              │
-                              ▼
-                    src/App.tsx → src/Resume.tsx
-                              │
-              ┌───────────────┼───────────────┐
-              ▼               ▼               ▼
-        PersonalInfo      Education       Internship ...
+useLocalStorage（localStorage 持久化）
+  └─► useProjectManager（多项目增删改查）
+       └─► EditorApp（状态管理 + 表单调度）
+            ├─► ProjectSidebar（项目切换）
+            ├─► 编辑器表单（PersonalInfo / Education / ...）
+            └─► Resume（预览，与首页 demo 共用）
 ```
 
-### Key Files
+### 关键文件
 
-| Path | Purpose |
-|------|---------|
-| `contents/cv.yml` | Resume content (user-editable) |
-| `contents/settings.yml` | Visual settings (color scheme, fonts) |
-| `src/types/resume.ts` | TypeScript interfaces for all data |
-| `src/styles/theme.ts` | Color scheme definitions, typography scale |
-| `src/styles/resume.css` | All layout and print styles |
-| `src/styles/global.css` | Reset and base page styles |
-| `src/components/*.tsx` | One component per resume section |
-| `vite.config.ts` | Vite config + YAML virtual module plugin |
-| `scripts/export-pdf.mjs` | Puppeteer PDF generation |
+| 路径 | 用途 |
+|------|------|
+| `src/EditorApp.tsx` | 编辑器主布局：侧边栏 + 表单面板 + 预览 |
+| `src/HomePage.tsx` | 首页 |
+| `src/DemoPage.tsx` | 示例简历数据（导出常量供首页引用） |
+| `src/Resume.tsx` | 简历渲染组件（编辑器和首页共用） |
+| `src/components/Layout.tsx` | 顶部导航栏 |
+| `src/components/editor/*.tsx` | 每个简历模块一个表单组件 |
+| `src/components/editor/ProjectSidebar.tsx` | 项目列表侧边栏（可拖拽调整宽度） |
+| `src/components/editor/Modal.tsx` | 确认/导入/导出弹窗 |
+| `src/components/editor/IconPicker.tsx` | 图标选择器（预设 + URL + 上传） |
+| `src/components/ScalableWrapper.tsx` | 响应式简历缩放容器 |
+| `src/components/HeaderLeft.tsx` | 标题行内 meta 布局（带换行检测） |
+| `src/components/MarkdownText.tsx` | 行内 Markdown 渲染 |
+| `src/components/Icons.tsx` | 内置图标组件 |
+| `src/hooks/useLocalStorage.ts` | 通用 localStorage 钩子 |
+| `src/hooks/useProjectManager.ts` | 多项目增删改查逻辑 |
+| `src/styles/resume.css` | 简历布局、打印样式、间距 |
+| `src/styles/editor.css` | 编辑器布局、表单、侧边栏、响应式 |
+| `src/styles/theme.ts` | 配色方案、排版比例 |
+| `src/types/resume.ts` | TypeScript 接口定义 |
+| `src/types/project.ts` | 项目管理类型定义 |
 
-### Data Flow
-
-1. `vite.config.ts` contains a custom plugin that reads `contents/cv.yml` and `contents/settings.yml`, parses them with `js-yaml`, and exposes the parsed objects as a virtual module `virtual:cv-data`
-2. `src/utils/loadContent.ts` provides typed accessors (`loadResumeData()`, `loadSettings()`) with fallback defaults
-3. `App.tsx` loads data and passes it to `Resume.tsx`
-4. `Resume.tsx` builds CSS variables from the settings and renders all section components
-5. Each section component receives its typed data slice and renders conditionally (returns `null` if empty)
-
-### HMR
-
-When YAML files change, the Vite plugin invalidates the virtual module and sends an HMR update. `App.tsx` listens via `import.meta.hot.accept('virtual:cv-data', ...)` and re-renders.
-
-## Getting Started
+## 开发环境
 
 ```bash
 npm install
-npm run dev        # dev server at localhost:5173
-npm run build      # production build to dist/
-npm run export     # build + PDF export
-npm run clean      # remove dist/, node_modules/, .vite/
+npm run dev        # 开发服务器 http://localhost:5173
+npm run build      # 生产构建到 dist/
+npm run clean      # 清除 dist/、node_modules/、.vite/
 ```
 
-## How To
+## 操作指南
 
-### Add a New Color Scheme
+### 新增配色方案
 
-Edit `src/styles/theme.ts`:
+1. 在 `src/styles/theme.ts` 的 `colorSchemes` 中添加定义
+2. 在 `src/types/resume.ts` 的 `ColorScheme` 类型中添加名称
+3. 在 `src/EditorApp.tsx` 设置栏中添加 `<option>`
 
-```ts
-// 1. Add the scheme definition
-export const colorSchemes = {
-  // ...existing...
-  mytheme: {
-    primary: '#123456',
-    accent: '#789abc',
-    body: '#333333',
-    divider: '#123456',
-    bg: '#ffffff',
-    muted: '#718096',
-  },
-}
+### 新增简历模块
 
-// 2. Update the type in src/types/resume.ts
-export type ColorScheme = 'navy' | 'slate' | ... | 'mytheme'
-```
+1. 在 `src/types/resume.ts` 中定义类型
+2. 在 `src/components/editor/` 中创建表单组件
+3. 创建展示组件（或复用 `HeaderLeft` 和共享 CSS 类）
+4. 在 `src/Resume.tsx` 中注册展示组件，在 `src/EditorApp.tsx` 中注册表单和选项卡
 
-Then set `color_scheme: "mytheme"` in `contents/settings.yml`.
+### 添加或替换图标
 
-### Add a New Resume Section
+1. 将 SVG 保存到 `public/icons/`
+2. 在 `src/components/Icons.tsx` 中添加导出
+3. 编辑器图标选择器的预设项在 `src/components/editor/IconPicker.tsx` 的 `BUILTIN` 数组中
 
-The resume is built as **Section → Entry** two-tier components. All sections share the same CSS classes — you never need to write new CSS for a new section.
+### 理解项目管理
 
-**1. Define the type** in `src/types/resume.ts`:
+`useProjectManager`（`src/hooks/useProjectManager.ts`）：
+- 所有项目存储在 `cv-maker-projects` localStorage key 下
+- 提供增删改查：`createProject`、`duplicateProject`、`deleteProject`、`renameProject`
+- 首次加载时自动迁移旧的 `cv-maker-data` 数据
+- 每个项目包含：`id`、`title`、`createdAt`、`updatedAt`、`data`
 
-```ts
-export interface NewSectionEntry {
-  title: string
-  subtitle?: string
-  date: string
-  details: string[]
-}
-// Add to ResumeData:
-new_section?: NewSectionEntry[]
-```
+### 修改简历布局
 
-**2. Create the component** in `src/components/NewSection.tsx` using the shared templates:
+- **间距**：`src/styles/resume.css`，所有值使用 `mm` 单位
+- **排版**：`src/styles/theme.ts` 的 `typography` 对象
+- **打印/PDF**：`resume.css` 和 `editor.css` 中的 `@media print`
 
-- `.resume-section` — outermost wrapper
-- `.resume-section-title` — section heading (with icon)
-- `.resume-entry` — one per data item
-- `.resume-entry-header` — flex row: title left, date right
-- `.resume-entry-header-left` — title + inline meta (wraps cleanly)
-- `.resume-entry-title` / `.resume-entry-subtitle` — item name + English
-- `.resume-entry-meta-inline` — `|` separated metadata
-- `.resume-entry-meta-sep` — the `|` separator (auto-hidden on wrap)
-- `.resume-entry-date` — right-aligned date
-- `.resume-entry-brief` — brief summary (optional)
-- `.resume-details` / `.resume-details li` — bullet points
+## GitHub Pages
 
-Copy the pattern from any existing section (e.g. `Education.tsx`). The component receives `{ data, lang }` and returns `null` when data is empty.
-
-**3. Register** in `src/Resume.tsx`:
-
-```tsx
-<NewSection data={data.new_section || []} lang={lang} />
-```
-
-**4. Add sample data** to `contents/cv.yml`.
-
-No CSS changes needed — all spacing, alignment, colors, and print styles are inherited from the shared classes.
-
-### Customize Typography
-
-Edit the `typography` object in `src/styles/theme.ts`:
-
-```ts
-export const typography = {
-  name: { fontSize: '24pt', fontWeight: 700, lineHeight: 1.3 },
-  sectionTitle: { fontSize: '13pt', fontWeight: 600, lineHeight: 1.4 },
-  itemTitle: { fontSize: '11pt', fontWeight: 600, lineHeight: 1.4 },
-  body: { fontSize: '9.5pt', fontWeight: 400, lineHeight: 1.5 },
-  small: { fontSize: '8pt', fontWeight: 400, lineHeight: 1.4 },
-}
-```
-
-### Add or Replace Icons
-
-1. Download an SVG from [Lucide](https://lucide.dev/icons) (or any source)
-2. Save to `public/icons/`
-3. Add an export in `src/components/Icons.tsx`:
-   ```tsx
-   export function MyIcon({ size = 16 }: IconProps) {
-     return <LocalIcon src="my-icon.svg" size={size} />
-   }
-   ```
-4. Use it in any component
-
-### Understand the Vite Plugin
-
-The `yamlVirtualPlugin()` in `vite.config.ts`:
-- Watches `contents/cv.yml` and `contents/settings.yml`
-- On load: reads, parses, and exports parsed objects
-- On change: invalidates the virtual module and sends HMR update
-- Fallback: provides empty defaults if files are missing
-
-### Modify PDF Export
-
-Edit `scripts/export-pdf.mjs`:
-1. Starts Vite preview server on port 4173
-2. Launches headless Chromium via Puppeteer
-3. Navigates to `http://127.0.0.1:4173?print=true` (hides toolbar)
-4. Calls `page.pdf()` with A4 format
-5. Saves to `dist/resume.pdf`
-
-CSS `@media print` rules in `resume.css` control the printed layout.
-
-## Docker
-
-```bash
-docker build -t cv-maker -f .devcontainer/Dockerfile .
-docker run -p 5173:5173 cv-maker dev
-docker run -v $(pwd)/dist:/workspace/dist cv-maker export
-```
-
-The Dockerfile installs Chromium for Puppeteer and Noto CJK fonts for Chinese rendering.
+推送到 `main` 分支 → GitHub Actions 使用 `BASE_PATH=/CV-Maker/` 构建 → 部署到 Pages。工作流配置位于 `.github/workflows/deploy.yml`。
