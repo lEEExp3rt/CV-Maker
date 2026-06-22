@@ -31,6 +31,7 @@ export default function Layout({ children }: Props) {
         {[
           { path: '/', label: '首页' },
           { path: '/editor', label: '编辑器' },
+          { path: '/docs/usage', label: '文档' },
         ].map(({ path: p, label }) => (
           <a key={p} href={p} onClick={(e) => { if (path === p) e.preventDefault() }}
             style={{
