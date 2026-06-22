@@ -1,6 +1,8 @@
 import { useState, useCallback, useRef } from 'react'
 import { useProjectManager } from './hooks/useProjectManager'
+import { useLocalStorage } from './hooks/useLocalStorage'
 import { DEFAULT_RESUME_DATA } from './data/defaults'
+import type { ColorScheme, Language } from './types/resume'
 import Resume from './Resume'
 import Layout from './components/Layout'
 import ProjectSidebar from './components/editor/ProjectSidebar'
@@ -100,7 +102,10 @@ export default function EditorApp() {
     window.print()
   }, [])
 
-  const settings = { color_scheme: 'navy' as const, language: 'zh' as const }
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>('cv-editor-color', 'navy')
+  const [language, setLanguage] = useLocalStorage<Language>('cv-editor-lang', 'zh')
+
+  const settings = { color_scheme: colorScheme, language }
 
   return (
     <Layout>
@@ -126,6 +131,47 @@ export default function EditorApp() {
             <button onClick={handleReset}>清空</button>
             <button className="accent" onClick={handlePrint}>打印 PDF</button>
           </div>
+        </div>
+
+        {/* Settings bar */}
+        <div style={{
+          padding: '6px 16px', borderBottom: '1px solid #e2e8f0',
+          display: 'flex', gap: 12, alignItems: 'center', flexShrink: 0,
+        }}>
+          <label style={{ fontSize: 10, color: '#64748b', display: 'flex', alignItems: 'center', gap: 4 }}>
+            配色方案
+            <select
+              value={colorScheme}
+              onChange={(e) => setColorScheme(e.target.value as ColorScheme)}
+              style={{
+                height: 24, padding: '0 6px', fontSize: 10,
+                border: '1px solid #e2e8f0', borderRadius: 4, background: '#fff',
+                color: '#475569', fontFamily: 'inherit', cursor: 'pointer',
+              }}
+            >
+              <option value="navy">深蓝</option>
+              <option value="slate">石板灰</option>
+              <option value="forest">森林绿</option>
+              <option value="burgundy">勃艮第红</option>
+              <option value="teal">青墨</option>
+              <option value="charcoal">炭黑</option>
+            </select>
+          </label>
+          <label style={{ fontSize: 10, color: '#64748b', display: 'flex', alignItems: 'center', gap: 4 }}>
+            语言模式
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as Language)}
+              style={{
+                height: 24, padding: '0 6px', fontSize: 10,
+                border: '1px solid #e2e8f0', borderRadius: 4, background: '#fff',
+                color: '#475569', fontFamily: 'inherit', cursor: 'pointer',
+              }}
+            >
+              <option value="zh">中文</option>
+              <option value="en">English</option>
+            </select>
+          </label>
         </div>
 
         {/* Tabs */}
