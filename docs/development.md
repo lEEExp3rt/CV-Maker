@@ -1,97 +1,5 @@
 # Development Guide
 
-## Project Structure
-
-```
-CV-Maker/
-├── src/
-│   ├── EditorApp.tsx          # 编辑器主布局
-│   ├── HomePage.tsx           # 首页
-│   ├── DemoPage.tsx           # 示例简历数据（导出常量）
-│   ├── Resume.tsx             # 简历渲染组件（编辑器+首页共用）
-│   ├── main.tsx               # 入口，路由分发
-│   ├── components/
-│   │   ├── Layout.tsx         # 顶部导航栏
-│   │   ├── ScalableWrapper.tsx# 响应式简历缩放
-│   │   ├── HeaderLeft.tsx     # 标题行 meta 布局（换行检测）
-│   │   ├── MarkdownText.tsx   # 行内 Markdown 渲染
-│   │   ├── Icons.tsx          # 内置图标组件
-│   │   ├── PersonalInfo.tsx   # 个人信息展示
-│   │   ├── Education.tsx      # 教育背景展示
-│   │   ├── Internship.tsx     # 实习经历展示
-│   │   ├── Projects.tsx       # 项目经历展示
-│   │   ├── Skills.tsx         # 专业技能展示
-│   │   ├── Awards.tsx         # 获奖情况展示
-│   │   └── editor/
-│   │       ├── PersonalInfoEditor.tsx
-│   │       ├── EducationEditor.tsx
-│   │       ├── InternshipEditor.tsx
-│   │       ├── ProjectEditor.tsx
-│   │       ├── SkillsEditor.tsx
-│   │       ├── AwardsEditor.tsx
-│   │       ├── ProjectSidebar.tsx  # 项目列表侧边栏
-│   │       ├── Modal.tsx           # 通用弹窗
-│   │       └── IconPicker.tsx      # 图标选择器
-│   ├── hooks/
-│   │   ├── useLocalStorage.ts      # 通用 localStorage 钩子
-│   │   └── useProjectManager.ts    # 多项目管理
-│   ├── styles/
-│   │   ├── resume.css              # 简历布局+打印样式
-│   │   ├── editor.css              # 编辑器布局+响应式
-│   │   ├── theme.ts                # 配色方案+排版
-│   │   └── global.css              # 全局重置
-│   ├── types/
-│   │   ├── resume.ts               # 简历数据类型
-│   │   └── project.ts              # 项目管理类型
-│   └── data/
-│       └── defaults.ts             # 默认空简历数据
-├── public/
-│   ├── icons/                      # SVG 图标（Lucide）
-│   └── images/                     # 用户照片
-├── contents/                       # 保留：旧版 YAML 文件
-├── docs/
-├── .devcontainer/
-├── .github/workflows/deploy.yml    # GitHub Pages 部署
-└── package.json
-```
-
-## Architecture
-
-### Page Routes
-
-| Route | Component | Description |
-|-------|-----------|-------------|
-| `/` | `HomePage` | 首页 |
-| `/editor` | `EditorApp` | 可视化编辑器 |
-
-路由分发在 `src/main.tsx` 中，通过 `window.location.pathname` 判断。
-
-### Data Flow
-
-```
-useLocalStorage
-  └─► useProjectManager (projects CRUD)
-       └─► EditorApp (state + form dispatch)
-            ├─► ProjectSidebar (project switching)
-            ├─► Editor forms (PersonalInfoEditor etc.)
-            └─► Resume (shared with HomePage demos)
-```
-
-### Key Principles
-
-**localStorage 持久化**：`useLocalStorage` 是一个封装了 `useState` + `localStorage` 的通用钩子。每次 `setState` 时自动同步到 `localStorage.setItem()`，首次渲染时从 `localStorage.getItem()` 恢复。数据以 JSON 格式存储。
-
-**多项目管理**：`useProjectManager` 在 `useLocalStorage` 之上实现了项目集合的 CRUD：
-
-- 存储 key：`cv-maker-projects`
-- 数据结构：`{ active: "project-id", projects: [{ id, title, createdAt, updatedAt, data }] }`
-- 首次加载时自动迁移旧版 `cv-maker-data` 单 key 格式
-- 至少保证一个项目存在
-
-**组件复用**：`Resume.tsx` 被编辑器和首页 demo 共用。同一个组件接收不同的 `data` prop 即可渲染不同内容。编辑器通过 `EditorApp` 传入当前项目的 `activeProject.data`，首页通过 `DemoPage` 传入硬编码的 `DEMO_NO_PHOTO` / `DEMO_WITH_PHOTO`。
-
-**响应式缩放**：`ScalableWrapper` 使用 `ResizeObserver` 监测容器宽度，按 A4 原始宽度（210mm ≈ 794px）等比缩放简历内容，实现自适应。
-
 ## Environment Setup
 
 ### Prerequisites
@@ -104,26 +12,25 @@ node --version
 npm --version
 ```
 
-### Install
+### Install & Run
 
 ```bash
 git clone https://github.com/lEEExp3rt/CV-Maker
 cd CV-Maker
 npm install
+npm run dev        # http://localhost:5173
 ```
 
 ### Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | 开发服务器 http://localhost:5173 |
+| `npm run dev` | 开发服务器 |
 | `npm run build` | TypeScript 检查 + 生产构建到 dist/ |
 | `npm run preview` | 本地预览生产构建 |
 | `npm run clean` | 清除 dist/、node_modules/、.vite/ |
 
-## Docker
-
-### Build & Run
+### Docker
 
 ```bash
 docker build -t cv-maker -f .devcontainer/Dockerfile .
@@ -132,13 +39,43 @@ docker run -v $(pwd)/dist:/workspace/dist cv-maker build
 docker run -it cv-maker bash
 ```
 
-### VSCode Dev Container
+VSCode 用户：打开项目 → 点击「Reopen in Container」，`.devcontainer/devcontainer.json` 自动配置端口转发和依赖安装。
 
-打开项目 → 点击「Reopen in Container」。`.devcontainer/devcontainer.json` 自动配置端口转发和依赖安装。
+Dockerfile 基于 `node:22-slim`，安装 `fonts-noto-cjk` 用于中文渲染。
 
-### Dockerfile
+## Architecture
 
-基于 `node:22-slim`，安装 `fonts-noto-cjk` 用于中文渲染。不含 Chromium/Puppeteer（PDF 导出已改用浏览器打印）。
+### Project Structure
+
+```
+src/
+├── components/       # React 组件（展示 + 编辑器表单）
+│   └── editor/       # 可视化编辑器表单组件
+├── hooks/            # useLocalStorage / useProjectManager
+├── styles/           # CSS + 主题配置
+├── types/            # TypeScript 类型定义
+└── data/             # 默认数据
+public/
+├── icons/            # SVG 图标（Lucide）
+└── images/           # 用户照片
+docs/                 # 项目文档
+contents/             # 保留：旧版 YAML 文件
+.github/workflows/    # GitHub Pages 自动部署
+```
+
+- **components/** — 展示组件（`Resume.tsx` 等）被编辑器和首页 demo 共用；`editor/` 子目录包含每个简历模块的表单编辑器
+- **hooks/** — `useLocalStorage` 是通用 localStorage 持久化钩子；`useProjectManager` 在其上实现多项目 CRUD
+- **styles/** — `resume.css` 控制简历布局和打印样式；`editor.css` 控制编辑器布局和响应式；`theme.ts` 定义配色方案和排版比例
+- **types/** — 简历数据类型（`resume.ts`）和项目管理类型（`project.ts`）
+
+### Key Principles
+
+- **localStorage 持久化** — `useLocalStorage` 封装 `useState` + `localStorage`，每次 `setState` 自动同步，首次渲染从存储恢复
+- **多项目管理** — `useProjectManager` 存储 key 为 `cv-maker-projects`，结构 `{ active, projects: [{ id, title, data }] }`；首次加载自动迁移旧版单 key 格式
+- **组件复用** — `Resume.tsx` 接收 `data` prop，编辑器和首页 demo 共用同一组件
+- **响应式缩放** — `ScalableWrapper` 用 `ResizeObserver` 监测容器宽度，按 A4 宽度等比缩放
+- **路由** — `main.tsx` 通过 `window.location.pathname` 分发到 `HomePage` / `EditorApp` / `DocsPage`
+- **Markdown 渲染** — `MarkdownPage.tsx` 用逐行 tokenize 解析，`?raw` 导入 `.md` 文件
 
 ## How to Customize
 
@@ -177,7 +114,7 @@ export const typography = {
 |------|-------------|---------|
 | Top margin | `.resume-page { --page-padding-top }` | `15mm` |
 | Bottom margin | `.resume-page { --page-padding-bottom }` | `10mm` |
-| Left/right margin | `.resume-page { padding }` | `20mm` |
+| Left/right | `.resume-page { padding }` | `20mm` |
 | Section gap | `.resume-section { margin-bottom }` | `3mm` |
 | Entry gap | `.resume-entry { margin-bottom }` | `1.8mm` |
 
@@ -193,11 +130,8 @@ export const typography = {
 
 推送到 `main` 分支 → GitHub Actions 自动构建并部署。
 
-工作流：`.github/workflows/deploy.yml`
-- `BASE_PATH=/CV-Maker/` 环境变量设置 Vite base path
-- 构建产物上传为 Pages artifact
-- 自动部署到 `github-pages` 环境
+工作流 `.github/workflows/deploy.yml` 使用 `BASE_PATH=/CV-Maker/` 构建，产物上传为 Pages artifact 并自动发布。
 
 ### Static Hosting
 
-`dist/` 目录为纯静态文件，可直接部署到任何静态托管服务（Nginx / Vercel / Netlify 等）。
+`dist/` 目录为纯静态文件，可直接部署到 Nginx / Vercel / Netlify 等任意静态托管服务。
