@@ -4,7 +4,7 @@
 
 ## Features
 
-- **可视化编辑器** — 表单填写 + 实时预览，无需编写代码或 YAML
+- **可视化编辑器** — 表单填写 + 实时预览，无需编写代码
 - **多项目管理** — 侧边栏创建、切换、复制、删除简历项目
 - **浏览器 PDF 导出** — 打印 → 另存为 PDF，A4 格式
 - **本地存储** — 数据全部保存在浏览器 localStorage，不上传服务器
@@ -23,43 +23,21 @@ npm run dev           # http://localhost:5173
 
 首页（`/`）展示项目介绍和示例简历。点击「编辑器」或访问 `/editor` 开始制作。点击「打印 PDF」导出。
 
-```bash
-npm run build         # 生产构建到 dist/
-npm run clean         # 清除构建缓存
-```
+## Pages
 
-## 项目结构
-
-```
-CV-Maker/
-├── src/
-│   ├── components/        # React 组件
-│   │   └── editor/        # 可视化编辑器表单
-│   ├── hooks/             # useLocalStorage / useProjectManager
-│   ├── styles/            # CSS + 主题
-│   ├── types/             # TypeScript 类型定义
-│   └── data/              # 默认数据
-├── public/
-│   ├── icons/             # SVG 图标（Lucide）
-│   └── images/            # 用户照片、favicon
-├── docs/
-│   ├── usage.md           # 使用指南
-│   └── development.md     # 开发指南
-├── .github/workflows/     # GitHub Pages 自动部署
-└── package.json
-```
-
-## 页面路由
-
-| 路由 | 说明 |
-|------|------|
+| Route | Description |
+|-------|-------------|
 | `/` | 首页：项目介绍、功能卡片、示例简历 |
 | `/editor` | 可视化编辑器：侧边栏 + 表单 + 实时预览 |
 
-## 文档
+## Documentation
 
-- [使用指南](docs/usage.md) — 环境搭建、编辑、导出、项目管理
-- [开发指南](docs/development.md) — 架构、自定义、二次开发
+- [使用指南](docs/usage.md) — 编辑器功能、表单填写、导入导出
+- [开发指南](docs/development.md) — 架构、环境搭建、二次开发、部署
+
+## Contributing
+
+有问题或建议？欢迎提交 [Issue](https://github.com/lEEExp3rt/CV-Maker/issues) 或 [Pull Request](https://github.com/lEEExp3rt/CV-Maker/pulls)。
 
 ## License
 
