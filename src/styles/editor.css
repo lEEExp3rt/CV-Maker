@@ -742,9 +742,14 @@
     background: #fff !important;
   }
 
+  .top-nav,
   .project-sidebar,
   .sidebar-toggle-collapsed,
-  .editor-panel {
+  .editor-panel,
+  .editor-panel-resize-h,
+  .editor-panel-resize,
+  .editor-panel-collapse-btn,
+  .editor-panel-toggle {
     display: none !important;
   }
 

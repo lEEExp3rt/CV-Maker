@@ -14,7 +14,7 @@ export default function Layout({ children }: Props) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <nav style={{
+      <nav className="top-nav" style={{
         height: 48, background: '#0f172a', display: 'flex', alignItems: 'center',
         padding: '0 16px', gap: 2, flexShrink: 0,
       }}>
