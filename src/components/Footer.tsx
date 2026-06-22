@@ -1,3 +1,5 @@
+const BASE = import.meta.env.BASE_URL
+
 export default function Footer() {
   return (
     <div>
@@ -22,11 +24,11 @@ export default function Footer() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ fontSize: 11, color: '#94a3b8' }}>Powered by</span>
           {[
-            { src: '/icons/react.svg', alt: 'React', href: 'https://react.dev' },
-            { src: '/icons/typescript.svg', alt: 'TypeScript', href: 'https://www.typescriptlang.org' },
-            { src: '/icons/vite.svg', alt: 'Vite', href: 'https://vite.dev' },
-            { src: '/icons/github.svg', alt: 'GitHub Pages', href: 'https://pages.github.com' },
-            { src: '/icons/lucide.svg', alt: 'Lucide', href: 'https://lucide.dev' },
+            { src: BASE + 'icons/react.svg', alt: 'React', href: 'https://react.dev' },
+            { src: BASE + 'icons/typescript.svg', alt: 'TypeScript', href: 'https://www.typescriptlang.org' },
+            { src: BASE + 'icons/vite.svg', alt: 'Vite', href: 'https://vite.dev' },
+            { src: BASE + 'icons/github.svg', alt: 'GitHub Pages', href: 'https://pages.github.com' },
+            { src: BASE + 'icons/lucide.svg', alt: 'Lucide', href: 'https://lucide.dev' },
           ].map(({ src, alt, href }) => (
             <a key={alt} href={href} target="_blank" rel="noopener" title={alt}
               style={{ display: 'flex', alignItems: 'center', opacity: 0.7, transition: 'opacity 0.15s' }}

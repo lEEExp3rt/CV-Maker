@@ -6,13 +6,16 @@ import Footer from './components/Footer'
 import usageRaw from '../docs/usage.md?raw'
 import devRaw from '../docs/development.md?raw'
 
+const BASE = import.meta.env.BASE_URL
+
 const TABS = [
-  { key: 'usage', label: '使用指南', href: '/docs/usage', content: usageRaw },
-  { key: 'dev', label: '开发指南', href: '/docs/development', content: devRaw },
+  { key: 'usage', label: '使用指南', href: BASE + 'docs/usage', content: usageRaw },
+  { key: 'dev', label: '开发指南', href: BASE + 'docs/development', content: devRaw },
 ]
 
 function getTabFromPath(): string {
-  if (window.location.pathname.includes('/development')) return 'dev'
+  const p = window.location.pathname
+  if (p.includes('/docs/development') || p.includes('/development')) return 'dev'
   return 'usage'
 }
 

@@ -1,6 +1,8 @@
 import Layout from './components/Layout'
 import Footer from './components/Footer'
 import Resume from './Resume'
+
+const BASE = import.meta.env.BASE_URL
 import ScalableWrapper from './components/ScalableWrapper'
 import { DEMO_NO_PHOTO, DEMO_WITH_PHOTO } from './DemoPage'
 
@@ -23,14 +25,14 @@ export default function HomePage() {
         </p>
 
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a href="/editor" style={{
+          <a href={BASE + 'editor'} style={{
             padding: '10px 28px', fontSize: 14, fontWeight: 600,
             background: '#1a365d', color: '#fff', borderRadius: 8,
             textDecoration: 'none', display: 'inline-block',
           }}>
             开始制作
           </a>
-          <a href="/docs/usage" style={{
+          <a href={BASE + 'docs/usage'} style={{
             padding: '10px 28px', fontSize: 14, fontWeight: 500,
             background: '#fff', color: '#1a365d', borderRadius: 8,
             textDecoration: 'none', border: '1px solid #cbd5e0',
