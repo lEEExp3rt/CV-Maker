@@ -25,20 +25,21 @@ export default function HomePage() {
         </p>
 
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button onClick={() => window.location.assign(BASE + 'editor')} style={{
+          <a href={BASE + 'editor'} style={{
             padding: '10px 28px', fontSize: 14, fontWeight: 600,
             background: '#1a365d', color: '#fff', borderRadius: 8,
-            border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+            textDecoration: 'none', display: 'inline-block',
           }}>
             开始制作
-          </button>
-          <button onClick={() => window.location.assign(BASE + 'docs/usage')} style={{
+          </a>
+          <a href={BASE + 'docs/usage'} style={{
             padding: '10px 28px', fontSize: 14, fontWeight: 500,
             background: '#fff', color: '#1a365d', borderRadius: 8,
-            border: '1px solid #cbd5e0', cursor: 'pointer', fontFamily: 'inherit',
+            textDecoration: 'none', border: '1px solid #cbd5e0',
+            display: 'inline-block',
           }}>
             查看文档
-          </button>
+          </a>
           <a href="#demos" onClick={(e) => {
             e.preventDefault()
             document.getElementById('demos')?.scrollIntoView({ behavior: 'smooth' })
