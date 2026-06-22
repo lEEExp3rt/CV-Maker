@@ -14,43 +14,6 @@
   margin: 0 auto;
 }
 
-/* --- Toolbar (hidden in print/export) --- */
-.resume-toolbar {
-  position: fixed;
-  top: 12px;
-  right: 16px;
-  z-index: 100;
-  display: flex;
-  gap: 8px;
-}
-
-.resume-toolbar button {
-  padding: 8px 16px;
-  font-size: 13px;
-  font-family: var(--font-body);
-  border: 1px solid #cbd5e0;
-  border-radius: 6px;
-  background: #fff;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.resume-toolbar button:hover {
-  background: #f7fafc;
-  border-color: #a0aec0;
-}
-
-.resume-toolbar button.primary {
-  background: var(--color-primary);
-  color: #fff;
-  border-color: var(--color-primary);
-}
-
-.resume-toolbar button.primary:hover {
-  opacity: 0.9;
-}
-
 /* --- Header: name + photo + contact --- */
 .resume-header {
   margin-bottom: 3mm;
@@ -355,22 +318,9 @@
     page-break-inside: avoid;
   }
 
-  .resume-toolbar {
-    display: none !important;
-  }
+
+
 }
 
-/* Print-only mode (used by Puppeteer export) */
-.print-mode {
-  background: #fff;
-  padding: 0;
-}
 
-.print-mode .resume-toolbar {
-  display: none !important;
-}
 
-.print-mode .resume-page {
-  box-shadow: none;
-  margin: 0;
-}

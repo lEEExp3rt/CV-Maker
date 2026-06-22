@@ -1,369 +1,127 @@
 # Usage Guide
 
-## Environment Setup
+本文档为使用指南。
+
+## Project Sidebar
 
-### Prerequisites
+左侧侧边栏管理多个简历项目，所有数据自动保存到浏览器 localStorage。
 
-- **Node.js** >= 20
-- **npm** >= 9
+| 操作 | 说明 |
+|------|------|
+| 点击项目名 | 切换到该项目 |
+| **+ 新建项目** | 创建空白项目 |
+| **⧉** | 复制当前项目（含全部数据） |
+| **✎** | 重命名项目 |
+| **×** | 删除项目（至少保留一个） |
+| **◀** | 收起侧边栏为窄条 |
+| 拖动右侧边界 | 调整侧边栏宽度 |
 
-Check your versions:
+## Form Tabs
 
-```bash
-node --version   # should be v18.x or higher
-npm --version    # should be 9.x or higher
-```
+六个选项卡，对应简历的六个模块。
 
-If you need to install or upgrade Node.js:
+### Personal Information
 
-- **macOS**: `brew install node` or download from [nodejs.org](https://nodejs.org)
-- **Windows**: download installer from [nodejs.org](https://nodejs.org)
-- **Linux**: use [nvm](https://github.com/nvm-sh/nvm) — `nvm install 22 && nvm use 22`
+填写姓名和联系方式。照片和自定义链接为可选项。
 
-### Install Project
+| 字段 | 必填 | 说明 |
+|------|------|------|
+| 姓名 | 是 | 简历标题 |
+| 照片 | 否 | 上传本地图片，base64 存储。有照片显示带照片布局，无照片显示居中布局 |
+| 邮箱 | 是 | mailto 链接，可点击 |
+| 电话 | 是 | 纯文本展示 |
+| 个人主页 | 否 | 展示 URL，可点击 |
+| GitHub | 否 | 展示 URL，可点击 |
+| 自定义链接 | 否 | 见下方说明 |
 
-```bash
-git clone https://github.com/lEEExp3rt/CV-Maker cv-maker
-cd cv-maker
-npm install
-```
+**自定义链接**：每条链接可设图标（5 种预设 + URL 输入 + 上传），URL 以 `http://` 或 `https://` 开头自动加超链接，否则显示为纯文本。
 
-### Docker
+### Educations
 
-If you prefer Docker, no Node.js installation is needed.
+| 字段 | 必填 | 说明 |
+|------|------|------|
+| 学校 | 是 | 中文名 |
+| 英文名 | 否 | 斜体展示 |
+| 学位 | 是 | 如"本科"、"硕士" |
+| 专业 | 是 | - |
+| 开始 | 是 | 如 `2022-09` |
+| 结束 | 否 | 留空显示"至今" |
+| GPA | 否 | - |
+| 排名 | 否 | - |
+| 核心课程 | 否 | 逐条添加，每门课一个输入框 |
 
-**Build the image:**
+### Internships
 
-```bash
-docker build -t cv-maker -f .devcontainer/Dockerfile .
-```
+| 字段 | 必填 | 说明 |
+|------|------|------|
+| 公司 | 是 | 中文名 |
+| 英文名 | 否 | 斜体展示 |
+| 部门 | 否 | 与岗位用 `·` 连接 |
+| 岗位 | 是 | - |
+| 开始 | 是 | - |
+| 结束 | 否 | 留空显示"至今" |
+| 摘要 | 否 | 支持 Markdown |
+| 详细描述 | 是 | 逐条添加，支持 Markdown |
 
-**Development (live preview):**
+### Projects
 
-```bash
-docker run -p 5173:5173 -v $(pwd)/contents:/workspace/contents cv-maker dev
-```
+| 字段 | 必填 | 说明 |
+|------|------|------|
+| 项目名 | 是 | 中文名 |
+| 英文名 | 否 | 斜体展示 |
+| 项目链接 | 否 | 展示 URL，可点击 |
+| 开始 | 是 | - |
+| 结束 | 否 | 留空显示"至今" |
+| 摘要 | 否 | 支持 Markdown |
+| 详细描述 | 是 | 逐条添加，支持 Markdown |
 
-Open http://localhost:5173. The `-v` flag mounts your local `contents/` so editing YAML files triggers hot reload. The `-p` flag forwards the dev server port.
+### Skills
 
-**Export PDF:**
+逐条添加技能分类（如"编程语言"），每个分类下逐条添加具体技能。整节可选，留空不显示。
 
-```bash
-docker run --rm \
-  -v "$(pwd)/contents:/workspace/contents" \
-  -v "$(pwd)/dist:/workspace/dist" \
-  cv-maker export
-```
+### Awards
 
-**Other commands:**
+每条包含奖项名称和日期。整节可选。
 
-```bash
-docker run cv-maker build          # production build only (no PDF)
-docker run cv-maker clean          # clean build artifacts
-docker run -it cv-maker bash       # interactive shell for debugging
-```
+## Settings Bar
 
-**VSCode Dev Container (easiest):**
+顶部工具栏下方有两个设置项，修改即时生效：
 
-Open the project in VSCode → click "Reopen in Container". The dev server starts automatically on port 5173 with `contents/` mounted directly. No manual Docker commands needed.
+| 设置 | 选项 |
+|------|------|
+| 配色方案 | 深蓝 / 石板灰 / 森林绿 / 勃艮第红 / 青墨 / 炭黑 |
+| 语言模式 | 中文（中英双语标题）/ English（纯英文标题） |
 
-**Clean up:**
+## Toolbar Buttons
 
-```bash
-docker rmi cv-maker              # remove the built image
-docker container prune           # remove stopped containers
-docker system prune -a           # full cleanup
-```
+| 按钮 | 功能 |
+|------|------|
+| 导出 JSON | 弹窗展示格式化 JSON，可 📋 复制或下载文件 |
+| 导入 JSON | 粘贴 JSON 代码或选择本地文件导入 |
+| 清空 | 重置当前项目（有确认弹窗） |
+| 打印 PDF | 浏览器打印 → 另存为 PDF（A4），仅输出简历部分 |
 
-> The Docker image includes Chromium (for Puppeteer) and Noto CJK fonts (for Chinese PDF rendering) automatically. No extra font setup needed.
+## Markdown Support
 
-**Speed up in mainland China:**
+`摘要` 和 `详细描述` 字段支持以下行内格式：
 
-The image build pulls from Docker Hub, Debian mirrors, and npm — all slow by default in mainland China. To accelerate, create a `docker-compose.yml` or pass build args. The simplest approach: add a `.npmrc` for npm mirror, then rebuild:
+| 语法 | 效果 |
+|------|------|
+| `**文字**` | **粗体** |
+| `*文字*` | *斜体* |
+| `__文字__` | _下划线_ |
+| `` `代码` `` | `等宽字体` |
 
-```bash
-# Create .npmrc for npm mirror (Tencent / Aliyun)
-echo "registry=https://registry.npmmirror.com" > .npmrc
+## Icons
 
-# Rebuild, apt sources mirror via sed in Dockerfile
-docker build -t cv-maker -f .devcontainer/Dockerfile .
-```
+**内置图标**：使用 [Lucide](https://lucide.dev)（MIT 协议），SVG 文件位于 `public/icons/`。
 
-For apt and Docker Hub mirrors, configure your Docker daemon (`/etc/docker/daemon.json`):
+**自定义链接图标**：每条自定义链接可单独设置图标：
 
-```json
-{
-  "registry-mirrors": ["https://docker.1ms.run"]
-}
-```
+| 方式 | 说明 |
+|------|------|
+| 预设 | 默认 / 邮箱 / 电话 / 网站 / GitHub |
+| URL | 远程图标地址或本地路径 |
+| 上传 | 选择本地图片，base64 存储 |
 
-Then restart Docker: `sudo systemctl restart docker`.
-
-### Fonts for PDF Export
-
-For Chinese PDF export without Docker, ensure Chinese fonts are installed:
-
-- **macOS**: PingFang SC (built-in)
-- **Windows**: Microsoft YaHei (built-in)
-- **Linux**: `sudo apt install fonts-noto-cjk`
-
-## Recommended Workflow
-
-You'll likely need multiple resumes — one for each company or position. Here are two clean ways to manage them:
-
-### Git branches (recommended for developers)
-
-Clone once, one branch per resume:
-
-```bash
-git clone https://github.com/lEEExp3rt/CV-Maker cv-maker
-cd cv-maker
-npm install
-
-# Create a branch for each target
-git checkout -b resume/alibaba
-# edit contents/cv.yml → commit
-
-git checkout -b resume/bytedance
-# edit contents/cv.yml → commit
-```
-
-Switch branches to switch resumes. Each branch has its own `cv.yml`, photo, and settings — fully isolated.
-
-### Docker containers (no Git needed)
-
-One named container per resume, **without volume mounts** to keep data isolated:
-
-```bash
-docker build -t cv-maker -f .devcontainer/Dockerfile .
-
-# Resume for Alibaba
-docker run -d --name cv-alibaba -p 5173:5173 cv-maker dev
-
-# Resume for ByteDance (different port)
-docker run -d --name cv-bytedance -p 5174:5173 cv-maker dev
-```
-
-> **Important:** do NOT use `-v` volume mounts with this approach. Each container keeps its own copy of `contents/` inside — edit files via `docker exec -it cv-alibaba bash` or `docker cp`.
-
-To switch resumes, just start the container you need:
-
-```bash
-docker start cv-alibaba     # → http://localhost:5173
-docker start cv-bytedance   # → http://localhost:5174
-```
-
-Export PDF from any container:
-
-```bash
-docker exec cv-alibaba npm run export
-docker cp cv-alibaba:/workspace/dist/resume.pdf ./resume-alibaba.pdf
-```
-
-### Clean up old containers
-
-```bash
-docker stop cv-alibaba cv-bytedance
-docker rm cv-alibaba cv-bytedance
-```
-
----
-
-## Basic Usage
-
-### 1. Fill in Your Resume
-
-Edit `contents/cv.yml` — this is the only file you need to touch. All fields marked with `?` are optional.
-
-```yaml
-personal_info:
-  name: "Your Name"
-  photo: "images/photo.jpg"        # ?
-  contact:
-    email: "you@example.com"
-    phone: "+86-xxx-xxxx-xxxx"
-    homepage: "https://example.com" # ?
-    github: "https://github.com/you"# ?
-    customs:                        # ?
-      - label: "Blog"
-        url: "https://example.com/blog"
-        icon: "icons/blog.svg"      # ? local / https:// / data:
-
-educations:
-  - school: "XX University"
-    school_en: "XX University"     # ?
-    degree: "Bachelor"
-    major: "Computer Science"
-    start: "2020-09"
-    end: "2024-06"                  # omit if ongoing → "至今"
-    gpa: "3.8/4.0"                 # ?
-    ranking: "5/120"               # ?
-    courses:                        # ?
-      - "Data Structures"
-      - "Operating Systems"
-
-internships:
-  - company: "XX Company"
-    company_en: "XX Company"       # ?
-    department: "Engineering"      # ?
-    role: "Software Engineer Intern"
-    brief: "Brief summary"         # ? Markdown supported
-    start: "2023-06"
-    end: "2023-09"
-    details:
-      - "Built **high-performance** API with `Go`, QPS 10K+"
-      - "Reduced latency by *35%*"
-
-projects:
-  - name: "Project Name"
-    name_en: "Project Name"        # ?
-    url: "https://github.com/you/project"  # ?
-    brief: "Brief summary"         # ? Markdown supported
-    start: "2023-01"
-    end: "2023-05"
-    details:
-      - "Implemented __distributed__ consensus with **Raft**"
-      - "Achieved `50K ops/s` write throughput"
-
-skills:                             # ? entire section optional
-  - category: "Languages"
-    items: ["Go", "Python", "TypeScript"]
-  - category: "Frameworks"
-    items: ["React", "Docker", "Kubernetes"]
-
-awards:                             # ? entire section optional
-  - name: "ACM-ICPC Silver Medal"
-    date: "2022"
-```
-
-### 2. Preview
-
-```bash
-npm run dev
-```
-
-Open http://localhost:5173. Edit `contents/cv.yml` — the page updates instantly.
-
-### 3. Export PDF
-
-```bash
-npm run export
-```
-
-PDF saved to `dist/resume.pdf`.
-
-### 4. Markdown Support
-
-`brief` and `details` fields support inline Markdown:
-
-| Syntax | Result |
-|--------|--------|
-| `**bold**` | **bold** |
-| `*italic*` | *italic* |
-| `__underline__` | underlined |
-| `` `code` `` | `monospace` |
-
-### 5. Icons
-
-**Built-in icons** use [Lucide](https://lucide.dev) (MIT). SVG files are stored in `public/icons/`.
-
-**Custom icons** (for `customs` entries) support three forms:
-
-| Form | Example |
-|------|---------|
-| Local file | `icon: "icons/blog.svg"` |
-| Remote URL | `icon: "https://cdn.example.com/icon.svg"` |
-| Data URI | `icon: "data:image/svg+xml;base64,..."` |
-
-Omit `icon` and a default link icon is used.
-
----
-
-## Configurations
-
-All visual configuration is in `contents/settings.yml`.
-
-### Language
-
-```yaml
-language: "zh"    # "zh" (中文) or "en" (English)
-```
-
-Controls section titles and labels. When set to `"en"`, all Chinese text in section headings is removed (e.g., "教育背景 EDUCATION" → "EDUCATION", "核心课程" → "Core Courses").
-
-### Color Scheme
-
-```yaml
-color_scheme: "navy"
-```
-
-Available schemes:
-
-| Value | Style |
-|-------|-------|
-| `navy` | 深蓝，经典稳重 |
-| `slate` | 石板灰，现代简约 |
-| `forest` | 森林绿，清新自然 |
-| `burgundy` | 勃艮第红，优雅大气 |
-| `teal` | 青墨，低调内敛 |
-| `charcoal` | 炭黑，极致简洁 |
-
-Additional schemes can be added in `src/styles/theme.ts`.
-
-### Font
-
-```yaml
-font:
-  chinese: '"PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Hiragino Sans GB", sans-serif'
-  english: '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif'
-```
-
-**Three ways to use a custom font:**
-
-1. **System font** — just reference the name (no setup needed):
-   ```yaml
-   font:
-     chinese: '"LXGW WenKai", sans-serif'
-   ```
-
-2. **Local file** — place the font in `public/fonts/`, declare in `src/styles/global.css`:
-   ```css
-   @font-face {
-     font-family: 'My Font';
-     src: url('/fonts/my-font.ttf') format('truetype');
-   }
-   ```
-   Then reference it in settings. Works offline, recommended for PDF export.
-
-3. **CDN / Google Fonts** — add a `<link>` to `index.html`:
-   ```html
-   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
-   ```
-   Then reference it in settings. Requires network access.
-
-The browser tries fonts left to right; the last entry should always be a generic family (`sans-serif`, `serif`, `monospace`).
-
-### Page Margins
-
-Edit `src/styles/resume.css` — all spacing uses `mm` units for print accuracy:
-
-| What | CSS Location | Default |
-|------|-------------|---------|
-| Top margin | `.resume-page { --page-padding-top }` | `15mm` |
-| Bottom margin | `.resume-page { --page-padding-bottom }` | `10mm` |
-| Left/right margin | `.resume-page { padding }` third/fourth value | `20mm` |
-| Section gap | `.resume-section { margin-bottom }` | `3mm` |
-| Entry gap | `.resume-entry { margin-bottom }` | `1.8mm` |
-| Bullet line gap | `.resume-details li { margin-bottom }` | `0.4mm` |
-
-### Typography
-
-Edit `src/styles/theme.ts` to customize font sizes and weights:
-
-| Element | Default Size | Default Weight |
-|---------|-------------|----------------|
-| Name | 24pt | 700 |
-| Section title | 13pt | 600 |
-| Item title | 11pt | 600 |
-| Body | 9.5pt | 400 |
-| Caption | 8pt | 400 |
+不设图标则使用默认链接图标。
