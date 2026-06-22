@@ -30,6 +30,14 @@ export default function HomePage() {
           }}>
             开始制作
           </a>
+          <a href="/docs/usage" style={{
+            padding: '10px 28px', fontSize: 14, fontWeight: 500,
+            background: '#fff', color: '#1a365d', borderRadius: 8,
+            textDecoration: 'none', border: '1px solid #cbd5e0',
+            display: 'inline-block',
+          }}>
+            查看文档
+          </a>
           <a href="#demos" onClick={(e) => {
             e.preventDefault()
             document.getElementById('demos')?.scrollIntoView({ behavior: 'smooth' })
@@ -89,6 +97,23 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+
+        {/* CTA */}
+        <div style={{
+          marginTop: 48, padding: '32px 24px',
+          background: '#f8fafc', borderRadius: 8,
+          border: '1px solid #e2e8f0', textAlign: 'center',
+        }}>
+          <p style={{ fontSize: 15, color: '#334155', margin: '0 0 8px', fontWeight: 500 }}>
+            有更多需求或发现问题？
+          </p>
+          <p style={{ fontSize: 13, color: '#64748b', margin: '0 0 16px', lineHeight: 1.6 }}>
+            欢迎提交 <a href="https://github.com/lEEExp3rt/CV-Maker/issues" target="_blank" rel="noopener"
+              style={{ color: '#2563eb', textDecoration: 'none' }}>Issue</a> 反馈问题，
+            或直接发起 <a href="https://github.com/lEEExp3rt/CV-Maker/pulls" target="_blank" rel="noopener"
+              style={{ color: '#2563eb', textDecoration: 'none' }}>Pull Request</a> 贡献代码。
+          </p>
+        </div>
 
         <Footer />
       </div>
