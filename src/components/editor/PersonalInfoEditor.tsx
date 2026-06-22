@@ -46,9 +46,9 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
         <div className="editor-field">
           <label>{'照片'}</label>
           {data.photo ? (
-            <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
               <img src={data.photo} alt="" style={{ width: 22, height: 28, objectFit: 'cover', borderRadius: 4, border: '1px solid #e2e8f0' }} />
-              <button type="button" className="card-remove" onClick={() => update('photo', '')}>× {'删除'}</button>
+              <button type="button" className="card-remove" onClick={() => update('photo', '')}>×</button>
             </div>
           ) : (
             <button className="editor-add-btn" onClick={() => fileInputRef.current?.click()}>{'上传照片'}</button>

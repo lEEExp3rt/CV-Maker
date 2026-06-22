@@ -368,7 +368,7 @@ body { justify-content: flex-start !important; padding: 0 !important; }
   letter-spacing: 0.03em;
 }
 
-.editor-entry-card .card-remove {
+.card-remove {
   width: 20px;
   height: 20px;
   border: none;
@@ -382,9 +382,10 @@ body { justify-content: flex-start !important; padding: 0 !important; }
   align-items: center;
   justify-content: center;
   transition: all 0.1s;
+  flex-shrink: 0;
 }
 
-.editor-entry-card .card-remove:hover {
+.card-remove:hover {
   background: #fef2f2;
   color: #ef4444;
 }
