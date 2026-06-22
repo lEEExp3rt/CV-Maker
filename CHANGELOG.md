@@ -1,0 +1,58 @@
+# Changelog
+
+## [2.0.0] — Visual Editor (feature/visual-editor)
+
+A complete rewrite of CV-Maker into a visual editor with browser-side PDF export. Replaces the previous YAML-based workflow.
+
+### Added
+
+- **Visual Editor** — form-based editor with live preview at `/editor`
+- **Multi-Project Management** — sidebar to create, switch, duplicate, rename, and delete resume projects
+- **Project Sidebar** — collapsible, resizable sidebar with project list
+- **Editor Panel** — collapsible form panel with percentage-based width and drag-to-resize
+- **Six Form Tabs** — Personal Info, Education, Internship, Projects, Skills, Awards
+- **Photo Upload** — base64 local storage, no server needed
+- **Icon Picker** — built-in presets (Lucide) + custom URL/upload
+- **Color Scheme Selector** — 6 schemes (navy / slate / forest / burgundy / teal / charcoal)
+- **Language Selector** — Chinese / English section titles
+- **Import/Export** — JSON modal with copy-to-clipboard and file download
+- **Homepage** (`/`) — project intro, feature cards, demo resumes
+- **Documentation Site** (`/docs/usage`, `/docs/development`) — rendered from markdown with syntax highlighting
+- **Responsive Layout** — scalable demo cards, responsive editor breakpoints
+- **`ScalableWrapper`** — proportional A4 resume scaling on homepage
+- **Footer Component** — shared MIT license + powered-by banner
+- **GitHub Pages Workflow** — auto-deploy from `main` branch
+
+### Changed
+
+- **Data Storage** — YAML files replaced with localStorage + JSON export/import
+- **PDF Export** — Puppeteer CLI replaced with browser `window.print()`
+- **Dependencies** — removed `puppeteer`, `js-yaml`, `@types/js-yaml` (~300MB Docker image reduction)
+- **Documentation** — rewritten as full Chinese docs (README, usage, development)
+- **Docker** — simplified Dockerfile (no Chromium, no Puppeteer env vars)
+
+### Removed
+
+- YAML-based workflow (`src/App.tsx`, `src/utils/loadContent.ts`, `scripts/export-pdf.mjs`)
+- YAML virtual module Vite plugin
+- `puppeteer`, `js-yaml` dependencies
+
+---
+
+## [1.0.0] — YAML-Based (main)
+
+Initial release. Resume generator driven by YAML content files with Puppeteer PDF export.
+
+### Features
+
+- **YAML Content** — edit `contents/cv.yml` and `contents/settings.yml`
+- **6 Resume Sections** — Personal Info, Education, Internship, Projects, Skills, Awards
+- **Live Preview** — `npm run dev` with HMR on YAML changes
+- **PDF Export** — `npm run export` via headless Puppeteer
+- **6 Color Schemes** — navy, slate, forest, burgundy, teal, charcoal
+- **Chinese/English Support** — configurable section titles
+- **Font Configuration** — system fonts, local files, or CDN
+- **Lucide Icons** — inline SVG icons for built-in fields
+- **Markdown Support** — bold, italic, underline, inline code in descriptions
+- **Docker** — full dev container with Chromium, CJK fonts, Puppeteer
+- **VSCode Dev Container** — pre-configured `.devcontainer/`
