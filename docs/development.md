@@ -43,11 +43,27 @@ VSCode 用户：打开项目 → 点击「Reopen in Container」，`.devcontaine
 
 Dockerfile 基于 `node:22-slim`，安装 `fonts-noto-cjk` 用于中文渲染。
 
+#### Accelerating Docker Image Building in China Mainland
+
+构建镜像时下载 apt 包和 npm 包较慢，两项配置可加速：
+
+1. **npm 镜像** — 取消 `.npmrc` 中的注释：
+
+   ```text
+   registry=https://registry.npmmirror.com
+   ```
+
+2. **apt 镜像** — 取消 `.devcontainer/Dockerfile` 第 4 行注释：
+
+   ```dockerfile
+   RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources
+   ```
+
 ## Architecture
 
 ### Project Structure
 
-```
+```text
 src/
 ├── components/       # React 组件（展示 + 编辑器表单）
 │   └── editor/       # 可视化编辑器表单组件
