@@ -43,7 +43,7 @@ export default function Projects({ data, lang = 'zh' }: Props) {
               showMeta={!!entry.url}
             />
             <span className="resume-entry-date">
-              {entry.start} ~ {entry.end || "至今"}
+              {entry.start} ~ {entry.end || (lang === "zh" ? "至今" : "Present")}
             </span>
           </div>
           {entry.brief && (

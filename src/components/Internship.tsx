@@ -35,7 +35,7 @@ export default function Internship({ data, lang = 'zh' }: Props) {
                 showMeta={!!meta}
               />
               <span className="resume-entry-date">
-                {entry.start} ~ {entry.end || "至今"}
+                {entry.start} ~ {entry.end || (lang === "zh" ? "至今" : "Present")}
               </span>
             </div>
             {entry.brief && (
