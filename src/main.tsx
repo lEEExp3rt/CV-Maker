@@ -6,12 +6,19 @@ import DocsPage from './DocsPage'
 import './styles/global.css'
 import './styles/resume.css'
 
+// Restore SPA route after GitHub Pages 404 redirect
+const redirect = sessionStorage.getItem('redirect')
+if (redirect) {
+  sessionStorage.removeItem('redirect')
+  window.history.replaceState({}, '', redirect)
+}
+
 const path = window.location.pathname
 
 let App: React.ComponentType
-if (path === '/editor') {
+if (path.endsWith('/editor') || path.includes('/editor')) {
   App = EditorApp
-} else if (path.startsWith('/docs')) {
+} else if (path.includes('/docs')) {
   App = DocsPage
 } else {
   App = HomePage
