@@ -57,6 +57,29 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+
+        <hr style={{
+          marginTop: 56, border: 'none', borderTop: '1px solid #cbd5e0', width: '100%',
+        }} />
+        <div style={{
+          paddingTop: 16,
+          display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap',
+        }}>
+          {[
+            { label: 'React', href: 'https://react.dev' },
+            { label: 'TypeScript', href: 'https://www.typescriptlang.org' },
+            { label: 'Vite', href: 'https://vite.dev' },
+            { label: 'Lucide Icons', href: 'https://lucide.dev' },
+          ].map(({ label, href }) => (
+            <a key={label} href={href} target="_blank" rel="noopener"
+              style={{ fontSize: 11, color: '#94a3b8', textDecoration: 'none' }}
+              onMouseEnter={(e) => { (e.target as HTMLAnchorElement).style.color = '#475569' }}
+              onMouseLeave={(e) => { (e.target as HTMLAnchorElement).style.color = '#94a3b8' }}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
       </div>
     </Layout>
   )
