@@ -1,5 +1,7 @@
 // Icons from Lucide (https://lucide.dev) — MIT licensed
-// SVG files stored locally in public/images/icons/
+// SVG files stored locally in public/icons/
+
+const BASE = import.meta.env.BASE_URL
 
 interface IconProps {
   size?: number
@@ -8,7 +10,7 @@ interface IconProps {
 function LocalIcon({ src, size = 12 }: { src: string; size?: number }) {
   return (
     <img
-      src={`/icons/${src}`}
+      src={BASE + 'icons/' + src}
       alt=""
       width={size}
       height={size}
@@ -67,7 +69,7 @@ export function CustomIcon({ src, size = 12 }: { src: string; size?: number }) {
   const isAbsolute = src.startsWith('http://') || src.startsWith('https://') || src.startsWith('data:')
   return (
     <img
-      src={isAbsolute ? src : `/${src}`}
+      src={isAbsolute ? src : BASE + src}
       alt=""
       width={size}
       height={size}

@@ -1,5 +1,8 @@
 import type { ReactNode } from 'react'
 
+// Use Vite's base path so links work on GitHub Pages subpath (e.g. /CV-Maker/)
+const BASE = import.meta.env.BASE_URL
+
 interface Props {
   children: ReactNode
 }
@@ -8,8 +11,7 @@ export default function Layout({ children }: Props) {
   const path = window.location.pathname
 
   const isActive = (target: string) => {
-    if (target === '/') return path === '/'
-    return path.startsWith(target)
+    return path === target || path.startsWith(target + (target.endsWith('/') ? '' : '/'))
   }
 
   return (
@@ -19,7 +21,7 @@ export default function Layout({ children }: Props) {
         padding: '0 16px', gap: 2, flexShrink: 0,
       }}>
         {/* Brand */}
-        <a href="/" style={{
+        <a href={BASE} style={{
           fontSize: 14, fontWeight: 700, color: '#fff',
           textDecoration: 'none', marginRight: 16,
           letterSpacing: '-0.01em',
@@ -29,11 +31,11 @@ export default function Layout({ children }: Props) {
 
         {/* Nav links */}
         {[
-          { path: '/', label: '首页' },
-          { path: '/editor', label: '编辑器' },
-          { path: '/docs/usage', label: '文档' },
+          { path: BASE === '/' ? '/' : BASE.slice(0, -1), label: '首页' },
+          { path: BASE + 'editor', label: '编辑器' },
+          { path: BASE + 'docs/usage', label: '文档' },
         ].map(({ path: p, label }) => (
-          <a key={p} href={p} onClick={(e) => { if (path === p) e.preventDefault() }}
+          <a key={p} href={p} onClick={(e) => { if (path === p || path === p + '/') e.preventDefault() }}
             style={{
               padding: '7px 14px', fontSize: 12, fontWeight: 500,
               color: isActive(p) ? '#fff' : '#94a3b8',
