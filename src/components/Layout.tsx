@@ -36,7 +36,7 @@ export default function Layout({ children }: Props) {
         }}>首页</a>
         <a href="/editor" style={linkStyle('/editor')}>编辑器</a>
         <a
-          href="https://github.com/1EEExp3rt/CV-Maker"
+          href="https://github.com/lEEExp3rt/CV-Maker"
           target="_blank"
           rel="noopener"
           style={{ ...linkStyle('/github'), marginLeft: 'auto' }}
