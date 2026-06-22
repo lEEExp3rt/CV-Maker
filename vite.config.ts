@@ -86,7 +86,8 @@ export const settings = ${JSON.stringify(settingsData)};
   }
 }
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  base: process.env.BASE_PATH || '/',
   plugins: [yamlVirtualPlugin(), react()],
   resolve: {
     alias: {
@@ -106,4 +107,4 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
   },
-})
+}))

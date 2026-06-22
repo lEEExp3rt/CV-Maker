@@ -3,10 +3,6 @@ import type { ResumeData, Settings } from './types/resume'
 import { loadResumeData, loadSettings } from './utils/loadContent'
 import Resume from './Resume'
 
-// Check if we're in print/export mode
-const urlParams = new URLSearchParams(window.location.search)
-const isPrintMode = urlParams.get('print') === 'true'
-
 export default function App() {
   const [data, setData] = useState<ResumeData>(() => loadResumeData())
   const [settings, setSettings] = useState<Settings>(() => loadSettings())
@@ -23,5 +19,5 @@ export default function App() {
     })
   }
 
-  return <Resume data={data} settings={settings} isPrintMode={isPrintMode} />
+  return <Resume data={data} settings={settings} />
 }
