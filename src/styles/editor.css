@@ -2,9 +2,6 @@
    CV-Maker — Visual Editor Styles
    ============================================================ */
 
-body { padding: 0 !important; }
-#root { display: block !important; }
-
 .editor-layout {
   display: flex;
   height: 100%;

@@ -322,17 +322,5 @@
 
 }
 
-/* Print-only mode (used by Puppeteer export) */
-.print-mode {
-  background: #fff;
-  padding: 0;
-}
 
-.print-mode .resume-toolbar {
-  display: none !important;
-}
 
-.print-mode .resume-page {
-  box-shadow: none;
-  margin: 0;
-}
