@@ -37,7 +37,8 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
   }
 
   return (
-    <div className="editor-form-section">
+    <>
+      <div className="editor-form-section">
       <h3>{'基本信息'}</h3>
       <div className="editor-row">
         <div className="editor-field">
@@ -59,6 +60,9 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
         </div>
       </div>
 
+    </div>
+
+    <div className="editor-form-section">
       <h3>{'联系方式'}</h3>
       <div className="editor-row">
         <div className="editor-field">
@@ -70,6 +74,9 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
           <input value={c.phone} onChange={(e) => updateContact({ phone: e.target.value })} placeholder="+86-138-0000-0000" />
         </div>
       </div>
+    </div>
+
+    <div className="editor-form-section">
       <h3>{'社交媒体'}</h3>
       {(c.socials || []).map((s, i) => {
         const iconDef = BUILTIN_ICONS.find((ic) => ic.key === s.icon)
@@ -118,7 +125,9 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
         const arr = [...(c.socials || []), { icon: 'link', url: '', label: '' }]
         updateContact({ socials: arr } as any)
       }}>+ {'添加社交媒体'}</button>
+    </div>
 
+    <div className="editor-form-section">
       <h3>{'自定义链接'}</h3>
       {(c.customs || []).map((link, i) => (
         <div className="editor-entry-card" key={i}>
@@ -161,5 +170,6 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
         + {'添加链接'}
       </button>
     </div>
+    </>
   )
 }
