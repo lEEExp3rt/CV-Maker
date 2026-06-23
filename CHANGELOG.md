@@ -21,6 +21,8 @@
 
 - PersonalInfo editor section spacing unified across all 4 sections
 - Footer uses official GitHub mark and colored Remix Icon logo
+- All editor placeholders replaced with descriptive labels (no hardcoded names)
+- Demo data anonymized and extracted to standalone `examples/*.json` files
 
 ---
 
