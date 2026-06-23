@@ -76,7 +76,7 @@ export const BUILTIN_ICONS: IconDef[] = [
 
 interface IconProps { size?: number }
 
-function RawIcon({ svg, size = 12 }: { svg: string; size?: number }) {
+function RawIcon({ svg, size = 13 }: { svg: string; size?: number }) {
   return (
     <span
       dangerouslySetInnerHTML={{ __html: svg }}
@@ -93,12 +93,10 @@ function presetIcon(key: string): string {
   return BUILTIN_ICONS.find((i) => i.key === key)?.svg ?? linkSvg
 }
 
-// Personal info icons
-export function MailIcon({ size = 12 }: IconProps)     { return <RawIcon svg={presetIcon('mail-line')} size={size} /> }
-export function PhoneIcon({ size = 12 }: IconProps)    { return <RawIcon svg={presetIcon('phone-line')} size={size} /> }
-export function GlobeIcon({ size = 12 }: IconProps)    { return <RawIcon svg={presetIcon('global-line')} size={size} /> }
-export function GithubIcon({ size = 12 }: IconProps)   { return <RawIcon svg={presetIcon('github-line')} size={size} /> }
-export function LinkIcon({ size = 12 }: IconProps)     { return <RawIcon svg={presetIcon('link')} size={size} /> }
+// Personal info icons (email/phone/link used directly in PersonalInfo.tsx)
+export function MailIcon({ size = 13 }: IconProps)    { return <RawIcon svg={presetIcon('mail-line')} size={size} /> }
+export function PhoneIcon({ size = 13 }: IconProps)   { return <RawIcon svg={presetIcon('phone-line')} size={size} /> }
+export function LinkIcon({ size = 13 }: IconProps)    { return <RawIcon svg={presetIcon('link')} size={size} /> }
 
 // Section title icons
 export function GraduationCapIcon({ size = 16 }: IconProps) { return <RawIcon svg={graduationCapSvg} size={size} /> }
@@ -106,29 +104,31 @@ export function BriefcaseIcon({ size = 16 }: IconProps)     { return <RawIcon sv
 export function CodeIcon({ size = 16 }: IconProps)          { return <RawIcon svg={codeSvg} size={size} /> }
 export function CpuIcon({ size = 16 }: IconProps)           { return <RawIcon svg={cpuSvg} size={size} /> }
 export function AwardIcon({ size = 16 }: IconProps)         { return <RawIcon svg={awardSvg} size={size} /> }
-export function TrophyIcon({ size = 10 }: IconProps)        { return <RawIcon svg={trophySvg} size={size} /> }
+export function TrophyIcon({ size = 13 }: IconProps)        { return <RawIcon svg={trophySvg} size={size} /> }
 
-// Social media icons — individual exports for direct use
-export function WechatIcon({ size = 12 }: IconProps)     { return <RawIcon svg={wechatSvg} size={size} /> }
-export function QQIcon({ size = 12 }: IconProps)          { return <RawIcon svg={qqSvg} size={size} /> }
-export function ZhihuIcon({ size = 12 }: IconProps)       { return <RawIcon svg={zhihuSvg} size={size} /> }
-export function BilibiliIcon({ size = 12 }: IconProps)    { return <RawIcon svg={bilibiliSvg} size={size} /> }
-export function TiktokIcon({ size = 12 }: IconProps)      { return <RawIcon svg={tiktokSvg} size={size} /> }
-export function WeiboIcon({ size = 12 }: IconProps)       { return <RawIcon svg={weiboSvg} size={size} /> }
-export function TwitterXIcon({ size = 12 }: IconProps)    { return <RawIcon svg={twitterXSvg} size={size} /> }
-export function InstagramIcon({ size = 12 }: IconProps)   { return <RawIcon svg={instagramSvg} size={size} /> }
-export function LinkedInIcon({ size = 12 }: IconProps)    { return <RawIcon svg={linkedinSvg} size={size} /> }
-export function RedditIcon({ size = 12 }: IconProps)      { return <RawIcon svg={redditSvg} size={size} /> }
-export function DiscordIcon({ size = 12 }: IconProps)     { return <RawIcon svg={discordSvg} size={size} /> }
-export function TelegramIcon({ size = 12 }: IconProps)    { return <RawIcon svg={telegramSvg} size={size} /> }
-export function RssIcon({ size = 12 }: IconProps)         { return <RawIcon svg={rssSvg} size={size} /> }
-export function GiteeIcon({ size = 12 }: IconProps)       { return <RawIcon svg={giteeSvg} size={size} /> }
-export function StackOverflowIcon({ size = 12 }: IconProps) { return <RawIcon svg={stackOverflowSvg} size={size} /> }
+// Social / link icons — all via presetIcon lookup
+export function GlobeIcon({ size = 13 }: IconProps)         { return <RawIcon svg={presetIcon('global-line')} size={size} /> }
+export function GithubIcon({ size = 13 }: IconProps)        { return <RawIcon svg={presetIcon('github-line')} size={size} /> }
+export function WechatIcon({ size = 13 }: IconProps)        { return <RawIcon svg={presetIcon('wechat-line')} size={size} /> }
+export function QQIcon({ size = 13 }: IconProps)             { return <RawIcon svg={presetIcon('qq-line')} size={size} /> }
+export function ZhihuIcon({ size = 13 }: IconProps)          { return <RawIcon svg={presetIcon('zhihu-line')} size={size} /> }
+export function BilibiliIcon({ size = 13 }: IconProps)       { return <RawIcon svg={presetIcon('bilibili-line')} size={size} /> }
+export function TiktokIcon({ size = 13 }: IconProps)         { return <RawIcon svg={presetIcon('tiktok-line')} size={size} /> }
+export function WeiboIcon({ size = 13 }: IconProps)          { return <RawIcon svg={presetIcon('weibo-line')} size={size} /> }
+export function TwitterXIcon({ size = 13 }: IconProps)       { return <RawIcon svg={presetIcon('twitter-x-line')} size={size} /> }
+export function InstagramIcon({ size = 13 }: IconProps)      { return <RawIcon svg={presetIcon('instagram-line')} size={size} /> }
+export function LinkedInIcon({ size = 13 }: IconProps)       { return <RawIcon svg={presetIcon('linkedin-line')} size={size} /> }
+export function RedditIcon({ size = 13 }: IconProps)         { return <RawIcon svg={presetIcon('reddit-line')} size={size} /> }
+export function DiscordIcon({ size = 13 }: IconProps)        { return <RawIcon svg={presetIcon('discord-line')} size={size} /> }
+export function TelegramIcon({ size = 13 }: IconProps)       { return <RawIcon svg={presetIcon('telegram-line')} size={size} /> }
+export function RssIcon({ size = 13 }: IconProps)            { return <RawIcon svg={presetIcon('rss-line')} size={size} /> }
+export function GiteeIcon({ size = 13 }: IconProps)          { return <RawIcon svg={presetIcon('gitee-line')} size={size} /> }
+export function StackOverflowIcon({ size = 13 }: IconProps)  { return <RawIcon svg={presetIcon('stack-overflow-line')} size={size} /> }
 
 // ============================================================
 // Custom icon: local path, remote URL, data URI, or Remix name
 // ============================================================
-export function CustomIcon({ src, size = 12 }: { src: string; size?: number }) {
+export function CustomIcon({ src, size = 13 }: { src: string; size?: number }) {
   const isAbsolute = src.startsWith('http://') || src.startsWith('https://') || src.startsWith('data:')
   const isRemixName = !isAbsolute && !src.includes('/') && !src.includes('.')
 

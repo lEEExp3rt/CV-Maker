@@ -1,5 +1,5 @@
 import type { PersonalInfo as PersonalInfoType } from '../types/resume'
-import { MailIcon, PhoneIcon, GlobeIcon, GithubIcon, LinkIcon, CustomIcon } from './Icons'
+import { MailIcon, PhoneIcon, LinkIcon, CustomIcon } from './Icons'
 
 interface Props {
   data: PersonalInfoType
@@ -7,11 +7,9 @@ interface Props {
 
 export default function PersonalInfo({ data }: Props) {
   const { name, photo, contact } = data
-  const { email, phone, homepage, github, customs } = contact
+  const { email, phone, socials, customs } = contact
 
-  // Strip protocol to show clean URL as link text
   const displayUrl = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/$/, '')
-
   const hasPhoto = !!photo
 
   return (
@@ -38,25 +36,23 @@ export default function PersonalInfo({ data }: Props) {
             </span>
           )}
 
-          {/* Homepage */}
-          {homepage && (
-            <span className="resume-contact-item">
-              <GlobeIcon />
-              <a href={homepage} target="_blank" rel="noopener noreferrer">
-                {displayUrl(homepage)}
-              </a>
-            </span>
-          )}
-
-          {/* GitHub */}
-          {github && (
-            <span className="resume-contact-item">
-              <GithubIcon />
-              <a href={github} target="_blank" rel="noopener noreferrer">
-                {displayUrl(github)}
-              </a>
-            </span>
-          )}
+          {/* Built-in socials */}
+          {socials?.map((s) => {
+            const isHttp = /^https?:\/\//.test(s.url)
+            const displayText = isHttp ? displayUrl(s.url) : s.url
+            return (
+              <span className="resume-contact-item" key={`social-${s.label}`}>
+                <CustomIcon src={s.icon} />
+                {isHttp ? (
+                  <a href={s.url} target="_blank" rel="noopener noreferrer">
+                    {displayText}
+                  </a>
+                ) : (
+                  <span>{displayText}</span>
+                )}
+              </span>
+            )
+          })}
 
           {/* Custom entries */}
           {customs?.map((link) => {

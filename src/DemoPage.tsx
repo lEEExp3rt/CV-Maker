@@ -9,8 +9,10 @@ export const DEMO_NO_PHOTO: ResumeData = {
     contact: {
       email: 'zhangsan@zju.edu.cn',
       phone: '+86-138-0000-0000',
-      homepage: 'https://zhangsan.dev',
-      github: 'https://github.com/zhangsan',
+      socials: [
+        { icon: 'global-line', url: 'https://zhangsan.dev', label: '个人主页' },
+        { icon: 'github-line', url: 'https://github.com/zhangsan', label: 'GitHub' },
+      ],
     },
   },
   educations: [
