@@ -1,6 +1,30 @@
 # Changelog
 
-## [2.0.0] — Visual Editor (feature/visual-editor)
+## [2.1.0] — Remix Icons & Social Links
+
+### Added
+
+- **Remix Icon Integration** — replaced all Lucide icons with [Remix Icon](https://remixicon.com) (npm package, MIT)
+- **20+ Built-in Social Icons** — GitHub, WeChat, QQ, Zhihu, Bilibili, Tiktok, Weibo, X/Twitter, Instagram, LinkedIn, Reddit, Discord, Telegram, RSS, Gitee, Stack Overflow
+- **Dynamic Icon Loading** — enter any Remix icon name (e.g. `discord-fill`) to load from 2800+ icons at runtime
+- **Socials Section** — dedicated form section for built-in social links with icon type picker
+- **Homepage Demo JSON Files** — demos extracted to `examples/` as standalone importable JSON
+- **Official Brand Logos** — React, TypeScript, Vite, GitHub, Remix Icon logos in footer
+
+### Changed
+
+- **Contact Fields** — `github` standalone field removed, merged into `socials[]` array
+- **Icons** — all Lucide SVGs removed from `public/icons/`, replaced with Remix import system
+- **Icon Size** — personal info icons default size increased for better readability
+
+### Fixed
+
+- PersonalInfo editor section spacing unified across all 4 sections
+- Footer uses official GitHub mark and colored Remix Icon logo
+
+---
+
+## [2.0.0] — Visual Editor
 
 A complete rewrite of CV-Maker into a visual editor with browser-side PDF export. Replaces the previous YAML-based workflow.
 
@@ -52,7 +76,7 @@ Initial release. Resume generator driven by YAML content files with Puppeteer PD
 - **6 Color Schemes** — navy, slate, forest, burgundy, teal, charcoal
 - **Chinese/English Support** — configurable section titles
 - **Font Configuration** — system fonts, local files, or CDN
-- **Remix Icon Icons** — inline SVG icons for built-in fields
+- **Lucide Icons** — inline SVG icons for built-in fields
 - **Markdown Support** — bold, italic, underline, inline code in descriptions
 - **Docker** — full dev container with Chromium, CJK fonts, Puppeteer
 - **VSCode Dev Container** — pre-configured `.devcontainer/`
