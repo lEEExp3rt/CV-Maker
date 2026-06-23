@@ -12,7 +12,7 @@ A complete rewrite of CV-Maker into a visual editor with browser-side PDF export
 - **Editor Panel** — collapsible form panel with percentage-based width and drag-to-resize
 - **Six Form Tabs** — Personal Info, Education, Internship, Projects, Skills, Awards
 - **Photo Upload** — base64 local storage, no server needed
-- **Icon Picker** — built-in presets (Lucide) + custom URL/upload
+- **Icon Picker** — built-in presets (Remix Icon) + custom URL/upload
 - **Color Scheme Selector** — 6 schemes (navy / slate / forest / burgundy / teal / charcoal)
 - **Language Selector** — Chinese / English section titles
 - **Import/Export** — JSON modal with copy-to-clipboard and file download
@@ -52,7 +52,7 @@ Initial release. Resume generator driven by YAML content files with Puppeteer PD
 - **6 Color Schemes** — navy, slate, forest, burgundy, teal, charcoal
 - **Chinese/English Support** — configurable section titles
 - **Font Configuration** — system fonts, local files, or CDN
-- **Lucide Icons** — inline SVG icons for built-in fields
+- **Remix Icon Icons** — inline SVG icons for built-in fields
 - **Markdown Support** — bold, italic, underline, inline code in descriptions
 - **Docker** — full dev container with Chromium, CJK fonts, Puppeteer
 - **VSCode Dev Container** — pre-configured `.devcontainer/`
