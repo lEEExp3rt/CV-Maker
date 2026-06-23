@@ -27,11 +27,11 @@ export default function ProjectEditor({ data, onChange }: Props) {
           <div className="editor-row">
             <div className="editor-field">
               <label>项目名 *</label>
-              <input value={entry.name} onChange={(e) => update(i, 'name', e.target.value)} placeholder="分布式KV存储引擎" />
+              <input value={entry.name} onChange={(e) => update(i, 'name', e.target.value)} placeholder="项目名称" />
             </div>
             <div className="editor-field">
               <label>英文名</label>
-              <input value={entry.name_en || ''} onChange={(e) => update(i, 'name_en', e.target.value)} placeholder="Distributed KV Store" />
+              <input value={entry.name_en || ''} onChange={(e) => update(i, 'name_en', e.target.value)} placeholder="Project Name" />
             </div>
           </div>
           <div className="editor-field">
@@ -40,20 +40,20 @@ export default function ProjectEditor({ data, onChange }: Props) {
           </div>
           <div className="editor-row">
             <div className="editor-field">
-              <label>开始 *</label>
-              <input value={entry.start} onChange={(e) => update(i, 'start', e.target.value)} placeholder="2023-10" />
+              <label>开始时间 *</label>
+              <input value={entry.start} onChange={(e) => update(i, 'start', e.target.value)} placeholder="YYYY-MM" />
             </div>
             <div className="editor-field">
-              <label>结束</label>
-              <input value={entry.end} onChange={(e) => update(i, 'end', e.target.value)} placeholder="2024-01（留空显示至今）" />
+              <label>结束时间</label>
+              <input value={entry.end} onChange={(e) => update(i, 'end', e.target.value)} placeholder="YYYY-MM（留空显示至今）" />
             </div>
           </div>
           <div className="editor-field">
-            <label>摘要（支持 Markdown）</label>
-            <input value={entry.brief || ''} onChange={(e) => update(i, 'brief', e.target.value)} placeholder="基于**Raft**协议实现..." />
+            <label>摘要</label>
+            <input value={entry.brief || ''} onChange={(e) => update(i, 'brief', e.target.value)} placeholder="支持**加粗**、*斜体*、`代码`、_下划线_ ..." />
           </div>
           <div className="editor-field">
-            <label>详细描述（一行一条，支持 Markdown）</label>
+            <label>详细描述</label>
             {(entry.details || []).map((d, j) => (
               <div key={j} style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
                 <input value={d} onChange={(e) => {

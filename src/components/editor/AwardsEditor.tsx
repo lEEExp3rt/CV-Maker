@@ -23,11 +23,11 @@ export default function AwardsEditor({ data, onChange }: Props) {
           <div className="editor-row">
             <div className="editor-field">
               <label>奖项名称 *</label>
-              <input value={entry.name} onChange={(e) => update(i, 'name', e.target.value)} placeholder="国家奖学金" />
+              <input value={entry.name} onChange={(e) => update(i, 'name', e.target.value)} placeholder="奖项名称" />
             </div>
             <div className="editor-field">
               <label>日期</label>
-              <input value={entry.date} onChange={(e) => update(i, 'date', e.target.value)} placeholder="2022" style={{ width: 100 }} />
+              <input value={entry.date} onChange={(e) => update(i, 'date', e.target.value)} placeholder="YYYY" style={{ width: 100 }} />
             </div>
           </div>
         </div>

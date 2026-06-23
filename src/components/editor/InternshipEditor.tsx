@@ -26,40 +26,40 @@ export default function InternshipEditor({ data, onChange }: Props) {
           </div>
           <div className="editor-row">
             <div className="editor-field">
-              <label>公司 *</label>
-              <input value={entry.company} onChange={(e) => update(i, 'company', e.target.value)} placeholder="阿里巴巴" />
+              <label>企业 *</label>
+              <input value={entry.company} onChange={(e) => update(i, 'company', e.target.value)} placeholder="企业名称" />
             </div>
             <div className="editor-field">
               <label>英文名</label>
-              <input value={entry.company_en || ''} onChange={(e) => update(i, 'company_en', e.target.value)} placeholder="Alibaba Group" />
+              <input value={entry.company_en || ''} onChange={(e) => update(i, 'company_en', e.target.value)} placeholder="Company Name" />
             </div>
           </div>
           <div className="editor-row">
             <div className="editor-field">
               <label>部门</label>
-              <input value={entry.department || ''} onChange={(e) => update(i, 'department', e.target.value)} placeholder="淘宝技术部" />
+              <input value={entry.department || ''} onChange={(e) => update(i, 'department', e.target.value)} placeholder="部门" />
             </div>
             <div className="editor-field">
               <label>岗位 *</label>
-              <input value={entry.role} onChange={(e) => update(i, 'role', e.target.value)} placeholder="后端开发实习生" />
+              <input value={entry.role} onChange={(e) => update(i, 'role', e.target.value)} placeholder="岗位名称" />
             </div>
           </div>
           <div className="editor-row">
             <div className="editor-field">
-              <label>开始 *</label>
-              <input value={entry.start} onChange={(e) => update(i, 'start', e.target.value)} placeholder="2025-06" />
+              <label>开始时间 *</label>
+              <input value={entry.start} onChange={(e) => update(i, 'start', e.target.value)} placeholder="YYYY-MM" />
             </div>
             <div className="editor-field">
-              <label>结束</label>
-              <input value={entry.end} onChange={(e) => update(i, 'end', e.target.value)} placeholder="2025-09（留空显示至今）" />
+              <label>结束时间</label>
+              <input value={entry.end} onChange={(e) => update(i, 'end', e.target.value)} placeholder="YYYY-MM（留空显示至今）" />
             </div>
           </div>
           <div className="editor-field">
-            <label>摘要（支持 Markdown）</label>
-            <input value={entry.brief || ''} onChange={(e) => update(i, 'brief', e.target.value)} placeholder="参与**核心系统**研发..." />
+            <label>摘要</label>
+            <input value={entry.brief || ''} onChange={(e) => update(i, 'brief', e.target.value)} placeholder="支持**加粗**、*斜体*、`代码`、_下划线_ ..." />
           </div>
           <div className="editor-field">
-            <label>详细描述（一行一条，支持 Markdown）</label>
+            <label>详细描述</label>
             {(entry.details || []).map((d, j) => (
               <div key={j} style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
                 <input value={d} onChange={(e) => {

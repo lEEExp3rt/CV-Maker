@@ -43,7 +43,7 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
       <div className="editor-row">
         <div className="editor-field">
           <label>{'姓名'} *</label>
-          <input value={data.name} onChange={(e) => update('name', e.target.value)} placeholder={'张三'} />
+          <input value={data.name} onChange={(e) => update('name', e.target.value)} placeholder={'请输入姓名'} />
         </div>
         <div className="editor-field">
           <label>{'照片'}</label>
@@ -67,7 +67,7 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
       <div className="editor-row">
         <div className="editor-field">
           <label>{'邮箱'} *</label>
-          <input value={c.email} onChange={(e) => updateContact({ email: e.target.value })} placeholder="zhangsan@zju.edu.cn" />
+          <input value={c.email} onChange={(e) => updateContact({ email: e.target.value })} placeholder="email@example.com" />
         </div>
         <div className="editor-field">
           <label>{'电话'} *</label>
@@ -142,7 +142,7 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
                 const arr = [...(c.customs || [])]
                 arr[i] = { ...arr[i], label: e.target.value }
                 updateCustoms(arr)
-              }} placeholder="Blog" />
+              }} placeholder="标签名称" />
             </div>
             <div className="editor-field">
               <label>URL / {'文本'}</label>

@@ -22,7 +22,7 @@ export default function SkillsEditor({ data, onChange }: Props) {
           </div>
           <div className="editor-field">
             <label>{'分类名'}</label>
-            <input value={cat.category} onChange={(e) => update(i, 'category', e.target.value)} placeholder={'编程语言'} />
+            <input value={cat.category} onChange={(e) => update(i, 'category', e.target.value)} placeholder={'技能分类'} />
           </div>
           <div className="editor-field">
             <label>{'技能'}</label>
@@ -32,7 +32,7 @@ export default function SkillsEditor({ data, onChange }: Props) {
                   const arr = [...(cat.items || [])]
                   arr[j] = e.target.value
                   update(i, 'items', arr)
-                }} placeholder={`{''} ${j + 1}`} />
+                }} placeholder={`技能 ${j + 1}`} />
                 <button className="card-remove" onClick={() => {
                   update(i, 'items', (cat.items || []).filter((_, k) => k !== j))
                 }}>×</button>
