@@ -62,7 +62,7 @@ export default function HomePage() {
             { title: '多项目管理', desc: '侧边栏管理多个简历项目，一键复制、切换' },
             { title: '本地存储', desc: '所有数据均存储在您的本地浏览器' },
             { title: 'PDF 导出', desc: '浏览器打印直接输出 A4 格式 PDF' },
-            { title: '图标支持', desc: '内置 Lucide 图标 + 自定义上传' },
+            { title: '图标支持', desc: '内置 Remix Icon 图标 + 自定义上传' },
             { title: 'Markdown', desc: '经历描述支持粗体、斜体、下划线、行内代码' },
           ].map((f) => (
             <div key={f.title} style={{

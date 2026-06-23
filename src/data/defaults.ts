@@ -6,8 +6,7 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
     contact: {
       email: '',
       phone: '',
-      homepage: '',
-      github: '',
+      socials: [],
       customs: [],
     },
   },

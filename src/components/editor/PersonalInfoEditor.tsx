@@ -1,5 +1,6 @@
 import { useRef } from 'react'
-import type { PersonalInfo, CustomLink } from '../../types/resume'
+import type { PersonalInfo, CustomLink, SocialLink } from '../../types/resume'
+import { BUILTIN_ICONS } from '../Icons'
 import IconPicker from './IconPicker'
 
 interface Props {
@@ -36,12 +37,13 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
   }
 
   return (
-    <div className="editor-form-section">
+    <>
+      <div className="editor-form-section">
       <h3>{'基本信息'}</h3>
       <div className="editor-row">
         <div className="editor-field">
           <label>{'姓名'} *</label>
-          <input value={data.name} onChange={(e) => update('name', e.target.value)} placeholder={'张三'} />
+          <input value={data.name} onChange={(e) => update('name', e.target.value)} placeholder={'请输入姓名'} />
         </div>
         <div className="editor-field">
           <label>{'照片'}</label>
@@ -58,28 +60,74 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
         </div>
       </div>
 
+    </div>
+
+    <div className="editor-form-section">
       <h3>{'联系方式'}</h3>
       <div className="editor-row">
         <div className="editor-field">
           <label>{'邮箱'} *</label>
-          <input value={c.email} onChange={(e) => updateContact({ email: e.target.value })} placeholder="zhangsan@zju.edu.cn" />
+          <input value={c.email} onChange={(e) => updateContact({ email: e.target.value })} placeholder="email@example.com" />
         </div>
         <div className="editor-field">
           <label>{'电话'} *</label>
           <input value={c.phone} onChange={(e) => updateContact({ phone: e.target.value })} placeholder="+86-138-0000-0000" />
         </div>
       </div>
-      <div className="editor-row">
-        <div className="editor-field">
-          <label>{'个人主页'}</label>
-          <input value={c.homepage || ''} onChange={(e) => updateContact({ homepage: e.target.value })} placeholder="https://zhangsan.dev" />
-        </div>
-        <div className="editor-field">
-          <label>GitHub</label>
-          <input value={c.github || ''} onChange={(e) => updateContact({ github: e.target.value })} placeholder="https://github.com/zhangsan" />
-        </div>
-      </div>
+    </div>
 
+    <div className="editor-form-section">
+      <h3>{'社交媒体'}</h3>
+      {(c.socials || []).map((s, i) => {
+        const iconDef = BUILTIN_ICONS.find((ic) => ic.key === s.icon)
+        const updateSocials = (arr: SocialLink[]) => updateContact({ socials: arr })
+        return (
+          <div className="editor-entry-card" key={`social-${i}`}>
+            <div className="card-header">
+              <span className="card-title">{iconDef?.label || s.icon}</span>
+              <button className="card-remove" onClick={() => updateSocials((c.socials || []).filter((_, j) => j !== i))}>×</button>
+            </div>
+            <div className="editor-row">
+              <div className="editor-field">
+                <label>{'类型'}</label>
+                <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                  {BUILTIN_ICONS.filter((ic) => ['global-line','github-line','wechat-line','qq-line','zhihu-line','bilibili-line','tiktok-line','weibo-line','twitter-x-line','instagram-line','linkedin-line','reddit-line','discord-line','telegram-line','rss-line','gitee-line','stack-overflow-line'].includes(ic.key)).map((ic) => (
+                    <button key={ic.key} type="button" onClick={() => {
+                      const arr = [...(c.socials || [])]
+                      arr[i] = { ...arr[i], icon: ic.key, label: arr[i].label || ic.label }
+                      updateSocials(arr)
+                    }}
+                      style={{
+                        height: 28, padding: '0 10px', fontSize: 10, lineHeight: '28px',
+                        borderRadius: 6, border: '1px solid', cursor: 'pointer',
+                        fontFamily: 'inherit',
+                        borderColor: s.icon === ic.key ? '#3b82f6' : '#cbd5e0',
+                        background: s.icon === ic.key ? '#eff6ff' : '#fff',
+                        color: s.icon === ic.key ? '#2563eb' : '#64748b',
+                      }}
+                    >{ic.label}</button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="editor-field">
+              <label>URL / {'文本'}</label>
+              <input value={s.url} onChange={(e) => {
+                const arr = [...(c.socials || [])]
+                arr[i] = { ...arr[i], url: e.target.value, label: arr[i].label || iconDef?.label || s.icon }
+                updateSocials(arr)
+              }} placeholder="https://... {'或纯文本'}" />
+            </div>
+          </div>
+        )
+      })}
+      <button className="editor-add-btn" onClick={() => {
+        const arr = [...(c.socials || []), { icon: 'link', url: '', label: '' }]
+        updateContact({ socials: arr } as any)
+      }}>+ {'添加社交媒体'}</button>
+    </div>
+
+    <div className="editor-form-section">
       <h3>{'自定义链接'}</h3>
       {(c.customs || []).map((link, i) => (
         <div className="editor-entry-card" key={i}>
@@ -94,7 +142,7 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
                 const arr = [...(c.customs || [])]
                 arr[i] = { ...arr[i], label: e.target.value }
                 updateCustoms(arr)
-              }} placeholder="Blog" />
+              }} placeholder="标签名称" />
             </div>
             <div className="editor-field">
               <label>URL / {'文本'}</label>
@@ -122,5 +170,6 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
         + {'添加链接'}
       </button>
     </div>
+    </>
   )
 }

@@ -1,6 +1,32 @@
 # Changelog
 
-## [2.0.0] — Visual Editor (feature/visual-editor)
+## [2.1.0] — Remix Icons & Social Links
+
+### Added
+
+- **Remix Icon Integration** — replaced all Lucide icons with [Remix Icon](https://remixicon.com) (npm package, MIT)
+- **20+ Built-in Social Icons** — GitHub, WeChat, QQ, Zhihu, Bilibili, Tiktok, Weibo, X/Twitter, Instagram, LinkedIn, Reddit, Discord, Telegram, RSS, Gitee, Stack Overflow
+- **Dynamic Icon Loading** — enter any Remix icon name (e.g. `discord-fill`) to load from 2800+ icons at runtime
+- **Socials Section** — dedicated form section for built-in social links with icon type picker
+- **Homepage Demo JSON Files** — demos extracted to `examples/` as standalone importable JSON
+- **Official Brand Logos** — React, TypeScript, Vite, GitHub, Remix Icon logos in footer
+
+### Changed
+
+- **Contact Fields** — `github` standalone field removed, merged into `socials[]` array
+- **Icons** — all Lucide SVGs removed from `public/icons/`, replaced with Remix import system
+- **Icon Size** — personal info icons default size increased for better readability
+
+### Fixed
+
+- PersonalInfo editor section spacing unified across all 4 sections
+- Footer uses official GitHub mark and colored Remix Icon logo
+- All editor placeholders replaced with descriptive labels (no hardcoded names)
+- Demo data anonymized and extracted to standalone `examples/*.json` files
+
+---
+
+## [2.0.0] — Visual Editor
 
 A complete rewrite of CV-Maker into a visual editor with browser-side PDF export. Replaces the previous YAML-based workflow.
 
@@ -12,7 +38,7 @@ A complete rewrite of CV-Maker into a visual editor with browser-side PDF export
 - **Editor Panel** — collapsible form panel with percentage-based width and drag-to-resize
 - **Six Form Tabs** — Personal Info, Education, Internship, Projects, Skills, Awards
 - **Photo Upload** — base64 local storage, no server needed
-- **Icon Picker** — built-in presets (Lucide) + custom URL/upload
+- **Icon Picker** — built-in presets (Remix Icon) + custom URL/upload
 - **Color Scheme Selector** — 6 schemes (navy / slate / forest / burgundy / teal / charcoal)
 - **Language Selector** — Chinese / English section titles
 - **Import/Export** — JSON modal with copy-to-clipboard and file download

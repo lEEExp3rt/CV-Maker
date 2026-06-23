@@ -114,14 +114,15 @@
 
 ## Icons
 
-**内置图标**：使用 [Lucide](https://lucide.dev)（MIT 协议），SVG 文件位于 `public/icons/`。
+**内置图标**：使用 [Remix Icon](https://remixicon.com)（MIT 协议），通过 `remixicon` npm 包提供。
 
 **自定义链接图标**：每条自定义链接可单独设置图标：
 
 | 方式 | 说明 |
 |------|------|
-| 预设 | 默认 / 邮箱 / 电话 / 网站 / GitHub |
-| URL | 远程图标地址或本地路径 |
+| 预设 | 20+ 内置预设（邮箱、电话、网站、GitHub、微信、QQ、知乎、B 站等） |
+| Remix 图标名 | 直接输入 Remix Icon 的图标名（如 `discord-fill`、`twitter-fill`），自动从 2800+ 图标中加载 |
+| URL | 远程图标地址或本地路径（如 `icons/xxx.svg` 或 `https://...`） |
 | 上传 | 选择本地图片，base64 存储 |
 
-不设图标则使用默认链接图标。
+不设图标则使用默认链接图标。在 [Remix Icon 官网](https://remixicon.com) 搜索图标名，复制名称填入编辑器的「自定义链接 → 图标 → Remix」输入框即可。

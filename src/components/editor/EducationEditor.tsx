@@ -27,41 +27,41 @@ export default function EducationEditor({ data, onChange }: Props) {
           <div className="editor-row">
             <div className="editor-field">
               <label>{'学校'} *</label>
-              <input value={entry.school} onChange={(e) => update(i, 'school', e.target.value)} placeholder={'浙江大学'} />
+              <input value={entry.school} onChange={(e) => update(i, 'school', e.target.value)} placeholder={'学校名称'} />
             </div>
             <div className="editor-field">
               <label>{'英文名'}</label>
-              <input value={entry.school_en || ''} onChange={(e) => update(i, 'school_en', e.target.value)} placeholder="Zhejiang University" />
+              <input value={entry.school_en || ''} onChange={(e) => update(i, 'school_en', e.target.value)} placeholder="学校英文名称" />
             </div>
           </div>
           <div className="editor-row">
             <div className="editor-field">
               <label>{'学位'} *</label>
-              <input value={entry.degree} onChange={(e) => update(i, 'degree', e.target.value)} placeholder={'本科'} />
+              <input value={entry.degree} onChange={(e) => update(i, 'degree', e.target.value)} placeholder='学位名称' />
             </div>
             <div className="editor-field">
               <label>{'专业'} *</label>
-              <input value={entry.major} onChange={(e) => update(i, 'major', e.target.value)} placeholder={'计算机科学与技术'} />
+              <input value={entry.major} onChange={(e) => update(i, 'major', e.target.value)} placeholder={'专业名称'} />
             </div>
           </div>
           <div className="editor-row">
             <div className="editor-field">
-              <label>{'开始'} *</label>
-              <input value={entry.start} onChange={(e) => update(i, 'start', e.target.value)} placeholder="2022-09" />
+              <label>{'开始时间'} *</label>
+              <input value={entry.start} onChange={(e) => update(i, 'start', e.target.value)} placeholder="YYYY-MM" />
             </div>
             <div className="editor-field">
-              <label>{'结束'}</label>
-              <input value={entry.end} onChange={(e) => update(i, 'end', e.target.value)} placeholder="2026-06（{'留空显示至今'}）" />
+              <label>{'结束时间'}</label>
+              <input value={entry.end} onChange={(e) => update(i, 'end', e.target.value)} placeholder="YYYY-MM（留空显示至今）" />
             </div>
           </div>
           <div className="editor-row">
             <div className="editor-field">
               <label>GPA</label>
-              <input value={entry.gpa || ''} onChange={(e) => update(i, 'gpa', e.target.value)} placeholder="3.9/4.0" />
+              <input value={entry.gpa || ''} onChange={(e) => update(i, 'gpa', e.target.value)} placeholder="X/Y" />
             </div>
             <div className="editor-field">
               <label>{'排名'}</label>
-              <input value={entry.ranking || ''} onChange={(e) => update(i, 'ranking', e.target.value)} placeholder="3/120" />
+              <input value={entry.ranking || ''} onChange={(e) => update(i, 'ranking', e.target.value)} placeholder="X/Y or X%" />
             </div>
           </div>
           <div className="editor-field">

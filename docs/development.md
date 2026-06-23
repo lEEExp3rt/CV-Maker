@@ -72,7 +72,7 @@ src/
 ├── types/            # TypeScript 类型定义
 └── data/             # 默认数据
 public/
-├── icons/            # SVG 图标（Lucide）
+├── icons/            # SVG 图标（Remix Icon）
 └── images/           # 用户照片
 docs/                 # 项目文档
 contents/             # 保留：旧版 YAML 文件

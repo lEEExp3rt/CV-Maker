@@ -28,14 +28,15 @@ export default function Footer() {
             { src: BASE + 'icons/typescript.svg', alt: 'TypeScript', href: 'https://www.typescriptlang.org' },
             { src: BASE + 'icons/vite.svg', alt: 'Vite', href: 'https://vite.dev' },
             { src: BASE + 'icons/github.svg', alt: 'GitHub Pages', href: 'https://pages.github.com' },
-            { src: BASE + 'icons/lucide.svg', alt: 'Lucide', href: 'https://lucide.dev' },
-          ].map(({ src, alt, href }) => (
-            <a key={alt} href={href} target="_blank" rel="noopener" title={alt}
+            { src: BASE + 'icons/remixicon.svg', alt: 'Remix Icon', href: 'https://remixicon.com', w: 90, h: 18 },
+          ].map((item) => (
+            <a key={item.alt} href={item.href} target="_blank" rel="noopener" title={item.alt}
               style={{ display: 'flex', alignItems: 'center', opacity: 0.7, transition: 'opacity 0.15s' }}
               onMouseEnter={(e) => { (e.target as HTMLAnchorElement).style.opacity = '1' }}
               onMouseLeave={(e) => { (e.target as HTMLAnchorElement).style.opacity = '0.7' }}
             >
-              <img src={src} alt={alt} width={18} height={18} />
+              <img src={(item as { src: string }).src} alt={item.alt}
+                width={(item as any).w || 18} height={(item as any).h || 18} />
             </a>
           ))}
         </div>

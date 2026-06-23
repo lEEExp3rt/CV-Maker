@@ -4,6 +4,12 @@
 
 // --- Personal Info ---
 
+export interface SocialLink {
+  icon: string
+  url: string
+  label: string
+}
+
 export interface CustomLink {
   label: string
   url: string
@@ -13,8 +19,7 @@ export interface CustomLink {
 export interface Contact {
   email: string
   phone: string
-  homepage?: string
-  github?: string
+  socials?: SocialLink[]
   customs?: CustomLink[]
 }
 
