@@ -1,4 +1,5 @@
 import type { ProjectEntry } from '../../types/resume'
+import AutoTextarea from './AutoTextarea'
 
 interface Props {
   data: ProjectEntry[]
@@ -50,17 +51,30 @@ export default function ProjectEditor({ data, onChange }: Props) {
           </div>
           <div className="editor-field">
             <label>摘要</label>
-            <input value={entry.brief || ''} onChange={(e) => update(i, 'brief', e.target.value)} placeholder="支持**加粗**、*斜体*、`代码`、_下划线_ ..." />
+            <AutoTextarea
+              value={entry.brief || ''}
+              onChange={(e) => update(i, 'brief', e.target.value)}
+              onInput={(e) => { const t = e.target as HTMLTextAreaElement; t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px' }}
+              placeholder="支持**加粗**、*斜体*、`代码`、_下划线_ ..."
+              rows={1}
+            />
           </div>
           <div className="editor-field">
             <label>详细描述</label>
             {(entry.details || []).map((d, j) => (
-              <div key={j} style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
-                <input value={d} onChange={(e) => {
-                  const arr = [...(entry.details || [])]
-                  arr[j] = e.target.value
-                  update(i, 'details', arr)
-                }} placeholder={`要点 ${j + 1}`} />
+              <div key={j} style={{ display: 'flex', gap: 4, marginBottom: 4, alignItems: 'flex-start' }}>
+                <AutoTextarea
+                  value={d}
+                  onChange={(e) => {
+                    const arr = [...(entry.details || [])]
+                    arr[j] = e.target.value
+                    update(i, 'details', arr)
+                  }}
+                  onInput={(e) => { const t = e.target as HTMLTextAreaElement; t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px' }}
+                  placeholder={`要点 ${j + 1}`}
+                  rows={1}
+                  style={{ flex: 1 }}
+                />
                 <button className="card-remove" onClick={() => {
                   update(i, 'details', (entry.details || []).filter((_, k) => k !== j))
                 }}>×</button>

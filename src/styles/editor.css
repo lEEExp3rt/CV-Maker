@@ -337,6 +337,12 @@
   resize: vertical;
 }
 
+.editor-textarea-auto {
+  min-height: 28px !important;
+  resize: none !important;
+  overflow: hidden !important;
+}
+
 .editor-field .hint {
   font-size: 9px;
   color: #94a3b8;
