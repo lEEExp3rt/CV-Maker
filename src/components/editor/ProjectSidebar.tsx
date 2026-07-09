@@ -119,7 +119,7 @@ export default function ProjectSidebar({
                       <span className="sidebar-project-name">{p.title}</span>
                     )}
                     <span className="sidebar-project-time">
-                      {new Date(p.updatedAt).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}
+                      {new Date(p.updatedAt).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                     </span>
                   </div>
                   <div className="sidebar-project-actions" onClick={(e) => e.stopPropagation()}>
