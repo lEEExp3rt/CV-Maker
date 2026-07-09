@@ -37,6 +37,7 @@ export default function EditorApp() {
   const [showImport, setShowImport] = useState(false)
   const [importText, setImportText] = useState('')
   const [copied, setCopied] = useState(false)
+  const [toast, setToast] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const data = activeProject?.data ?? DEFAULT_RESUME_DATA
 
@@ -66,13 +67,19 @@ export default function EditorApp() {
     URL.revokeObjectURL(url)
   }, [jsonString, activeProject])
 
+  const showToast = useCallback((msg: string) => {
+    setToast(msg)
+    setTimeout(() => setToast(null), 2000)
+  }, [])
+
   const handleImportText = useCallback(() => {
     try {
       const parsed = JSON.parse(importText)
       updateActiveData(parsed)
       setShowImport(false)
+      showToast('导入成功')
     } catch { alert('JSON 格式无效') }
-  }, [importText, updateActiveData])
+  }, [importText, updateActiveData, showToast])
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -83,11 +90,12 @@ export default function EditorApp() {
         const parsed = JSON.parse(reader.result as string)
         updateActiveData(parsed)
         setShowImport(false)
+        showToast('导入成功')
       } catch { alert('Invalid JSON file') }
     }
     reader.readAsText(file)
     e.target.value = ''
-  }, [updateActiveData])
+  }, [updateActiveData, showToast])
 
   const handleReset = useCallback(() => {
     setShowReset(true)
@@ -133,6 +141,19 @@ export default function EditorApp() {
   return (
     <Layout>
     <div className="editor-layout">
+      {/* Toast notification */}
+      {toast && (
+        <div style={{
+          position: 'fixed', top: 56, left: '50%', transform: 'translateX(-50%)',
+          zIndex: 2000, padding: '8px 20px', fontSize: 12, fontWeight: 500,
+          background: '#16a34a', color: '#fff', borderRadius: 8,
+          boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
+          animation: 'toastIn 0.25s ease',
+        }}>
+          ✓ {toast}
+        </div>
+      )}
+
       {/* Project Sidebar */}
       <ProjectSidebar
         projects={projects}
