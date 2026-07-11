@@ -27,8 +27,8 @@ export default function Education({ data, lang = 'zh' }: Props) {
                 title={
                   <span className="resume-entry-title">
                     {entry.school}
-                    {entry.school_en && (
-                      <span className="resume-entry-subtitle">{entry.school_en}</span>
+                    {entry.school_subtitle && (
+                      <span className="resume-entry-subtitle">{entry.school_subtitle}</span>
                     )}
                   </span>
                 }

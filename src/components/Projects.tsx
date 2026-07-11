@@ -24,9 +24,9 @@ export default function Projects({ data, lang = 'zh' }: Props) {
             <HeaderLeft
               title={
                 <span className="resume-entry-title">
-                  {entry.name}
-                  {entry.name_en && (
-                    <span className="resume-entry-subtitle">{entry.name_en}</span>
+                  {entry.title}
+                  {entry.subtitle && (
+                    <span className="resume-entry-subtitle">{entry.subtitle}</span>
                   )}
                 </span>
               }

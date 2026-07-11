@@ -21,7 +21,7 @@ export default function SkillsEditor({ data, onChange }: Props) {
             <button className="card-remove" onClick={() => onChange(data.filter((_, j) => j !== i))}>×</button>
           </div>
           <div className="editor-field">
-            <label>{'分类名'}</label>
+            <label>{'分类'}</label>
             <input value={cat.category} onChange={(e) => update(i, 'category', e.target.value)} placeholder={'技能分类'} />
           </div>
           <div className="editor-field">

@@ -43,7 +43,7 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
       <div className="editor-row">
         <div className="editor-field">
           <label>{'姓名'} *</label>
-          <input value={data.name} onChange={(e) => update('name', e.target.value)} placeholder={'请输入姓名'} />
+          <input value={data.name} onChange={(e) => update('name', e.target.value)} placeholder={'姓名'} />
         </div>
         <div className="editor-field">
           <label>{'照片'}</label>
@@ -53,10 +53,10 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
               <button type="button" className="card-remove" onClick={() => update('photo', '')}>×</button>
             </div>
           ) : (
-            <button className="editor-add-btn" onClick={() => fileInputRef.current?.click()}>{'上传照片'}</button>
+            <button className="editor-add-btn" onClick={() => fileInputRef.current?.click()}>{'上传图片'}</button>
           )}
           <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePhotoUpload} />
-          <div className="hint">{'照片会以base64格式存储在浏览器本地'}</div>
+          <div className="hint">{'图片会以Base64格式存储在浏览器本地'}</div>
         </div>
       </div>
 
@@ -67,11 +67,11 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
       <div className="editor-row">
         <div className="editor-field">
           <label>{'邮箱'} *</label>
-          <input value={c.email} onChange={(e) => updateContact({ email: e.target.value })} placeholder="email@example.com" />
+          <input value={c.email} onChange={(e) => updateContact({ email: e.target.value })} placeholder="邮箱" />
         </div>
         <div className="editor-field">
           <label>{'电话'} *</label>
-          <input value={c.phone} onChange={(e) => updateContact({ phone: e.target.value })} placeholder="+86-138-0000-0000" />
+          <input value={c.phone} onChange={(e) => updateContact({ phone: e.target.value })} placeholder="电话" />
         </div>
       </div>
     </div>
@@ -111,12 +111,12 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
               </div>
             </div>
             <div className="editor-field">
-              <label>URL / {'文本'}</label>
+              <label>URL / ID</label>
               <input value={s.url} onChange={(e) => {
                 const arr = [...(c.socials || [])]
                 arr[i] = { ...arr[i], url: e.target.value, label: arr[i].label || iconDef?.label || s.icon }
                 updateSocials(arr)
-              }} placeholder="https://... {'或纯文本'}" />
+              }} placeholder="URL 或 ID" />
             </div>
           </div>
         )
@@ -145,12 +145,12 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
               }} placeholder="标签名称" />
             </div>
             <div className="editor-field">
-              <label>URL / {'文本'}</label>
+              <label>URL / ID</label>
               <input value={link.url} onChange={(e) => {
                 const arr = [...(c.customs || [])]
                 arr[i] = { ...arr[i], url: e.target.value }
                 updateCustoms(arr)
-              }} placeholder="https://... {'或纯文本'}" />
+              }} placeholder="URL 或 ID" />
             </div>
           </div>
           <div className="editor-field">
@@ -167,7 +167,7 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
         </div>
       ))}
       <button className="editor-add-btn" onClick={() => updateCustoms([...(c.customs || []), { label: '', url: '' }])}>
-        + {'添加链接'}
+        + {'添加自定义链接'}
       </button>
     </div>
     </>

@@ -7,7 +7,7 @@ interface Props {
 }
 
 function empty(): ProjectEntry {
-  return { name: '', start: '', end: '', details: [] }
+  return { title: '', start: '', end: '', details: [] }
 }
 
 export default function ProjectEditor({ data, onChange }: Props) {
@@ -27,17 +27,17 @@ export default function ProjectEditor({ data, onChange }: Props) {
           </div>
           <div className="editor-row">
             <div className="editor-field">
-              <label>项目名 *</label>
-              <input value={entry.name} onChange={(e) => update(i, 'name', e.target.value)} placeholder="项目名称" />
+              <label>项目标题 *</label>
+              <input value={entry.title} onChange={(e) => update(i, 'title', e.target.value)} placeholder="项目标题" />
             </div>
             <div className="editor-field">
-              <label>英文名</label>
-              <input value={entry.name_en || ''} onChange={(e) => update(i, 'name_en', e.target.value)} placeholder="Project Name" />
+              <label>项目副标题</label>
+              <input value={entry.subtitle || ''} onChange={(e) => update(i, 'subtitle', e.target.value)} placeholder="项目副标题" />
             </div>
           </div>
           <div className="editor-field">
             <label>项目链接</label>
-            <input value={entry.url || ''} onChange={(e) => update(i, 'url', e.target.value)} placeholder="https://github.com/user/repo" />
+            <input value={entry.url || ''} onChange={(e) => update(i, 'url', e.target.value)} placeholder="项目链接" />
           </div>
           <div className="editor-row">
             <div className="editor-field">

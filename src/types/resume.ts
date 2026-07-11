@@ -33,7 +33,7 @@ export interface PersonalInfo {
 
 export interface EducationEntry {
   school: string
-  school_en?: string
+  school_subtitle?: string
   degree: string
   major: string
   start: string
@@ -47,7 +47,7 @@ export interface EducationEntry {
 
 export interface InternshipEntry {
   company: string
-  company_en?: string
+  company_subtitle?: string
   department?: string
   brief?: string
   role: string
@@ -59,8 +59,8 @@ export interface InternshipEntry {
 // --- Project ---
 
 export interface ProjectEntry {
-  name: string
-  name_en?: string
+  title: string
+  subtitle?: string
   url?: string
   brief?: string
   start: string

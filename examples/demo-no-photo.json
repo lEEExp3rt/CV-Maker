@@ -14,7 +14,7 @@
   "educations": [
     {
       "school": "大学1",
-      "school_en": "1st University",
+      "school_subtitle": "1st University",
       "degree": "本科",
       "major": "计算机科学与技术",
       "start": "2022-09",
@@ -25,7 +25,7 @@
     },
     {
       "school": "大学2",
-      "school_en": "2nd University",
+      "school_subtitle": "2nd University",
       "degree": "交换生",
       "major": "计算机科学",
       "start": "2024-08",
@@ -37,7 +37,7 @@
   "internships": [
     {
       "company": "星云科技",
-      "company_en": "Nebula Tech",
+      "company_subtitle": "Nebula Tech",
       "department": "电商平台部",
       "role": "后端开发实习生",
       "brief": "参与**电商推荐系统**后端研发，负责`Go`微服务开发与性能优化",
@@ -64,8 +64,8 @@
   ],
   "projects": [
     {
-      "name": "分布式KV存储引擎",
-      "name_en": "Distributed KV Store",
+      "title": "分布式KV存储引擎",
+      "subtitle": "Distributed KV Store",
       "url": "https://github.com/demo-user/kv-store",
       "brief": "基于**Raft**协议实现高可用分布式键值存储系统",
       "start": "2023-10",
@@ -77,7 +77,7 @@
       ]
     },
     {
-      "name": "MiniSQL 数据库",
+      "title": "MiniSQL 数据库",
       "brief": "从零实现支持基本SQL查询的轻量级关系型数据库",
       "start": "2023-03",
       "end": "2023-06",

@@ -26,8 +26,8 @@ export default function Internship({ data, lang = 'zh' }: Props) {
                 title={
                   <span className="resume-entry-title">
                     {entry.company}
-                    {entry.company_en && (
-                      <span className="resume-entry-subtitle">{entry.company_en}</span>
+                    {entry.company_subtitle && (
+                      <span className="resume-entry-subtitle">{entry.company_subtitle}</span>
                     )}
                   </span>
                 }

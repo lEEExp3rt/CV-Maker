@@ -26,12 +26,12 @@ export default function EducationEditor({ data, onChange }: Props) {
           </div>
           <div className="editor-row">
             <div className="editor-field">
-              <label>{'学校'} *</label>
-              <input value={entry.school} onChange={(e) => update(i, 'school', e.target.value)} placeholder={'学校名称'} />
+              <label>{'院校'} *</label>
+              <input value={entry.school} onChange={(e) => update(i, 'school', e.target.value)} placeholder={'院校名称'} />
             </div>
             <div className="editor-field">
-              <label>{'英文名'}</label>
-              <input value={entry.school_en || ''} onChange={(e) => update(i, 'school_en', e.target.value)} placeholder="学校英文名称" />
+              <label>{'院校'}</label>
+              <input value={entry.school_subtitle || ''} onChange={(e) => update(i, 'school_subtitle', e.target.value)} placeholder="院校英文名/副标题/学院名/其它" />
             </div>
           </div>
           <div className="editor-row">

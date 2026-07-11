@@ -27,12 +27,12 @@ export default function InternshipEditor({ data, onChange }: Props) {
           </div>
           <div className="editor-row">
             <div className="editor-field">
-              <label>企业 *</label>
-              <input value={entry.company} onChange={(e) => update(i, 'company', e.target.value)} placeholder="企业名称" />
+              <label>单位*</label>
+              <input value={entry.company} onChange={(e) => update(i, 'company', e.target.value)} placeholder="单位名称" />
             </div>
             <div className="editor-field">
-              <label>英文名</label>
-              <input value={entry.company_en || ''} onChange={(e) => update(i, 'company_en', e.target.value)} placeholder="Company Name" />
+              <label>单位</label>
+              <input value={entry.company_subtitle || ''} onChange={(e) => update(i, 'company_subtitle', e.target.value)} placeholder="单位英文名/副标题/子公司/其它" />
             </div>
           </div>
           <div className="editor-row">
