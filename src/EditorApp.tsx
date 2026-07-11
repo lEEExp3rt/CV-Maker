@@ -107,8 +107,12 @@ export default function EditorApp() {
   }, [updateActiveData])
 
   const handlePrint = useCallback(() => {
+    const prevTitle = document.title
+    document.title = activeProject?.title || 'resume'
+    const restore = () => { document.title = prevTitle }
+    window.addEventListener('afterprint', restore, { once: true })
     window.print()
-  }, [])
+  }, [activeProject])
 
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>('cv-editor-color', 'navy')
   const [language, setLanguage] = useLocalStorage<Language>('cv-editor-lang', 'zh')
