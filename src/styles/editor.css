@@ -382,8 +382,8 @@
 
 .editor-entry-card .card-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 2px;
   margin-bottom: 8px;
 }
 
@@ -393,6 +393,11 @@
   color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+  flex: 1;
+}
+
+.editor-entry-card .card-remove {
+  margin-left: auto;
 }
 
 .card-remove {

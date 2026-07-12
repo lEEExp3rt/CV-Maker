@@ -1,4 +1,5 @@
 import type { AwardEntry } from '../../types/resume'
+import DraggableList from './DraggableList'
 
 interface Props {
   data: AwardEntry[]
@@ -14,9 +15,11 @@ export default function AwardsEditor({ data, onChange }: Props) {
 
   return (
     <div className="editor-form-section">
-      {data.map((entry, i) => (
+      <DraggableList items={data} onChange={onChange}>
+        {(entry, i, handle) => (
         <div className="editor-entry-card" key={i}>
           <div className="card-header">
+            {handle}
             <span className="card-title">获奖 #{i + 1}</span>
             <button className="card-remove" onClick={() => onChange(data.filter((_, j) => j !== i))}>×</button>
           </div>
@@ -31,7 +34,8 @@ export default function AwardsEditor({ data, onChange }: Props) {
             </div>
           </div>
         </div>
-      ))}
+        )}
+      </DraggableList>
       <button className="editor-add-btn" onClick={() => onChange([...data, { name: '', date: '' }])}>+ 添加获奖</button>
     </div>
   )

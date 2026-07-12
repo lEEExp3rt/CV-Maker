@@ -1,4 +1,5 @@
 import type { EducationEntry } from '../../types/resume'
+import DraggableList from './DraggableList'
 
 interface Props {
   data: EducationEntry[]
@@ -18,9 +19,11 @@ export default function EducationEditor({ data, onChange }: Props) {
 
   return (
     <div className="editor-form-section">
-      {data.map((entry, i) => (
+      <DraggableList items={data} onChange={onChange}>
+        {(entry, i, handle) => (
         <div className="editor-entry-card" key={i}>
           <div className="card-header">
+            {handle}
             <span className="card-title">{'教育经历 #' + (i + 1)}</span>
             <button className="card-remove" onClick={() => onChange(data.filter((_, j) => j !== i))}>×</button>
           </div>
@@ -66,8 +69,10 @@ export default function EducationEditor({ data, onChange }: Props) {
           </div>
           <div className="editor-field">
             <label>{'核心课程'}</label>
-            {(entry.courses || []).map((course, j) => (
-              <div key={j} style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
+            <DraggableList items={entry.courses || []} onChange={(arr) => update(i, 'courses', arr)}>
+              {(course, j, handle2) => (
+              <div key={j} data-drag-row style={{ display: 'flex', gap: 4, marginBottom: 4, alignItems: 'center' }}>
+                {handle2}
                 <input value={course} onChange={(e) => {
                   const arr = [...(entry.courses || [])]
                   arr[j] = e.target.value
@@ -77,13 +82,15 @@ export default function EducationEditor({ data, onChange }: Props) {
                   update(i, 'courses', (entry.courses || []).filter((_, k) => k !== j))
                 }}>×</button>
               </div>
-            ))}
+              )}
+            </DraggableList>
             <button className="editor-add-btn" onClick={() => update(i, 'courses', [...(entry.courses || []), ''])}>
               + {'添加课程'}
             </button>
           </div>
         </div>
-      ))}
+        )}
+      </DraggableList>
       <button className="editor-add-btn" onClick={() => onChange([...data, empty()])}>+ {'添加教育经历'}</button>
     </div>
   )

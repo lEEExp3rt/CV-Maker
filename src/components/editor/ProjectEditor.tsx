@@ -1,5 +1,6 @@
 import type { ProjectEntry } from '../../types/resume'
 import AutoTextarea from './AutoTextarea'
+import DraggableList from './DraggableList'
 
 interface Props {
   data: ProjectEntry[]
@@ -19,9 +20,11 @@ export default function ProjectEditor({ data, onChange }: Props) {
 
   return (
     <div className="editor-form-section">
-      {data.map((entry, i) => (
+      <DraggableList items={data} onChange={onChange}>
+        {(entry, i, handle) => (
         <div className="editor-entry-card" key={i}>
           <div className="card-header">
+            {handle}
             <span className="card-title">项目经历 #{i + 1}</span>
             <button className="card-remove" onClick={() => onChange(data.filter((_, j) => j !== i))}>×</button>
           </div>
@@ -61,8 +64,10 @@ export default function ProjectEditor({ data, onChange }: Props) {
           </div>
           <div className="editor-field">
             <label>详细描述</label>
-            {(entry.details || []).map((d, j) => (
-              <div key={j} style={{ display: 'flex', gap: 4, marginBottom: 4, alignItems: 'flex-start' }}>
+            <DraggableList items={entry.details || []} onChange={(arr) => update(i, 'details', arr)}>
+              {(d, j, handle2) => (
+              <div key={j} data-drag-row style={{ display: 'flex', gap: 4, marginBottom: 4, alignItems: 'center' }}>
+                {handle2}
                 <AutoTextarea
                   value={d}
                   onChange={(e) => {
@@ -79,11 +84,13 @@ export default function ProjectEditor({ data, onChange }: Props) {
                   update(i, 'details', (entry.details || []).filter((_, k) => k !== j))
                 }}>×</button>
               </div>
-            ))}
+              )}
+            </DraggableList>
             <button className="editor-add-btn" onClick={() => update(i, 'details', [...(entry.details || []), ''])}>+ 添加要点</button>
           </div>
         </div>
-      ))}
+        )}
+      </DraggableList>
       <button className="editor-add-btn" onClick={() => onChange([...data, empty()])}>+ 添加项目经历</button>
     </div>
   )

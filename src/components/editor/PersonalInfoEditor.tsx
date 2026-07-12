@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import type { PersonalInfo, CustomLink, SocialLink } from '../../types/resume'
 import { BUILTIN_ICONS } from '../Icons'
 import IconPicker from './IconPicker'
+import DraggableList from './DraggableList'
 
 interface Props {
   data: PersonalInfo
@@ -78,12 +79,14 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
 
     <div className="editor-form-section">
       <h3>{'社交媒体'}</h3>
-      {(c.socials || []).map((s, i) => {
+      <DraggableList items={c.socials || []} onChange={(arr: SocialLink[]) => updateContact({ socials: arr })}>
+        {(s, i, handle) => {
         const iconDef = BUILTIN_ICONS.find((ic) => ic.key === s.icon)
         const updateSocials = (arr: SocialLink[]) => updateContact({ socials: arr })
         return (
           <div className="editor-entry-card" key={`social-${i}`}>
             <div className="card-header">
+              {handle}
               <span className="card-title">{iconDef?.label || s.icon}</span>
               <button className="card-remove" onClick={() => updateSocials((c.socials || []).filter((_, j) => j !== i))}>×</button>
             </div>
@@ -120,7 +123,8 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
             </div>
           </div>
         )
-      })}
+        }}
+      </DraggableList>
       <button className="editor-add-btn" onClick={() => {
         const arr = [...(c.socials || []), { icon: 'link', url: '', label: '' }]
         updateContact({ socials: arr } as any)
@@ -129,9 +133,11 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
 
     <div className="editor-form-section">
       <h3>{'自定义链接'}</h3>
-      {(c.customs || []).map((link, i) => (
+      <DraggableList items={c.customs || []} onChange={(arr: CustomLink[]) => updateContact({ customs: arr })}>
+        {(link, i, handle) => (
         <div className="editor-entry-card" key={i}>
           <div className="card-header">
+            {handle}
             <span className="card-title">{link.label || `#${i + 1}`}</span>
             <button className="card-remove" onClick={() => updateCustoms((c.customs || []).filter((_, j) => j !== i))}>×</button>
           </div>
@@ -165,7 +171,8 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
             />
           </div>
         </div>
-      ))}
+        )}
+      </DraggableList>
       <button className="editor-add-btn" onClick={() => updateCustoms([...(c.customs || []), { label: '', url: '' }])}>
         + {'添加自定义链接'}
       </button>
