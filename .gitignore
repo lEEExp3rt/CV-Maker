@@ -24,3 +24,7 @@ public/fonts/
 # Temporary files
 *.tmp
 *.swp
+
+# Todolist files
+TODO.md
+todo.md
