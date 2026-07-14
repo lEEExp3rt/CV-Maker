@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from 'react'
 import { useProjectManager } from './hooks/useProjectManager'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { DEFAULT_RESUME_DATA } from './data/defaults'
+import { validate, formatIssues } from './utils/validate'
 import type { ColorScheme, Language } from './types/resume'
 import Resume from './Resume'
 import Layout from './components/Layout'
@@ -37,7 +38,7 @@ export default function EditorApp() {
   const [showImport, setShowImport] = useState(false)
   const [importText, setImportText] = useState('')
   const [copied, setCopied] = useState(false)
-  const [toast, setToast] = useState<string | null>(null)
+  const [toast, setToast] = useState<{ msg: string; type: 'success' | 'warning' | 'error' } | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const data = activeProject?.data ?? DEFAULT_RESUME_DATA
 
@@ -49,7 +50,9 @@ export default function EditorApp() {
   const jsonString = JSON.stringify(data, null, 2)
 
   const handleExport = useCallback(() => setShowExport(true), [])
-  const handleImport = useCallback(() => { setShowImport(true); setImportText('') }, [])
+  const handleImport = useCallback(() => {
+    setShowImport(true); setImportText('')
+  }, [])
 
   const handleCopyJSON = useCallback(() => {
     navigator.clipboard.writeText(jsonString)
@@ -67,35 +70,41 @@ export default function EditorApp() {
     URL.revokeObjectURL(url)
   }, [jsonString, activeProject])
 
-  const showToast = useCallback((msg: string) => {
-    setToast(msg)
-    setTimeout(() => setToast(null), 2000)
+  const showToast = useCallback((msg: string, type: 'success' | 'warning' | 'error' = 'success') => {
+    setToast({ msg, type })
+    const duration = type === 'warning' ? 5000 : type === 'error' ? 3000 : 2000
+    setTimeout(() => setToast(null), duration)
   }, [])
 
-  const handleImportText = useCallback(() => {
+  const doImport = useCallback((raw: string) => {
+    let parsed: any
     try {
-      const parsed = JSON.parse(importText)
-      updateActiveData(parsed)
+      parsed = JSON.parse(raw)
+    } catch (e: any) {
       setShowImport(false)
+      showToast(`JSON 解析失败: ${e.message}`, 'error')
+      return
+    }
+    const issues = validate(parsed)
+    updateActiveData(parsed)
+    setShowImport(false)
+    if (issues.length > 0) {
+      showToast(`导入成功，但发现 ${issues.length} 个问题：\n${formatIssues(issues)}`, 'warning')
+    } else {
       showToast('导入成功')
-    } catch { alert('JSON 格式无效') }
-  }, [importText, updateActiveData, showToast])
+    }
+  }, [updateActiveData, showToast])
+
+  const handleImportText = useCallback(() => { doImport(importText) }, [importText, doImport])
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
     const reader = new FileReader()
-    reader.onload = () => {
-      try {
-        const parsed = JSON.parse(reader.result as string)
-        updateActiveData(parsed)
-        setShowImport(false)
-        showToast('导入成功')
-      } catch { alert('Invalid JSON file') }
-    }
+    reader.onload = () => { doImport(reader.result as string) }
     reader.readAsText(file)
     e.target.value = ''
-  }, [updateActiveData, showToast])
+  }, [doImport])
 
   const handleReset = useCallback(() => {
     setShowReset(true)
@@ -149,12 +158,14 @@ export default function EditorApp() {
       {toast && (
         <div style={{
           position: 'fixed', top: 56, left: '50%', transform: 'translateX(-50%)',
-          zIndex: 2000, padding: '8px 20px', fontSize: 12, fontWeight: 500,
-          background: '#16a34a', color: '#fff', borderRadius: 8,
+          zIndex: 2000, padding: '10px 20px', fontSize: 12, fontWeight: 500,
+          maxWidth: 500, whiteSpace: 'pre-line', lineHeight: 1.6,
+          background: toast.type === 'error' ? '#dc2626' : toast.type === 'warning' ? '#d97706' : '#16a34a',
+          color: '#fff', borderRadius: 8,
           boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
           animation: 'toastIn 0.25s ease',
         }}>
-          ✓ {toast}
+          {toast.type === 'error' ? '❌' : toast.type === 'warning' ? '⚠️' : '✓'} {toast.msg}
         </div>
       )}
 
