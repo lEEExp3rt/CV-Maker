@@ -612,6 +612,20 @@
   overflow: hidden;
 }
 
+.modal-wide {
+  width: 680px;
+  max-height: 90vh;
+}
+
+.modal-wide .modal-body {
+  max-height: calc(90vh - 100px);
+  overflow: auto;
+}
+
+.modal-wide .modal-footer {
+  padding-bottom: 20px;
+}
+
 @keyframes modalSlideIn {
   from { transform: translateY(-12px) scale(0.97); opacity: 0; }
   to { transform: translateY(0) scale(1); opacity: 1; }
