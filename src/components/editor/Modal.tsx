@@ -20,7 +20,9 @@ export default function Modal({
     if (!open) return
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onCancel()
-      if (e.key === 'Enter') onConfirm()
+      // Don't trigger confirm if focus is in a textarea or input
+      const tag = (e.target as HTMLElement).tagName
+      if (e.key === 'Enter' && tag !== 'TEXTAREA' && tag !== 'INPUT') onConfirm()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)

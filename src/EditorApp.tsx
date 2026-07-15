@@ -5,6 +5,7 @@ import { DEFAULT_RESUME_DATA } from './data/defaults'
 import { validate, formatIssues } from './utils/validate'
 import { wrapEnvelope, parseImport } from './utils/envelope'
 import AnonSwitcher from './components/editor/AnonSwitcher'
+import JsonEditor, { highlightJson } from './components/editor/JsonEditor'
 import { DEFAULT_ANON, type AnonOptions } from './types/anonymize'
 import type { ColorScheme, Language } from './types/resume'
 import Resume from './Resume'
@@ -359,15 +360,15 @@ export default function EditorApp() {
             {copied ? '✓ 已复制' : '📋 复制'}
           </button>
         </div>
-        <textarea
-          readOnly
-          value={jsonString}
+        <pre
+          dangerouslySetInnerHTML={{ __html: highlightJson(jsonString) }}
           style={{
-            width: '100%', height: 260, padding: 8, fontSize: 10, fontFamily: '"JetBrains Mono", "Fira Code", monospace',
-            border: '1px solid #e2e8f0', borderRadius: 6, resize: 'vertical', background: '#f8fafc',
-            color: '#334155', lineHeight: 1.5, whiteSpace: 'pre', overflowWrap: 'normal', overflowX: 'auto',
+            width: '100%', height: 260, padding: 8, fontSize: 10,
+            fontFamily: '"JetBrains Mono", "Fira Code", monospace',
+            border: '1px solid #e2e8f0', borderRadius: 6, background: '#f8fafc',
+            color: '#334155', lineHeight: 1.5, whiteSpace: 'pre', overflow: 'auto',
+            margin: 0, userSelect: 'all',
           }}
-          onFocus={(e) => e.target.select()}
         />
       </Modal>
 
@@ -380,14 +381,54 @@ export default function EditorApp() {
         onConfirm={handleImportText}
         onCancel={() => setShowImport(false)}
       >
-        <textarea
+        <JsonEditor
           value={importText}
-          onChange={(e) => setImportText(e.target.value)}
-          placeholder="在此粘贴 JSON 代码..."
-          style={{
-            width: '100%', height: 260, padding: 8, fontSize: 10, fontFamily: '"JetBrains Mono", "Fira Code", monospace',
-            border: '1px solid #e2e8f0', borderRadius: 6, resize: 'vertical',
-            color: '#334155', lineHeight: 1.5,
+          onChange={setImportText}
+          onKeyDown={(e) => {
+            const t = e.target as HTMLTextAreaElement
+            if (e.key === 'Tab') {
+              e.preventDefault()
+              const start = t.selectionStart; const end = t.selectionEnd
+              const val = importText
+              setImportText(val.slice(0, start) + '  ' + val.slice(end))
+              requestAnimationFrame(() => { t.selectionStart = t.selectionEnd = start + 2 })
+            }
+            if (e.key === '"') {
+              e.preventDefault()
+              const val = importText
+              const pos = t.selectionStart
+              // Already on a closing quote → skip over it
+              if (val[pos] === '"') {
+                t.selectionStart = t.selectionEnd = pos + 1
+                return
+              }
+              // Only auto-pair when cursor is at end, whitespace, or newline follows
+              const after = val.slice(pos)
+              if (after === '' || after.startsWith('\n') || after.trim() === '') {
+                setImportText(val.slice(0, pos) + '""' + val.slice(t.selectionEnd))
+                requestAnimationFrame(() => { t.selectionStart = t.selectionEnd = pos + 1 })
+              } else {
+                setImportText(val.slice(0, pos) + '"' + val.slice(t.selectionEnd))
+                requestAnimationFrame(() => { t.selectionStart = t.selectionEnd = pos + 1 })
+              }
+            }
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              const t = e.target as HTMLTextAreaElement
+              const val = importText
+              const pos = t.selectionStart
+              // Find leading whitespace of current line
+              const lineStart = val.lastIndexOf('\n', pos - 1) + 1
+              const indent = val.slice(lineStart).match(/^(\s*)/)?.[1] ?? ''
+              // Auto-increase indent after { or [
+              const prevChar = val[pos - 1]
+              const extra = (prevChar === '{' || prevChar === '[') ? '  ' : ''
+              const inserted = '\n' + indent + extra
+              setImportText(val.slice(0, pos) + inserted + val.slice(t.selectionEnd))
+              requestAnimationFrame(() => {
+                t.selectionStart = t.selectionEnd = pos + inserted.length
+              })
+            }
           }}
         />
         <div style={{ marginTop: 8, textAlign: 'center' }}>

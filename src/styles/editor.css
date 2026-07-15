@@ -2,6 +2,12 @@
    CV-Maker — Visual Editor Styles
    ============================================================ */
 
+/* JSON syntax highlight */
+.json-key { color: #2563eb; }
+.json-str { color: #16a34a; }
+.json-num { color: #d97706; }
+.json-kwd { color: #7c3aed; }
+
 @keyframes toastIn {
   from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
