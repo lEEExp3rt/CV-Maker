@@ -1,5 +1,34 @@
 # Changelog
 
+## [2.2.0] — Editor Polish & Quality of Life
+
+### Added
+
+- **Entry Drag-and-Drop** — reorder entries in Education, Internship, Projects, Skills, Awards, Socials, Customs, Courses, and Details by dragging the `⠿` handle
+- **Anonymous Mode** — toggle in settings bar, selectively hide name/photo/contact/socials/school/company/links; applied to both preview and PDF export
+- **JSON Import Validation** — detects parse errors and missing fields, shows warnings/errors in toast; `validate()` checks required fields and types
+- **JSON Metadata Envelope** — export wraps data in `{ type, version, source, exported, data }`; import detects format, shows version mismatch warnings, backward compatible with old bare JSON
+- **Version Badge** — `v2.2.0` tag in nav bar and homepage title area; click to view changelog in a modal
+- **License Modal** — click "MIT License" in footer to view full license text in a modal
+- **Import Success Toast** — green notification on successful import, yellow for warnings, red for errors
+- **Auto-resizing Textareas** — brief and details fields grow with content, no scrollbars
+
+### Changed
+
+- **Field Names** — `school_en` → `school_subtitle`, `company_en` → `company_subtitle`, project `name`/`name_en` → `title`/`subtitle`; all labels and placeholders updated to descriptive names
+- **JSON Export** — file name defaults to project name
+- **Project Sidebar** — date display shows full date + time (`2026/07/09 16:00:27`)
+- **Markdown** — supports combined formatting (`***bold italic***`, `**bold `code`**`)
+
+### Fixed
+
+- Brief/details fields auto-resize on JSON import and window resize
+- Editor section spacing unified across PersonalInfo tabs
+- PDF export scrollbar hidden, page breaks for long content
+- Footer icons use official brand logos
+
+---
+
 ## [2.1.0] — Remix Icons & Social Links
 
 ### Added

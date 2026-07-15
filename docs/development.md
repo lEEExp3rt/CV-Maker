@@ -91,7 +91,10 @@ contents/             # 保留：旧版 YAML 文件
 - **组件复用** — `Resume.tsx` 接收 `data` prop，编辑器和首页 demo 共用同一组件
 - **响应式缩放** — `ScalableWrapper` 用 `ResizeObserver` 监测容器宽度，按 A4 宽度等比缩放
 - **路由** — `main.tsx` 通过 `window.location.pathname` 分发到 `HomePage` / `EditorApp` / `DocsPage`
-- **Markdown 渲染** — `MarkdownPage.tsx` 用逐行 tokenize 解析，`?raw` 导入 `.md` 文件
+- **Markdown 渲染** — `MarkdownPage.tsx` 用逐行 tokenize 解析，支持组合格式嵌套，`?raw` 导入 `.md` 文件
+- **导入校验** — `validate.ts` 检查必填字段和类型，`envelope.ts` 处理 JSON 元数据封装与前向兼容
+- **匿名模式** — `anonymize.ts` 根据选项对简历数据进行字段替换，预览和导出同时生效
+- **拖拽排序** — `DraggableList.tsx` 通用拖拽组件，基于 HTML5 Drag API，支持嵌套列表
 
 ## How to Customize
 
