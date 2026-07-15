@@ -639,7 +639,7 @@
 .modal-body {
   padding: 0 20px 8px;
   font-size: 12px; color: #475569;
-  line-height: 1.6;
+  line-height: 1.6; text-align: left;
 }
 
 .modal-footer {
@@ -676,7 +676,6 @@
 }
 .md-content h2 {
   font-size: 18px; font-weight: 600; color: #1a365d; margin: 32px 0 12px;
-  padding-bottom: 6px; border-bottom: 1px solid #e2e8f0;
 }
 .md-content h3 {
   font-size: 15px; font-weight: 600; color: #334155; margin: 24px 0 8px;
@@ -684,17 +683,10 @@
 .md-content h4 {
   font-size: 13px; font-weight: 600; color: #475569; margin: 16px 0 6px;
 }
-.md-content .md-anchor {
-  opacity: 0; font-size: 0.85em; color: #94a3b8; text-decoration: none;
-  padding-right: 0.4em; transition: opacity 0.15s;
-}
-.md-content h2:hover .md-anchor,
-.md-content h3:hover .md-anchor,
-.md-content h4:hover .md-anchor {
-  opacity: 1;
-}
+
+
 .md-content p { margin: 0 0 12px; }
-.md-content ul { margin: 0 0 12px; padding-left: 20px; }
+.md-content ul { margin: 0 0 12px; padding-left: 0; list-style-position: inside; }
 .md-content li { margin-bottom: 4px; }
 .md-content a { color: #2563eb; text-decoration: none; }
 .md-content a:hover { text-decoration: underline; }

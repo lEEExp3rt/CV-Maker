@@ -153,9 +153,9 @@ function renderInline(text: string): string {
 function tokenToHtml(token: Token): string {
   switch (token.type) {
     case 'h1': return `<h1 id="${token.id}">${renderInline(token.text)}</h1>`
-    case 'h2': return `<h2 id="${token.id}"><a href="#${token.id}" class="md-anchor">#</a>${token.num}. ${renderInline(token.text)}</h2>`
-    case 'h3': return `<h3 id="${token.id}"><a href="#${token.id}" class="md-anchor">#</a>${token.num} ${renderInline(token.text)}</h3>`
-    case 'h4': return `<h4 id="${token.id}"><a href="#${token.id}" class="md-anchor">#</a>${token.num} ${renderInline(token.text)}</h4>`
+    case 'h2': return `<h2 id="${token.id}">${token.num}. ${renderInline(token.text)}</h2>`
+    case 'h3': return `<h3 id="${token.id}">${token.num} ${renderInline(token.text)}</h3>`
+    case 'h4': return `<h4 id="${token.id}">${token.num} ${renderInline(token.text)}</h4>`
     case 'hr': return '<hr>'
     case 'ul': return '<ul>' + token.items.map((li) => `<li>${renderInline(li)}</li>`).join('') + '</ul>'
     case 'p': return `<p>${renderInline(token.text)}</p>`

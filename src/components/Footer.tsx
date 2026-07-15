@@ -1,6 +1,13 @@
+import { useState } from 'react'
+import Modal from './editor/Modal'
+import MarkdownPage from './MarkdownPage'
+import licenseRaw from '../../LICENSE?raw'
+
 const BASE = import.meta.env.BASE_URL
 
 export default function Footer() {
+  const [showLicense, setShowLicense] = useState(false)
+
   return (
     <div>
       <hr style={{ marginTop: 48, border: 'none', borderTop: '1px solid #cbd5e0' }} />
@@ -11,7 +18,20 @@ export default function Footer() {
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <p style={{ fontSize: 11, color: '#94a3b8', margin: 0 }}>
-            Released under the MIT License.
+            Released under the{' '}
+            <button
+              onClick={() => setShowLicense(true)}
+              style={{
+                color: '#64748b', background: 'none', border: 'none',
+                cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit',
+                padding: 0, textDecoration: 'underline', textUnderlineOffset: 2,
+              }}
+              onMouseEnter={(e) => { (e.target as HTMLElement).style.color = '#1a365d' }}
+              onMouseLeave={(e) => { (e.target as HTMLElement).style.color = '#64748b' }}
+            >
+              MIT License
+            </button>
+            .
           </p>
           <p style={{ fontSize: 11, color: '#94a3b8', margin: 0 }}>
             Copyright &copy; 2026 <a href="https://github.com/lEEExp3rt" target="_blank" rel="noopener"
@@ -41,6 +61,20 @@ export default function Footer() {
           ))}
         </div>
       </div>
+
+      {showLicense && (
+        <Modal
+          open={showLicense}
+          title="MIT License"
+          confirmLabel="关闭"
+          cancelLabel=""
+          wide
+          onConfirm={() => setShowLicense(false)}
+          onCancel={() => setShowLicense(false)}
+        >
+          <MarkdownPage content={licenseRaw} />
+        </Modal>
+      )}
     </div>
   )
 }
