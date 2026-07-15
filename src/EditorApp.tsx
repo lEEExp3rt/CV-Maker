@@ -4,6 +4,8 @@ import { useLocalStorage } from './hooks/useLocalStorage'
 import { DEFAULT_RESUME_DATA } from './data/defaults'
 import { validate, formatIssues } from './utils/validate'
 import { wrapEnvelope, parseImport } from './utils/envelope'
+import AnonSwitcher from './components/editor/AnonSwitcher'
+import { DEFAULT_ANON, type AnonOptions } from './types/anonymize'
 import type { ColorScheme, Language } from './types/resume'
 import Resume from './Resume'
 import Layout from './components/Layout'
@@ -134,6 +136,8 @@ export default function EditorApp() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>('cv-editor-color', 'navy')
   const [language, setLanguage] = useLocalStorage<Language>('cv-editor-lang', 'zh')
   const [panelCollapsed, setPanelCollapsed] = useState(false)
+  const [anonEnabled, setAnonEnabled] = useState(false)
+  const [anonOpts, setAnonOpts] = useLocalStorage<AnonOptions>('cv-anon', DEFAULT_ANON)
   const settings = { color_scheme: colorScheme, language }
 
   const handlePanelResize = useCallback((e: React.MouseEvent) => {
@@ -255,6 +259,12 @@ export default function EditorApp() {
               <option value="en">English</option>
             </select>
           </label>
+          <AnonSwitcher
+            options={anonOpts}
+            onChange={setAnonOpts}
+            enabled={anonEnabled}
+            onToggle={setAnonEnabled}
+          />
         </div>
 
         {/* Tabs */}
@@ -325,7 +335,7 @@ export default function EditorApp() {
 
       {/* Right Preview */}
       <div className="editor-preview">
-        <Resume data={data} settings={settings} />
+        <Resume data={data} settings={settings} anonEnabled={anonEnabled} anonOpts={anonOpts} />
       </div>
 
       {/* Export modal */}
