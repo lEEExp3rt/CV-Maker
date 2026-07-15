@@ -3,6 +3,7 @@ import { useProjectManager } from './hooks/useProjectManager'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { DEFAULT_RESUME_DATA } from './data/defaults'
 import { validate, formatIssues } from './utils/validate'
+import { wrapEnvelope, parseImport } from './utils/envelope'
 import type { ColorScheme, Language } from './types/resume'
 import Resume from './Resume'
 import Layout from './components/Layout'
@@ -47,7 +48,7 @@ export default function EditorApp() {
     [updateActiveData]
   )
 
-  const jsonString = JSON.stringify(data, null, 2)
+  const jsonString = JSON.stringify(wrapEnvelope(data), null, 2)
 
   const handleExport = useCallback(() => setShowExport(true), [])
   const handleImport = useCallback(() => {
@@ -77,19 +78,26 @@ export default function EditorApp() {
   }, [])
 
   const doImport = useCallback((raw: string) => {
-    let parsed: any
+    let result: { data: any; warning?: string }
     try {
-      parsed = JSON.parse(raw)
+      result = parseImport(raw)
     } catch (e: any) {
       setShowImport(false)
-      showToast(`JSON 解析失败: ${e.message}`, 'error')
+      showToast(e.message, 'error')
       return
     }
-    const issues = validate(parsed)
-    updateActiveData(parsed)
+
+    const issues = validate(result.data)
+    updateActiveData(result.data)
     setShowImport(false)
-    if (issues.length > 0) {
-      showToast(`导入成功，但发现 ${issues.length} 个问题：\n${formatIssues(issues)}`, 'warning')
+
+    const warnings: string[] = []
+    if (issues.length > 0) warnings.push(`${issues.length} 个字段问题：\n${formatIssues(issues)}`)
+    // Envelope warnings go last (show at top of toast)
+    if (result.warning) warnings.unshift(result.warning)
+
+    if (warnings.length > 0) {
+      showToast(`导入成功\n${warnings.join('\n')}`, 'warning')
     } else {
       showToast('导入成功')
     }
