@@ -508,12 +508,19 @@
   overflow: auto;
   display: flex;
   justify-content: center;
-  padding: 24px;
+  padding: 0;
   background: #dde2e8;
+  align-items: flex-start;
 }
 
 .editor-preview .resume-page {
   margin: 0;
+}
+
+.editor-preview .resume-pages-container {
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* --- Responsive --- */
@@ -781,13 +788,21 @@
     display: none !important;
   }
 
+  .layout-root,
+  .layout-body {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
   .editor-preview {
     padding: 0 !important;
     background: #fff !important;
     overflow: visible !important;
+    display: block !important;
   }
 
-  .editor-preview .resume-page {
-    margin: 0 auto !important;
+  .editor-preview .resume-pages-container {
+    padding: 0 !important;
   }
 }

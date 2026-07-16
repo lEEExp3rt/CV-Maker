@@ -16,7 +16,7 @@ export default function Skills({ data, lang = 'zh' }: Props) {
       </h2>
       <div className="resume-skills-list">
         {data.map((cat, i) => (
-          <div className="resume-skill-category" key={`skill-${i}`}>
+          <div className="resume-skill-category" key={`skill-${i}`} data-entry-key={`skill-${i}`}>
             <span className="category-label">{cat.category}:</span>
             <span>{cat.items.join(', ')}</span>
           </div>

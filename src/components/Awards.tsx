@@ -16,7 +16,7 @@ export default function Awards({ data, lang = 'zh' }: Props) {
       </h2>
       <ul className="resume-awards-list">
         {data.map((award, i) => (
-          <li key={`award-${i}`}>
+          <li key={`award-${i}`} data-entry-key={`award-${i}`}>
             <span className="resume-awards-item">
               <AwardIcon size={10} />
               <span>{award.name}</span>

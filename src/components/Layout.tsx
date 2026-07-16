@@ -18,7 +18,7 @@ export default function Layout({ children }: Props) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <div className="layout-root" style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <nav className="top-nav" style={{
         height: 48, background: '#0f172a', display: 'flex', alignItems: 'center',
         padding: '0 16px', gap: 2, flexShrink: 0,
@@ -72,7 +72,7 @@ export default function Layout({ children }: Props) {
         </div>
       </nav>
 
-      <div style={{ flex: 1, overflow: 'auto' }}>
+      <div className="layout-body" style={{ flex: 1, overflow: 'auto' }}>
         {children}
       </div>
     </div>

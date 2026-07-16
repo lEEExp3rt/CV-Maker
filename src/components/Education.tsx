@@ -21,7 +21,7 @@ export default function Education({ data, lang = 'zh' }: Props) {
           .join(' · ')
 
         return (
-          <div className="resume-entry" key={`edu-${i}`}>
+          <div className="resume-entry" key={`edu-${i}`} data-entry-key={`edu-${i}`}>
             <div className="resume-entry-header">
               <HeaderLeft
                 title={

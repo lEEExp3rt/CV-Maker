@@ -6,12 +6,15 @@
 .resume-page {
   --page-padding-top: 15mm;
   --page-padding-bottom: 10mm;
+  position: relative;
   width: 210mm;
   min-height: 297mm;
   background: var(--color-bg);
   padding: var(--page-padding-top) 20mm var(--page-padding-bottom) 20mm;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
   margin: 0 auto;
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 /* --- Header: name + photo + contact --- */
@@ -290,6 +293,44 @@
 }
 
 /* ============================================================
+   Multi-page Layout
+   ============================================================ */
+
+/* Hidden measurement container — renders all entries for page-break calculation */
+.resume-measure {
+  position: fixed;
+  visibility: hidden;
+  width: 210mm;
+  padding: 15mm 20mm 10mm 20mm;
+  background: #fff;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Stacked page wrapper */
+.resume-pages-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 0;
+}
+
+/* Page number — shown at page bottom when total pages > 1 */
+.resume-page-number {
+  position: absolute;
+  bottom: 3mm;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 8pt;
+  color: #94a3b8;
+  user-select: none;
+}
+
+/* ============================================================
    Print / PDF Export Styles
    ============================================================ */
 
@@ -308,18 +349,38 @@
     print-color-adjust: exact;
   }
 
+  .resume-measure {
+    display: none !important;
+  }
+
+  .resume-pages-container {
+    display: block;
+    gap: 0;
+    padding: 0;
+  }
+
   .resume-page {
     box-shadow: none;
     margin: 0;
-    min-height: auto;
+    width: 210mm;
+    min-height: 297mm;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .resume-page:last-child {
+    page-break-after: auto;
+    break-after: auto;
   }
 
   .resume-section {
     page-break-inside: avoid;
   }
 
-
-
+  .resume-page-number {
+    position: absolute;
+    bottom: 3mm;
+  }
 }
 
 

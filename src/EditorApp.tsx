@@ -8,7 +8,7 @@ import AnonSwitcher from './components/editor/AnonSwitcher'
 import JsonEditor, { highlightJson } from './components/editor/JsonEditor'
 import { DEFAULT_ANON, type AnonOptions } from './types/anonymize'
 import type { ColorScheme, Language } from './types/resume'
-import Resume from './Resume'
+import PaginatedResume from './PaginatedResume'
 import Layout from './components/Layout'
 import ProjectSidebar from './components/editor/ProjectSidebar'
 import Modal from './components/editor/Modal'
@@ -336,7 +336,7 @@ export default function EditorApp() {
 
       {/* Right Preview */}
       <div className="editor-preview">
-        <Resume data={data} settings={settings} anonEnabled={anonEnabled} anonOpts={anonOpts} />
+        <PaginatedResume data={data} settings={settings} anonEnabled={anonEnabled} anonOpts={anonOpts} />
       </div>
 
       {/* Export modal */}

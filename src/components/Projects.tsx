@@ -19,7 +19,7 @@ export default function Projects({ data, lang = 'zh' }: Props) {
         <CodeIcon /> {lang === 'zh' ? '项目经历 PROJECTS' : 'PROJECTS'}
       </h2>
       {data.map((entry, i) => (
-        <div className="resume-entry" key={`proj-${i}`}>
+        <div className="resume-entry" key={`proj-${i}`} data-entry-key={`proj-${i}`}>
           <div className="resume-entry-header">
             <HeaderLeft
               title={

@@ -20,7 +20,7 @@ export default function Internship({ data, lang = 'zh' }: Props) {
         const meta = [entry.department, entry.role].filter(Boolean).join(' · ')
 
         return (
-          <div className="resume-entry" key={`intern-${i}`}>
+          <div className="resume-entry" key={`intern-${i}`} data-entry-key={`intern-${i}`}>
             <div className="resume-entry-header">
               <HeaderLeft
                 title={
