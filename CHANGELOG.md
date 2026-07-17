@@ -8,10 +8,12 @@
 - **Anonymous Mode** — toggle in settings bar, selectively hide name/photo/contact/socials/school/company/links; applied to both preview and PDF export
 - **JSON Import Validation** — detects parse errors and missing fields, shows warnings/errors in toast; `validate()` checks required fields and types
 - **JSON Metadata Envelope** — export wraps data in `{ type, version, source, exported, data }`; import detects format, shows version mismatch warnings, backward compatible with old bare JSON
+- **JSON Syntax Highlighting** — import/export modals feature JSON syntax highlighting (keys, strings, numbers, keywords), auto-pair quotes, auto-indent, Tab-to-indent
 - **Version Badge** — `v2.2.0` tag in nav bar and homepage title area; click to view changelog in a modal
 - **License Modal** — click "MIT License" in footer to view full license text in a modal
 - **Import Success Toast** — green notification on successful import, yellow for warnings, red for errors
 - **Auto-resizing Textareas** — brief and details fields grow with content, no scrollbars
+- **Multi-page Rendering** — content exceeding one A4 page automatically splits into multiple pages in preview and PDF export
 
 ### Changed
 
@@ -19,6 +21,7 @@
 - **JSON Export** — file name defaults to project name
 - **Project Sidebar** — date display shows full date + time (`2026/07/09 16:00:27`)
 - **Markdown** — supports combined formatting (`***bold italic***`, `**bold `code`**`)
+- **Import Modal** — Enter triggers import only when not focused on textarea; Tab inserts 2-space indent
 
 ### Fixed
 
@@ -26,6 +29,7 @@
 - Editor section spacing unified across PersonalInfo tabs
 - PDF export scrollbar hidden, page breaks for long content
 - Footer icons use official brand logos
+- Layout flicker fixed when entry meta text hits wrap boundary
 
 ---
 
