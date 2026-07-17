@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import VersionBadge from './VersionBadge'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -17,7 +18,7 @@ export default function Layout({ children }: Props) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <div className="layout-root" style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <nav className="top-nav" style={{
         height: 48, background: '#0f172a', display: 'flex', alignItems: 'center',
         padding: '0 16px', gap: 2, flexShrink: 0,
@@ -55,20 +56,23 @@ export default function Layout({ children }: Props) {
           文档
         </a>
 
-        <a
-          href="https://github.com/lEEExp3rt/CV-Maker"
-          target="_blank" rel="noopener"
-          style={{
-            marginLeft: 'auto', padding: '7px 14px', fontSize: 12, fontWeight: 500,
-            color: '#94a3b8', borderRadius: 6, textDecoration: 'none',
-            transition: 'all 0.12s',
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <VersionBadge />
+          <a
+            href="https://github.com/lEEExp3rt/CV-Maker"
+            target="_blank" rel="noopener"
+            style={{
+              padding: '7px 14px', fontSize: 12, fontWeight: 500,
+              color: '#94a3b8', borderRadius: 6, textDecoration: 'none',
+              transition: 'all 0.12s',
           }}
         >
           GitHub
         </a>
+        </div>
       </nav>
 
-      <div style={{ flex: 1, overflow: 'auto' }}>
+      <div className="layout-body" style={{ flex: 1, overflow: 'auto' }}>
         {children}
       </div>
     </div>

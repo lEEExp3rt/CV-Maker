@@ -1,4 +1,6 @@
 import type { InternshipEntry } from '../../types/resume'
+import AutoTextarea from './AutoTextarea'
+import DraggableList from './DraggableList'
 
 interface Props {
   data: InternshipEntry[]
@@ -18,20 +20,22 @@ export default function InternshipEditor({ data, onChange }: Props) {
 
   return (
     <div className="editor-form-section">
-      {data.map((entry, i) => (
+      <DraggableList items={data} onChange={onChange}>
+        {(entry, i, handle) => (
         <div className="editor-entry-card" key={i}>
           <div className="card-header">
+            {handle}
             <span className="card-title">实习经历 #{i + 1}</span>
             <button className="card-remove" onClick={() => onChange(data.filter((_, j) => j !== i))}>×</button>
           </div>
           <div className="editor-row">
             <div className="editor-field">
-              <label>企业 *</label>
-              <input value={entry.company} onChange={(e) => update(i, 'company', e.target.value)} placeholder="企业名称" />
+              <label>单位*</label>
+              <input value={entry.company} onChange={(e) => update(i, 'company', e.target.value)} placeholder="单位名称" />
             </div>
             <div className="editor-field">
-              <label>英文名</label>
-              <input value={entry.company_en || ''} onChange={(e) => update(i, 'company_en', e.target.value)} placeholder="Company Name" />
+              <label>单位</label>
+              <input value={entry.company_subtitle || ''} onChange={(e) => update(i, 'company_subtitle', e.target.value)} placeholder="单位英文名/副标题/子公司/其它" />
             </div>
           </div>
           <div className="editor-row">
@@ -56,26 +60,41 @@ export default function InternshipEditor({ data, onChange }: Props) {
           </div>
           <div className="editor-field">
             <label>摘要</label>
-            <input value={entry.brief || ''} onChange={(e) => update(i, 'brief', e.target.value)} placeholder="支持**加粗**、*斜体*、`代码`、_下划线_ ..." />
+            <AutoTextarea
+              value={entry.brief || ''}
+              onChange={(e) => update(i, 'brief', e.target.value)}
+              placeholder="支持**加粗**、*斜体*、`代码`、_下划线_ ..."
+              rows={1}
+            />
           </div>
           <div className="editor-field">
             <label>详细描述</label>
-            {(entry.details || []).map((d, j) => (
-              <div key={j} style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
-                <input value={d} onChange={(e) => {
-                  const arr = [...(entry.details || [])]
-                  arr[j] = e.target.value
-                  update(i, 'details', arr)
-                }} placeholder={`要点 ${j + 1}`} />
+            <DraggableList items={entry.details || []} onChange={(arr) => update(i, 'details', arr)}>
+              {(d, j, handle2) => (
+              <div key={j} data-drag-row style={{ display: 'flex', gap: 4, marginBottom: 4, alignItems: 'center' }}>
+                {handle2}
+                <AutoTextarea
+                  value={d}
+                  onChange={(e) => {
+                    const arr = [...(entry.details || [])]
+                    arr[j] = e.target.value
+                    update(i, 'details', arr)
+                  }}
+                  placeholder={`要点 ${j + 1}`}
+                  rows={1}
+                  style={{ flex: 1 }}
+                />
                 <button className="card-remove" onClick={() => {
                   update(i, 'details', (entry.details || []).filter((_, k) => k !== j))
                 }}>×</button>
               </div>
-            ))}
+              )}
+            </DraggableList>
             <button className="editor-add-btn" onClick={() => update(i, 'details', [...(entry.details || []), ''])}>+ 添加要点</button>
           </div>
         </div>
-      ))}
+        )}
+      </DraggableList>
       <button className="editor-add-btn" onClick={() => onChange([...data, empty()])}>+ 添加实习经历</button>
     </div>
   )

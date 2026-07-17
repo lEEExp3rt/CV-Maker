@@ -20,14 +20,14 @@ export default function Internship({ data, lang = 'zh' }: Props) {
         const meta = [entry.department, entry.role].filter(Boolean).join(' · ')
 
         return (
-          <div className="resume-entry" key={`intern-${i}`}>
+          <div className="resume-entry" key={`intern-${i}`} data-entry-key={`intern-${i}`}>
             <div className="resume-entry-header">
               <HeaderLeft
                 title={
                   <span className="resume-entry-title">
                     {entry.company}
-                    {entry.company_en && (
-                      <span className="resume-entry-subtitle">{entry.company_en}</span>
+                    {entry.company_subtitle && (
+                      <span className="resume-entry-subtitle">{entry.company_subtitle}</span>
                     )}
                   </span>
                 }

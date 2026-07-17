@@ -1,4 +1,5 @@
 import type { SkillCategory } from '../../types/resume'
+import DraggableList from './DraggableList'
 
 interface Props {
   data: SkillCategory[]
@@ -14,14 +15,16 @@ export default function SkillsEditor({ data, onChange }: Props) {
 
   return (
     <div className="editor-form-section">
-      {data.map((cat, i) => (
+      <DraggableList items={data} onChange={onChange}>
+        {(cat, i, handle) => (
         <div className="editor-entry-card" key={i}>
           <div className="card-header">
+            {handle}
             <span className="card-title">{cat.category || '技能分类'}</span>
             <button className="card-remove" onClick={() => onChange(data.filter((_, j) => j !== i))}>×</button>
           </div>
           <div className="editor-field">
-            <label>{'分类名'}</label>
+            <label>{'分类'}</label>
             <input value={cat.category} onChange={(e) => update(i, 'category', e.target.value)} placeholder={'技能分类'} />
           </div>
           <div className="editor-field">
@@ -43,7 +46,8 @@ export default function SkillsEditor({ data, onChange }: Props) {
             </button>
           </div>
         </div>
-      ))}
+        )}
+      </DraggableList>
       <button className="editor-add-btn" onClick={() => onChange([...data, { category: '', items: [] }])}>+ {'添加技能分类'}</button>
     </div>
   )

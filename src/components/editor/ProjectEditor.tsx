@@ -1,4 +1,6 @@
 import type { ProjectEntry } from '../../types/resume'
+import AutoTextarea from './AutoTextarea'
+import DraggableList from './DraggableList'
 
 interface Props {
   data: ProjectEntry[]
@@ -6,7 +8,7 @@ interface Props {
 }
 
 function empty(): ProjectEntry {
-  return { name: '', start: '', end: '', details: [] }
+  return { title: '', start: '', end: '', details: [] }
 }
 
 export default function ProjectEditor({ data, onChange }: Props) {
@@ -18,25 +20,27 @@ export default function ProjectEditor({ data, onChange }: Props) {
 
   return (
     <div className="editor-form-section">
-      {data.map((entry, i) => (
+      <DraggableList items={data} onChange={onChange}>
+        {(entry, i, handle) => (
         <div className="editor-entry-card" key={i}>
           <div className="card-header">
+            {handle}
             <span className="card-title">项目经历 #{i + 1}</span>
             <button className="card-remove" onClick={() => onChange(data.filter((_, j) => j !== i))}>×</button>
           </div>
           <div className="editor-row">
             <div className="editor-field">
-              <label>项目名 *</label>
-              <input value={entry.name} onChange={(e) => update(i, 'name', e.target.value)} placeholder="项目名称" />
+              <label>项目标题 *</label>
+              <input value={entry.title} onChange={(e) => update(i, 'title', e.target.value)} placeholder="项目标题" />
             </div>
             <div className="editor-field">
-              <label>英文名</label>
-              <input value={entry.name_en || ''} onChange={(e) => update(i, 'name_en', e.target.value)} placeholder="Project Name" />
+              <label>项目副标题</label>
+              <input value={entry.subtitle || ''} onChange={(e) => update(i, 'subtitle', e.target.value)} placeholder="项目副标题" />
             </div>
           </div>
           <div className="editor-field">
             <label>项目链接</label>
-            <input value={entry.url || ''} onChange={(e) => update(i, 'url', e.target.value)} placeholder="https://github.com/user/repo" />
+            <input value={entry.url || ''} onChange={(e) => update(i, 'url', e.target.value)} placeholder="项目链接" />
           </div>
           <div className="editor-row">
             <div className="editor-field">
@@ -50,26 +54,43 @@ export default function ProjectEditor({ data, onChange }: Props) {
           </div>
           <div className="editor-field">
             <label>摘要</label>
-            <input value={entry.brief || ''} onChange={(e) => update(i, 'brief', e.target.value)} placeholder="支持**加粗**、*斜体*、`代码`、_下划线_ ..." />
+            <AutoTextarea
+              value={entry.brief || ''}
+              onChange={(e) => update(i, 'brief', e.target.value)}
+              onInput={(e) => { const t = e.target as HTMLTextAreaElement; t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px' }}
+              placeholder="支持**加粗**、*斜体*、`代码`、_下划线_ ..."
+              rows={1}
+            />
           </div>
           <div className="editor-field">
             <label>详细描述</label>
-            {(entry.details || []).map((d, j) => (
-              <div key={j} style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
-                <input value={d} onChange={(e) => {
-                  const arr = [...(entry.details || [])]
-                  arr[j] = e.target.value
-                  update(i, 'details', arr)
-                }} placeholder={`要点 ${j + 1}`} />
+            <DraggableList items={entry.details || []} onChange={(arr) => update(i, 'details', arr)}>
+              {(d, j, handle2) => (
+              <div key={j} data-drag-row style={{ display: 'flex', gap: 4, marginBottom: 4, alignItems: 'center' }}>
+                {handle2}
+                <AutoTextarea
+                  value={d}
+                  onChange={(e) => {
+                    const arr = [...(entry.details || [])]
+                    arr[j] = e.target.value
+                    update(i, 'details', arr)
+                  }}
+                  onInput={(e) => { const t = e.target as HTMLTextAreaElement; t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px' }}
+                  placeholder={`要点 ${j + 1}`}
+                  rows={1}
+                  style={{ flex: 1 }}
+                />
                 <button className="card-remove" onClick={() => {
                   update(i, 'details', (entry.details || []).filter((_, k) => k !== j))
                 }}>×</button>
               </div>
-            ))}
+              )}
+            </DraggableList>
             <button className="editor-add-btn" onClick={() => update(i, 'details', [...(entry.details || []), ''])}>+ 添加要点</button>
           </div>
         </div>
-      ))}
+        )}
+      </DraggableList>
       <button className="editor-add-btn" onClick={() => onChange([...data, empty()])}>+ 添加项目经历</button>
     </div>
   )

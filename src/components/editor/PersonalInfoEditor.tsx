@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import type { PersonalInfo, CustomLink, SocialLink } from '../../types/resume'
 import { BUILTIN_ICONS } from '../Icons'
 import IconPicker from './IconPicker'
+import DraggableList from './DraggableList'
 
 interface Props {
   data: PersonalInfo
@@ -43,7 +44,7 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
       <div className="editor-row">
         <div className="editor-field">
           <label>{'姓名'} *</label>
-          <input value={data.name} onChange={(e) => update('name', e.target.value)} placeholder={'请输入姓名'} />
+          <input value={data.name} onChange={(e) => update('name', e.target.value)} placeholder={'姓名'} />
         </div>
         <div className="editor-field">
           <label>{'照片'}</label>
@@ -53,10 +54,10 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
               <button type="button" className="card-remove" onClick={() => update('photo', '')}>×</button>
             </div>
           ) : (
-            <button className="editor-add-btn" onClick={() => fileInputRef.current?.click()}>{'上传照片'}</button>
+            <button className="editor-add-btn" onClick={() => fileInputRef.current?.click()}>{'上传图片'}</button>
           )}
           <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePhotoUpload} />
-          <div className="hint">{'照片会以base64格式存储在浏览器本地'}</div>
+          <div className="hint">{'图片会以Base64格式存储在浏览器本地'}</div>
         </div>
       </div>
 
@@ -67,23 +68,25 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
       <div className="editor-row">
         <div className="editor-field">
           <label>{'邮箱'} *</label>
-          <input value={c.email} onChange={(e) => updateContact({ email: e.target.value })} placeholder="email@example.com" />
+          <input value={c.email} onChange={(e) => updateContact({ email: e.target.value })} placeholder="邮箱" />
         </div>
         <div className="editor-field">
           <label>{'电话'} *</label>
-          <input value={c.phone} onChange={(e) => updateContact({ phone: e.target.value })} placeholder="+86-138-0000-0000" />
+          <input value={c.phone} onChange={(e) => updateContact({ phone: e.target.value })} placeholder="电话" />
         </div>
       </div>
     </div>
 
     <div className="editor-form-section">
       <h3>{'社交媒体'}</h3>
-      {(c.socials || []).map((s, i) => {
+      <DraggableList items={c.socials || []} onChange={(arr: SocialLink[]) => updateContact({ socials: arr })}>
+        {(s, i, handle) => {
         const iconDef = BUILTIN_ICONS.find((ic) => ic.key === s.icon)
         const updateSocials = (arr: SocialLink[]) => updateContact({ socials: arr })
         return (
           <div className="editor-entry-card" key={`social-${i}`}>
             <div className="card-header">
+              {handle}
               <span className="card-title">{iconDef?.label || s.icon}</span>
               <button className="card-remove" onClick={() => updateSocials((c.socials || []).filter((_, j) => j !== i))}>×</button>
             </div>
@@ -111,16 +114,17 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
               </div>
             </div>
             <div className="editor-field">
-              <label>URL / {'文本'}</label>
+              <label>URL / ID</label>
               <input value={s.url} onChange={(e) => {
                 const arr = [...(c.socials || [])]
                 arr[i] = { ...arr[i], url: e.target.value, label: arr[i].label || iconDef?.label || s.icon }
                 updateSocials(arr)
-              }} placeholder="https://... {'或纯文本'}" />
+              }} placeholder="URL 或 ID" />
             </div>
           </div>
         )
-      })}
+        }}
+      </DraggableList>
       <button className="editor-add-btn" onClick={() => {
         const arr = [...(c.socials || []), { icon: 'link', url: '', label: '' }]
         updateContact({ socials: arr } as any)
@@ -129,9 +133,11 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
 
     <div className="editor-form-section">
       <h3>{'自定义链接'}</h3>
-      {(c.customs || []).map((link, i) => (
+      <DraggableList items={c.customs || []} onChange={(arr: CustomLink[]) => updateContact({ customs: arr })}>
+        {(link, i, handle) => (
         <div className="editor-entry-card" key={i}>
           <div className="card-header">
+            {handle}
             <span className="card-title">{link.label || `#${i + 1}`}</span>
             <button className="card-remove" onClick={() => updateCustoms((c.customs || []).filter((_, j) => j !== i))}>×</button>
           </div>
@@ -145,12 +151,12 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
               }} placeholder="标签名称" />
             </div>
             <div className="editor-field">
-              <label>URL / {'文本'}</label>
+              <label>URL / ID</label>
               <input value={link.url} onChange={(e) => {
                 const arr = [...(c.customs || [])]
                 arr[i] = { ...arr[i], url: e.target.value }
                 updateCustoms(arr)
-              }} placeholder="https://... {'或纯文本'}" />
+              }} placeholder="URL 或 ID" />
             </div>
           </div>
           <div className="editor-field">
@@ -165,9 +171,10 @@ export default function PersonalInfoEditor({ data, onChange }: Props) {
             />
           </div>
         </div>
-      ))}
+        )}
+      </DraggableList>
       <button className="editor-add-btn" onClick={() => updateCustoms([...(c.customs || []), { label: '', url: '' }])}>
-        + {'添加链接'}
+        + {'添加自定义链接'}
       </button>
     </div>
     </>

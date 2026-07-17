@@ -21,14 +21,14 @@ export default function Education({ data, lang = 'zh' }: Props) {
           .join(' · ')
 
         return (
-          <div className="resume-entry" key={`edu-${i}`}>
+          <div className="resume-entry" key={`edu-${i}`} data-entry-key={`edu-${i}`}>
             <div className="resume-entry-header">
               <HeaderLeft
                 title={
                   <span className="resume-entry-title">
                     {entry.school}
-                    {entry.school_en && (
-                      <span className="resume-entry-subtitle">{entry.school_en}</span>
+                    {entry.school_subtitle && (
+                      <span className="resume-entry-subtitle">{entry.school_subtitle}</span>
                     )}
                   </span>
                 }

@@ -1,85 +1,141 @@
 {
-  "personal_info": {
-    "name": "李四",
-    "photo": "images/user.svg",
-    "contact": {
-      "email": "lisi@example.edu",
-      "phone": "+86-139-0000-0000",
-      "socials": [
-        { "icon": "github-line", "url": "https://github.com/another-user", "label": "GitHub" },
-        { "icon": "wechat-line", "url": "lisi_wx", "label": "微信" },
-        { "icon": "zhihu-line", "url": "https://zhihu.com/people/lisi", "label": "知乎" }
-      ]
-    }
-  },
-  "educations": [
-    {
-      "school": "东海大学",
-      "school_en": "Donghai University",
-      "degree": "硕士",
-      "major": "软件工程",
-      "start": "2024-09",
-      "end": "2027-06",
-      "gpa": "3.7/4.0",
-      "courses": ["高级算法", "分布式系统", "软件架构"]
+  "type": "cv-maker",
+  "version": "2.2.0",
+  "source": "https://leeexp3rt.github.io",
+  "exported": "2026-07-15 00:00:00",
+  "data": {
+    "personal_info": {
+      "name": "李四",
+      "photo": "images/user.svg",
+      "contact": {
+        "email": "lisi@example.edu",
+        "phone": "+86-139-0000-0000",
+        "socials": [
+          {
+            "icon": "github-line",
+            "url": "https://github.com/another-user",
+            "label": "GitHub"
+          },
+          {
+            "icon": "wechat-line",
+            "url": "lisi_wx",
+            "label": "微信"
+          },
+          {
+            "icon": "zhihu-line",
+            "url": "https://zhihu.com/people/lisi",
+            "label": "知乎"
+          }
+        ]
+      }
     },
-    {
-      "school": "北方科技大学",
-      "school_en": "Northern University of Science and Technology",
-      "degree": "本科",
-      "major": "信息与计算科学",
-      "start": "2020-09",
-      "end": "2024-06"
-    }
-  ],
-  "internships": [
-    {
-      "company": "深空探索科技",
-      "company_en": "DeepSpace Tech",
-      "role": "前端开发实习生",
-      "brief": "参与**数据可视化平台**前端开发，负责`React`组件库建设",
-      "start": "2026-01",
-      "end": "2026-06",
-      "details": [
-        "使用`React`+`TypeScript`搭建可视化组件库，覆盖图表、表格、地图等**30+**组件",
-        "优化首屏加载性能，LCP从2.8s降至**0.9s**",
-        "搭建组件库文档站点，支持在线编辑和实时预览"
-      ]
-    }
-  ],
-  "projects": [
-    {
-      "name": "在线判题系统",
-      "name_en": "Online Judge",
-      "url": "https://github.com/another-user/oj",
-      "brief": "支持多语言的在线代码评测平台",
-      "start": "2025-03",
-      "end": "2025-08",
-      "details": [
-        "基于`Docker`实现代码沙箱隔离，支持C++/Java/Python三种语言评测",
-        "使用消息队列实现异步评测，单机并发达到**500+**提交/秒",
-        "设计排行榜系统和比赛模式，累计服务校内**2000+**用户"
-      ]
-    },
-    {
-      "name": "个人博客系统",
-      "brief": "全栈博客平台，支持Markdown编辑和评论",
-      "start": "2024-10",
-      "end": "2025-01",
-      "details": [
-        "前后端分离架构，`React`+`Go`技术栈",
-        "实现基于JWT的用户认证和RBAC权限管理"
-      ]
-    }
-  ],
-  "skills": [
-    { "category": "编程语言", "items": ["TypeScript", "JavaScript", "Go", "Python"] },
-    { "category": "前端技术", "items": ["React", "Next.js", "Tailwind CSS", "Vite"] },
-    { "category": "工具链", "items": ["Docker", "Git", "Linux", "GitHub Actions"] }
-  ],
-  "awards": [
-    { "name": "全国大学生数学建模竞赛 一等奖", "date": "2023" },
-    { "name": "校优秀学生奖学金", "date": "2022" },
-    { "name": "蓝桥杯程序设计竞赛 省赛二等奖", "date": "2021" }
-  ]
+    "educations": [
+      {
+        "school": "东海大学",
+        "school_subtitle": "Donghai University",
+        "degree": "硕士",
+        "major": "软件工程",
+        "start": "2024-09",
+        "end": "2027-06",
+        "gpa": "3.7/4.0",
+        "courses": [
+          "高级算法",
+          "分布式系统",
+          "软件架构"
+        ]
+      },
+      {
+        "school": "北方科技大学",
+        "school_subtitle": "Northern University of Science and Technology",
+        "degree": "本科",
+        "major": "信息与计算科学",
+        "start": "2020-09",
+        "end": "2024-06"
+      }
+    ],
+    "internships": [
+      {
+        "company": "深空探索科技",
+        "company_subtitle": "DeepSpace Tech",
+        "role": "前端开发实习生",
+        "brief": "参与**数据可视化平台**前端开发，负责`React`组件库建设",
+        "start": "2026-01",
+        "end": "2026-06",
+        "details": [
+          "使用`React`+`TypeScript`搭建可视化组件库，覆盖图表、表格、地图等**30+**组件",
+          "优化首屏加载性能，LCP从2.8s降至**0.9s**",
+          "搭建组件库文档站点，支持在线编辑和实时预览"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "title": "在线判题系统",
+        "subtitle": "Online Judge",
+        "url": "https://github.com/another-user/oj",
+        "brief": "支持多语言的在线代码评测平台",
+        "start": "2025-03",
+        "end": "2025-08",
+        "details": [
+          "基于`Docker`实现代码沙箱隔离，支持C++/Java/Python三种语言评测",
+          "使用消息队列实现异步评测，单机并发达到**500+**提交/秒",
+          "设计排行榜系统和比赛模式，累计服务校内**2000+**用户"
+        ]
+      },
+      {
+        "title": "个人博客系统",
+        "subtitle": "Personal Blog",
+        "brief": "全栈博客平台，支持Markdown编辑和评论",
+        "start": "2024-10",
+        "end": "2025-01",
+        "details": [
+          "前后端分离架构，`React`+`Go`技术栈",
+          "实现基于JWT的用户认证和RBAC权限管理"
+        ]
+      }
+    ],
+    "skills": [
+      {
+        "category": "编程语言",
+        "items": [
+          "TypeScript",
+          "JavaScript",
+          "Go",
+          "Python"
+        ]
+      },
+      {
+        "category": "前端技术",
+        "items": [
+          "React",
+          "Next.js",
+          "Tailwind CSS",
+          "Vite"
+        ]
+      },
+      {
+        "category": "工具链",
+        "items": [
+          "Docker",
+          "Git",
+          "Linux",
+          "GitHub Actions"
+        ]
+      }
+    ],
+    "awards": [
+      {
+        "name": "全国大学生数学建模竞赛 一等奖",
+        "date": "2023"
+      },
+      {
+        "name": "校优秀学生奖学金",
+        "date": "2022"
+      },
+      {
+        "name": "蓝桥杯程序设计竞赛 省赛二等奖",
+        "date": "2021"
+      }
+    ]
+  }
 }

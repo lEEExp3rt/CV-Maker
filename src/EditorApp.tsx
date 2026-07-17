@@ -2,8 +2,13 @@ import { useState, useCallback, useRef } from 'react'
 import { useProjectManager } from './hooks/useProjectManager'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { DEFAULT_RESUME_DATA } from './data/defaults'
+import { validate, formatIssues } from './utils/validate'
+import { wrapEnvelope, parseImport } from './utils/envelope'
+import AnonSwitcher from './components/editor/AnonSwitcher'
+import JsonEditor, { highlightJson } from './components/editor/JsonEditor'
+import { DEFAULT_ANON, type AnonOptions } from './types/anonymize'
 import type { ColorScheme, Language } from './types/resume'
-import Resume from './Resume'
+import PaginatedResume from './PaginatedResume'
 import Layout from './components/Layout'
 import ProjectSidebar from './components/editor/ProjectSidebar'
 import Modal from './components/editor/Modal'
@@ -37,6 +42,7 @@ export default function EditorApp() {
   const [showImport, setShowImport] = useState(false)
   const [importText, setImportText] = useState('')
   const [copied, setCopied] = useState(false)
+  const [toast, setToast] = useState<{ msg: string; type: 'success' | 'warning' | 'error' } | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const data = activeProject?.data ?? DEFAULT_RESUME_DATA
 
@@ -45,10 +51,12 @@ export default function EditorApp() {
     [updateActiveData]
   )
 
-  const jsonString = JSON.stringify(data, null, 2)
+  const jsonString = JSON.stringify(wrapEnvelope(data), null, 2)
 
   const handleExport = useCallback(() => setShowExport(true), [])
-  const handleImport = useCallback(() => { setShowImport(true); setImportText('') }, [])
+  const handleImport = useCallback(() => {
+    setShowImport(true); setImportText('')
+  }, [])
 
   const handleCopyJSON = useCallback(() => {
     navigator.clipboard.writeText(jsonString)
@@ -66,28 +74,48 @@ export default function EditorApp() {
     URL.revokeObjectURL(url)
   }, [jsonString, activeProject])
 
-  const handleImportText = useCallback(() => {
+  const showToast = useCallback((msg: string, type: 'success' | 'warning' | 'error' = 'success') => {
+    setToast({ msg, type })
+    const duration = type === 'warning' ? 5000 : type === 'error' ? 3000 : 2000
+    setTimeout(() => setToast(null), duration)
+  }, [])
+
+  const doImport = useCallback((raw: string) => {
+    let result: { data: any; warning?: string }
     try {
-      const parsed = JSON.parse(importText)
-      updateActiveData(parsed)
+      result = parseImport(raw)
+    } catch (e: any) {
       setShowImport(false)
-    } catch { alert('JSON 格式无效') }
-  }, [importText, updateActiveData])
+      showToast(e.message, 'error')
+      return
+    }
+
+    const issues = validate(result.data)
+    updateActiveData(result.data)
+    setShowImport(false)
+
+    const warnings: string[] = []
+    if (issues.length > 0) warnings.push(`${issues.length} 个字段问题：\n${formatIssues(issues)}`)
+    // Envelope warnings go last (show at top of toast)
+    if (result.warning) warnings.unshift(result.warning)
+
+    if (warnings.length > 0) {
+      showToast(`导入成功\n${warnings.join('\n')}`, 'warning')
+    } else {
+      showToast('导入成功')
+    }
+  }, [updateActiveData, showToast])
+
+  const handleImportText = useCallback(() => { doImport(importText) }, [importText, doImport])
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
     const reader = new FileReader()
-    reader.onload = () => {
-      try {
-        const parsed = JSON.parse(reader.result as string)
-        updateActiveData(parsed)
-        setShowImport(false)
-      } catch { alert('Invalid JSON file') }
-    }
+    reader.onload = () => { doImport(reader.result as string) }
     reader.readAsText(file)
     e.target.value = ''
-  }, [updateActiveData])
+  }, [doImport])
 
   const handleReset = useCallback(() => {
     setShowReset(true)
@@ -99,12 +127,18 @@ export default function EditorApp() {
   }, [updateActiveData])
 
   const handlePrint = useCallback(() => {
+    const prevTitle = document.title
+    document.title = activeProject?.title || 'resume'
+    const restore = () => { document.title = prevTitle }
+    window.addEventListener('afterprint', restore, { once: true })
     window.print()
-  }, [])
+  }, [activeProject])
 
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>('cv-editor-color', 'navy')
   const [language, setLanguage] = useLocalStorage<Language>('cv-editor-lang', 'zh')
   const [panelCollapsed, setPanelCollapsed] = useState(false)
+  const [anonEnabled, setAnonEnabled] = useState(false)
+  const [anonOpts, setAnonOpts] = useLocalStorage<AnonOptions>('cv-anon', DEFAULT_ANON)
   const settings = { color_scheme: colorScheme, language }
 
   const handlePanelResize = useCallback((e: React.MouseEvent) => {
@@ -133,6 +167,21 @@ export default function EditorApp() {
   return (
     <Layout>
     <div className="editor-layout">
+      {/* Toast notification */}
+      {toast && (
+        <div style={{
+          position: 'fixed', top: 56, left: '50%', transform: 'translateX(-50%)',
+          zIndex: 2000, padding: '10px 20px', fontSize: 12, fontWeight: 500,
+          maxWidth: 500, whiteSpace: 'pre-line', lineHeight: 1.6,
+          background: toast.type === 'error' ? '#dc2626' : toast.type === 'warning' ? '#d97706' : '#16a34a',
+          color: '#fff', borderRadius: 8,
+          boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
+          animation: 'toastIn 0.25s ease',
+        }}>
+          {toast.type === 'error' ? '❌' : toast.type === 'warning' ? '⚠️' : '✓'} {toast.msg}
+        </div>
+      )}
+
       {/* Project Sidebar */}
       <ProjectSidebar
         projects={projects}
@@ -211,6 +260,12 @@ export default function EditorApp() {
               <option value="en">English</option>
             </select>
           </label>
+          <AnonSwitcher
+            options={anonOpts}
+            onChange={setAnonOpts}
+            enabled={anonEnabled}
+            onToggle={setAnonEnabled}
+          />
         </div>
 
         {/* Tabs */}
@@ -281,7 +336,7 @@ export default function EditorApp() {
 
       {/* Right Preview */}
       <div className="editor-preview">
-        <Resume data={data} settings={settings} />
+        <PaginatedResume data={data} settings={settings} anonEnabled={anonEnabled} anonOpts={anonOpts} />
       </div>
 
       {/* Export modal */}
@@ -305,15 +360,15 @@ export default function EditorApp() {
             {copied ? '✓ 已复制' : '📋 复制'}
           </button>
         </div>
-        <textarea
-          readOnly
-          value={jsonString}
+        <pre
+          dangerouslySetInnerHTML={{ __html: highlightJson(jsonString) }}
           style={{
-            width: '100%', height: 260, padding: 8, fontSize: 10, fontFamily: '"JetBrains Mono", "Fira Code", monospace',
-            border: '1px solid #e2e8f0', borderRadius: 6, resize: 'vertical', background: '#f8fafc',
-            color: '#334155', lineHeight: 1.5, whiteSpace: 'pre', overflowWrap: 'normal', overflowX: 'auto',
+            width: '100%', height: 260, padding: 8, fontSize: 10,
+            fontFamily: '"JetBrains Mono", "Fira Code", monospace',
+            border: '1px solid #e2e8f0', borderRadius: 6, background: '#f8fafc',
+            color: '#334155', lineHeight: 1.5, whiteSpace: 'pre', overflow: 'auto',
+            margin: 0, userSelect: 'all',
           }}
-          onFocus={(e) => e.target.select()}
         />
       </Modal>
 
@@ -326,14 +381,54 @@ export default function EditorApp() {
         onConfirm={handleImportText}
         onCancel={() => setShowImport(false)}
       >
-        <textarea
+        <JsonEditor
           value={importText}
-          onChange={(e) => setImportText(e.target.value)}
-          placeholder="在此粘贴 JSON 代码..."
-          style={{
-            width: '100%', height: 260, padding: 8, fontSize: 10, fontFamily: '"JetBrains Mono", "Fira Code", monospace',
-            border: '1px solid #e2e8f0', borderRadius: 6, resize: 'vertical',
-            color: '#334155', lineHeight: 1.5,
+          onChange={setImportText}
+          onKeyDown={(e) => {
+            const t = e.target as HTMLTextAreaElement
+            if (e.key === 'Tab') {
+              e.preventDefault()
+              const start = t.selectionStart; const end = t.selectionEnd
+              const val = importText
+              setImportText(val.slice(0, start) + '  ' + val.slice(end))
+              requestAnimationFrame(() => { t.selectionStart = t.selectionEnd = start + 2 })
+            }
+            if (e.key === '"') {
+              e.preventDefault()
+              const val = importText
+              const pos = t.selectionStart
+              // Already on a closing quote → skip over it
+              if (val[pos] === '"') {
+                t.selectionStart = t.selectionEnd = pos + 1
+                return
+              }
+              // Only auto-pair when cursor is at end, whitespace, or newline follows
+              const after = val.slice(pos)
+              if (after === '' || after.startsWith('\n') || after.trim() === '') {
+                setImportText(val.slice(0, pos) + '""' + val.slice(t.selectionEnd))
+                requestAnimationFrame(() => { t.selectionStart = t.selectionEnd = pos + 1 })
+              } else {
+                setImportText(val.slice(0, pos) + '"' + val.slice(t.selectionEnd))
+                requestAnimationFrame(() => { t.selectionStart = t.selectionEnd = pos + 1 })
+              }
+            }
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              const t = e.target as HTMLTextAreaElement
+              const val = importText
+              const pos = t.selectionStart
+              // Find leading whitespace of current line
+              const lineStart = val.lastIndexOf('\n', pos - 1) + 1
+              const indent = val.slice(lineStart).match(/^(\s*)/)?.[1] ?? ''
+              // Auto-increase indent after { or [
+              const prevChar = val[pos - 1]
+              const extra = (prevChar === '{' || prevChar === '[') ? '  ' : ''
+              const inserted = '\n' + indent + extra
+              setImportText(val.slice(0, pos) + inserted + val.slice(t.selectionEnd))
+              requestAnimationFrame(() => {
+                t.selectionStart = t.selectionEnd = pos + inserted.length
+              })
+            }
           }}
         />
         <div style={{ marginTop: 8, textAlign: 'center' }}>

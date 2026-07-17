@@ -1,6 +1,7 @@
 import Layout from './components/Layout'
 import Footer from './components/Footer'
 import Resume from './Resume'
+import VersionBadge from './components/VersionBadge'
 
 const BASE = import.meta.env.BASE_URL
 import ScalableWrapper from './components/ScalableWrapper'
@@ -13,9 +14,12 @@ export default function HomePage() {
         maxWidth: 720, margin: '0 auto', padding: '48px 24px',
         textAlign: 'center', fontFamily: 'inherit',
       }}>
-        <h1 style={{ fontSize: 32, fontWeight: 700, color: '#0f172a', marginBottom: 16 }}>
+        <h1 style={{ fontSize: 32, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>
           CV-Maker
         </h1>
+        <div style={{ marginBottom: 16 }}>
+          <VersionBadge variant="text" />
+        </div>
         <p style={{ fontSize: 16, color: '#334155', lineHeight: 1.8, marginBottom: 8, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
           A clean, professional CV/Resume maker for Chinese university students applying for tech internships and campus recruitment.
         </p>

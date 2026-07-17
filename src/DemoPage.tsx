@@ -4,8 +4,8 @@ import type { ResumeData } from './types/resume'
 import demoNoPhoto from '../examples/demo-no-photo.json'
 import demoWithPhoto from '../examples/demo-with-photo.json'
 
-export const DEMO_NO_PHOTO = demoNoPhoto as ResumeData
-export const DEMO_WITH_PHOTO = demoWithPhoto as ResumeData
+export const DEMO_NO_PHOTO = ((demoNoPhoto as any).data ?? demoNoPhoto) as unknown as ResumeData
+export const DEMO_WITH_PHOTO = ((demoWithPhoto as any).data ?? demoWithPhoto) as unknown as ResumeData
 
 const settings = { color_scheme: 'navy' as const, language: 'zh' as const }
 
