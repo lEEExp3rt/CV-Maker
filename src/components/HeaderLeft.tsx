@@ -15,14 +15,17 @@ export default function HeaderLeft({ title, meta, showMeta }: Props) {
 
     const check = () => {
       if (ref.current) {
-        // If container height > one line of the title, it wrapped
-        const lineHeight = ref.current.querySelector('.resume-entry-title')?.getBoundingClientRect().height
+        const titleEl = ref.current.querySelector('.resume-entry-title')
+        const lineHeight = titleEl?.getBoundingClientRect().height ?? 0
         const containerHeight = ref.current.getBoundingClientRect().height
-        if (lineHeight && containerHeight > lineHeight * 1.5) {
-          setWrapped(true)
-        } else {
-          setWrapped(false)
-        }
+        if (!lineHeight) return
+
+        setWrapped((prev) => {
+          // Hysteresis: use tighter thresholds to avoid flicker at boundary
+          if (containerHeight > lineHeight * 1.6) return true
+          if (containerHeight < lineHeight * 1.3) return false
+          return prev // keep current state in the gray zone
+        })
       }
     }
 
@@ -36,7 +39,11 @@ export default function HeaderLeft({ title, meta, showMeta }: Props) {
   return (
     <span className="resume-entry-header-left" ref={ref}>
       {title}
-      {showMeta && !wrapped && <span className="resume-entry-meta-sep">|</span>}
+      {showMeta && (
+        <span className="resume-entry-meta-sep" style={{ opacity: wrapped ? 0 : 1 }}>
+          |
+        </span>
+      )}
       {showMeta && <span className="resume-entry-meta-inline">{meta}</span>}
     </span>
   )
