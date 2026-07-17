@@ -3,32 +3,43 @@ import type { ResumeData } from '../types/resume'
 
 // A4 page: 297mm total, padding 15mm top + 10mm bottom = 272mm content area.
 // Uses border-box so content area matches printable area.
-// 1% guard band: print `height:297mm;overflow:hidden` clips content that
-// barely exceeds the page boundary.  The ~10 px headroom per page absorbs
-// sub-pixel rounding differences between screen measurement and print
-// layout without materially changing page fullness.
+//
+// Guard band: 0.99 keeps the page capacity nearly identical to the original
+// position-based algorithm (~1018 px).  The print-vs-screen consistency is
+// handled by the CSS @media print rules (page-break-inside on entries, not
+// sections), so the guard band only needs to absorb sub-pixel rounding.
 const PAGE_CONTENT_HEIGHT_MM = 297 - 15 - 10 // 272mm
 const MM_TO_PX = 96 / 25.4
-const PAGE_CONTENT_HEIGHT_PX = Math.round(PAGE_CONTENT_HEIGHT_MM * MM_TO_PX * 0.99) // ~1018px
+const PAGE_CONTENT_HEIGHT_PX = Math.round(PAGE_CONTENT_HEIGHT_MM * MM_TO_PX * 0.99)
+
+// Section title: used ONLY for the estimated gap when a section's
+// first entry on a new page needs the duplicated title (the measured
+// gap isn't available since the previous entry is on a different page).
+//
+// font(13pt)*line-height(1.4) + padding-bottom(1mm) + border-bottom(1px)
+// + margin-bottom(2mm) ≈ 30 px, plus section margin-bottom(3mm) ≈ 11 px
+const SECTION_TITLE_HEIGHT = 42
+
 
 export interface PaginationResult {
-  /** Map of entry key → page index */
   pageMap: Map<string, number>
-  /** Total number of pages */
   totalPages: number
-  /** Ref to attach to the measurement container */
   measureRef: React.RefObject<HTMLDivElement>
-  /** Check if an entry belongs to a specific page */
   getEntryPage: (key: string) => number
 }
 
 /**
- * Measures rendered entry positions and computes page-break assignments.
+ * Height-based bin-packing pagination.
  *
- * Rules:
- *  - Each entry (`.resume-entry`, skill category, award row) is atomic — never split.
- *  - If an entry crosses the current page boundary, it moves entirely to the next page.
- *  - Entries are identified by `data-entry-key` attributes on section components.
+ * Instead of using absolute positions from the measurement container
+ * (which don't match the visible page layout), this algorithm simulates
+ * the visible rendering: it packs entries into pages by accumulating
+ * their measured heights, adding estimated gaps for section titles and
+ * inter-entry margins.
+ *
+ * This guarantees the page assignments match what the user sees on screen
+ * because it mirrors how the visible `<div className="resume-page">`
+ * elements actually render.
  */
 export function usePagination(data: ResumeData): PaginationResult {
   const [pageMap, setPageMap] = useState<Map<string, number>>(new Map())
@@ -51,33 +62,67 @@ export function usePagination(data: ResumeData): PaginationResult {
     const paddingTop = parseFloat(computed.paddingTop) || 0
     const contentTop = containerRect.top + paddingTop
 
-    // cursor = bottom edge of current page's content area (relative to content top)
-    let cursor = PAGE_CONTENT_HEIGHT_PX
-    const map = new Map<string, number>()
-
+    // Collect entry metadata from the measurement DOM.
+    // We capture each entry's top & bottom so we can compute the
+    // *actual* rendered gap between consecutive entries (which
+    // includes section titles, margins, etc. — no estimation).
+    const entryData: { key: string; height: number; top: number; bottom: number }[] = []
     entries.forEach((el) => {
-      const key = el.dataset.entryKey!
       const rect = el.getBoundingClientRect()
-      const entryTop = rect.top - contentTop
-      const entryBottom = rect.bottom - contentTop
-
-      // Advance cursor until entry starts within the current page
-      while (cursor <= entryTop) {
-        cursor += PAGE_CONTENT_HEIGHT_PX
-      }
-
-      // If entry extends beyond current page, push it to the next page
-      if (entryBottom > cursor) {
-        cursor += PAGE_CONTENT_HEIGHT_PX
-        // Handle edge case: a single entry taller than a full page
-        while (entryBottom > cursor) {
-          cursor += PAGE_CONTENT_HEIGHT_PX
-        }
-      }
-
-      const pageIndex = Math.round(cursor / PAGE_CONTENT_HEIGHT_PX) - 1
-      map.set(key, pageIndex)
+      const top = rect.top - contentTop
+      entryData.push({
+        key: el.dataset.entryKey!,
+        height: rect.height,
+        top,
+        bottom: top + rect.height,
+      })
     })
+
+    // ══════════════════════════════════════════════════════════════
+    // Height-based bin packing (measured gaps, minimal estimation)
+    // ══════════════════════════════════════════════════════════════
+
+    const map = new Map<string, number>()
+    let pageIdx = 0
+
+    // The first entry's absolute top equals the space taken by
+    // PersonalInfo + first section title — content without data-entry-key
+    // that only appears on page 0.
+    let pageHeight = entryData.length > 0 ? entryData[0].top : 0
+    let prevIdx = -1 // index of previous entry on the same page
+
+    for (let i = 0; i < entryData.length; i++) {
+      const entry = entryData[i]
+      const { key, height } = entry
+
+      // Gap before this entry:
+      // - Same page (prevIdx >= 0): use the measured gap from the DOM.
+      //   This includes section titles, margins — exactly as rendered.
+      // - First entry on a new page (prevIdx < 0, pageIdx > 0): the
+      //   visible page renders a section title above this entry.
+      //   We estimate it (~42 px) because the measurement can't help
+      //   (the previous entry is on a different page).
+      let gap = 0
+      if (prevIdx >= 0) {
+        gap = entry.top - entryData[prevIdx].bottom
+      } else if (pageIdx > 0) {
+        gap = SECTION_TITLE_HEIGHT
+      }
+
+      if (pageHeight + gap + height > PAGE_CONTENT_HEIGHT_PX && pageHeight > 0) {
+        // Current page is full — start a new page
+        pageIdx++
+        pageHeight = 0
+        prevIdx = -1
+
+        // First entry on the new page needs its section title
+        gap = SECTION_TITLE_HEIGHT
+      }
+
+      map.set(key, pageIdx)
+      pageHeight += gap + height
+      prevIdx = i
+    }
 
     const maxPage = map.size > 0 ? Math.max(...map.values()) : 0
     setPageMap(map)
