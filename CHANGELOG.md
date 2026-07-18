@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.2.1] — Editor White Screen Hotfix
+
+### Fixed
+
+- **Editor Route White Screen** — fixed a `TypeError` crash when accessing `/editor` after deployment, caused by stale or malformed `localStorage` data under `cv-maker-projects` that failed shape validation; added `isValidProjectStore` validator to `useLocalStorage` to auto-detect and purge corrupt data
+- **Render-Phase State Update** — moved project initialization from render-time `setStore` to `useLayoutEffect` + `useRef` guard, eliminating a React anti-pattern that could cause double-initialization in StrictMode
+
+### Added
+
+- **Error Boundary** — `ErrorBoundary` component wraps the app root, catching render crashes with a user-facing error message and a one-click "reset localStorage & reload" recovery button
+
+---
+
 ## [2.2.0] — Editor Polish & Quality of Life
 
 ### Added
