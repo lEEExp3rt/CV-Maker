@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 import { useLocalStorage } from './useLocalStorage'
 import type { Project, ProjectStore } from '../types/project'
 import type { ResumeData } from '../types/resume'
@@ -25,27 +25,57 @@ function makeProject(title: string, data?: ResumeData): Project {
   }
 }
 
+/** Validate that localStorage data matches the expected ProjectStore shape */
+function isValidProjectStore(parsed: unknown): parsed is ProjectStore {
+  if (!parsed || typeof parsed !== 'object') return false
+  const s = parsed as Record<string, unknown>
+  if (typeof s.active !== 'string') return false
+  if (!Array.isArray(s.projects)) return false
+  return s.projects.every(
+    (p: unknown) =>
+      p !== null &&
+      typeof p === 'object' &&
+      typeof (p as Record<string, unknown>).id === 'string' &&
+      typeof (p as Record<string, unknown>).title === 'string',
+  )
+}
+
 export function useProjectManager() {
-  const [store, setStore] = useLocalStorage<ProjectStore>(STORAGE_KEY, { active: '', projects: [] })
+  const [store, setStore] = useLocalStorage<ProjectStore>(
+    STORAGE_KEY,
+    { active: '', projects: [] },
+    isValidProjectStore,
+  )
 
-  // Migrate legacy single-key data on first load
-  if (store.projects.length === 0) {
-    try {
-      const legacy = window.localStorage.getItem(LEGACY_KEY)
-      if (legacy) {
-        const data = JSON.parse(legacy) as ResumeData
-        const project = makeProject('我的简历', data)
-        setStore({ active: project.id, projects: [project] })
-        window.localStorage.removeItem(LEGACY_KEY)
-      }
-    } catch { /* ignore */ }
-  }
+  // One-time initialization: migrate legacy data and ensure at least one project.
+  // Using a ref + useEffect avoids calling setStore during render (React anti-pattern).
+  const initialized = useRef(false)
 
-  // Ensure at least one project
-  if (store.projects.length === 0 && store.active === '') {
-    const project = makeProject('我的简历')
-    setStore({ active: project.id, projects: [project] })
-  }
+  useLayoutEffect(() => {
+    if (initialized.current) return
+    initialized.current = true
+
+    // Migrate legacy single-key data on first load
+    const projects = store.projects
+    if (projects.length === 0) {
+      try {
+        const legacy = window.localStorage.getItem(LEGACY_KEY)
+        if (legacy) {
+          const data = JSON.parse(legacy) as ResumeData
+          const project = makeProject('我的简历', data)
+          setStore({ active: project.id, projects: [project] })
+          window.localStorage.removeItem(LEGACY_KEY)
+          return
+        }
+      } catch { /* ignore */ }
+    }
+
+    // Ensure at least one project
+    if (projects.length === 0 && store.active === '') {
+      const project = makeProject('我的简历')
+      setStore({ active: project.id, projects: [project] })
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const projects = store.projects
   const activeId = store.active
