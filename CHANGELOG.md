@@ -6,6 +6,8 @@
 
 - **Auto Release** — push CHANGELOG.md to main automatically creates a matching git tag and GitHub Release
 
+---
+
 ## [2.2.2] — Pagination Consistency Fix
 
 ### Fixed
