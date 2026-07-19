@@ -1,10 +1,18 @@
 # Changelog
 
+## [2.3.0] — Auto Release
+
+### Added
+
+- **Auto Release** — push CHANGELOG.md to main automatically creates a matching git tag and GitHub Release
+
 ## [2.2.2] — Pagination Consistency Fix
 
 ### Fixed
 
 - **Pagination Consistency** — fixed page-break drift across different displays caused by sub-pixel rendering differences in CSS `mm`→`px` conversion; added a 0.5 px tolerance to the page-break threshold to keep pagination deterministic on any screen
+
+---
 
 ## [2.2.1] — Editor White Screen Hotfix
 
