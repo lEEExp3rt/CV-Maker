@@ -24,8 +24,8 @@ jobs:
           TITLE=$(sed -n '/^## \['"$VERSION"'\]/,/^$/p' CHANGELOG.md | head -1 | sed 's/^## \[.*\] — //; s/^## \[.*\]//')
           echo "title=$TITLE" >> "$GITHUB_OUTPUT"
 
-          # Extract notes: from the version heading to the next "---" line
-          NOTES=$(awk '/^## \['"$VERSION"'\]/{flag=1; next} /^---$/{if(flag) exit} flag' CHANGELOG.md)
+          # Extract notes: from version heading to next "---" or next "## [" (whichever comes first)
+          NOTES=$(awk '/^## \['"$VERSION"'\]/{flag=1; next} /^---$/{if(flag) exit} /^## \[/{if(flag) exit} flag' CHANGELOG.md)
           # Multi-line output
           echo 'notes<<EOF' >> "$GITHUB_OUTPUT"
           echo "$NOTES" >> "$GITHUB_OUTPUT"
