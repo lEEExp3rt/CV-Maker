@@ -5,12 +5,20 @@ import type { ResumeData } from '../types/resume'
 // Uses border-box so content area matches printable area.
 //
 // Guard band: 0.99 keeps the page capacity nearly identical to the original
-// position-based algorithm (~1018 px).  The print-vs-screen consistency is
+// position-based algorithm (~1018 px at 96 dpi).  The print-vs-screen consistency is
 // handled by the CSS @media print rules (page-break-inside on entries, not
 // sections), so the guard band only needs to absorb sub-pixel rounding.
 const PAGE_CONTENT_HEIGHT_MM = 297 - 15 - 10 // 272mm
-const MM_TO_PX = 96 / 25.4
-const PAGE_CONTENT_HEIGHT_PX = Math.round(PAGE_CONTENT_HEIGHT_MM * MM_TO_PX * 0.99)
+const CSS_PX_PER_MM = 96 / 25.4
+const PAGE_CONTENT_GUARD = 0.99
+const PAGE_CONTENT_HEIGHT_PX = Math.round(PAGE_CONTENT_HEIGHT_MM * CSS_PX_PER_MM * PAGE_CONTENT_GUARD)
+
+// Sub-pixel rendering uncertainty: CSS mm→px conversion can differ by
+// ~0.0125 px across displays (container width 793.700 vs 793.688).
+// Accumulated over a full page this shifts total height by < 0.5 px.
+// We absorb this noise in the page-break comparison so pagination
+// stays deterministic regardless of display.
+const SUBPIXEL_TOLERANCE = 0.5
 
 // Section title: used ONLY for the estimated gap when a section's
 // first entry on a new page needs the duplicated title (the measured
@@ -109,7 +117,7 @@ export function usePagination(data: ResumeData): PaginationResult {
         gap = SECTION_TITLE_HEIGHT
       }
 
-      if (pageHeight + gap + height > PAGE_CONTENT_HEIGHT_PX && pageHeight > 0) {
+      if (pageHeight + gap + height > PAGE_CONTENT_HEIGHT_PX + SUBPIXEL_TOLERANCE && pageHeight > 0) {
         // Current page is full — start a new page
         pageIdx++
         pageHeight = 0
